@@ -1,6 +1,8 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_ITERATOR_H_
 #define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_ITERATOR_H_
 
+#include <limits>
+
 namespace s21 {
 
 template <typename T>
@@ -21,7 +23,7 @@ class Iterator {
   virtual T& operator*() const = 0;  // Получение ссылки на текущий элемент
 
   virtual bool isEmpty() const = 0;  // Проверка на пустоту контейнера
-  virtual size_t size() const = 0;  // Количество элементов в контейнере
+  virtual std::size_t size() const = 0;  // Количество элементов в контейнере
 
   virtual void insert(const T& value) = 0;  // Вставка нового элемента
   virtual void remove() = 0;  // Удаление текущего элемента
