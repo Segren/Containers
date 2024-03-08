@@ -1,17 +1,13 @@
 CXX = gcc
-CFLAGS = -Wall -Wextra -Werror -std=c++17 -g
+CFLAGS = -Wall -Wextra -Werror -lstdc++ -std=c++17 -g
 V_COMMAND = valgrind  --tool=memcheck --track-fds=yes --trace-children=yes --track-origins=yes --leak-check=full --show-leak-kinds=all -s
 L_COMMAND = leaks -atExit --
 
 PATH_TO_OBJ = objects/
 PATH_TO_TESTS = test/
-PATH_TO_REALIZATION = containers/
 COV_REPORT = report/
-LIB_NAME = s21_containers.a
 EXEC_T = unit_tests
 
-SRC = $(shell find $(PATH_TO_REALIZATION) -name '*.cpp')
-OBJ = $(patsubst %.cpp, $(PATH_TO_OBJ)%.o, $(SRC))
 SRC_T = $(wildcard $(PATH_TO_TESTS)*.cpp)
 OBJ_T = $(patsubst %.cpp, $(PATH_TO_OBJ)%.o, $(SRC_T))
 
@@ -22,18 +18,14 @@ ifeq ($(OS), Darwin)
 	LIBS+=$(shell pkg-config --libs check)
 endif
 
-all: $(LIB_NAME)
+all: test
 
-s21_containers.a: $(OBJ)
-	@ar rc $@ $(OBJ)
-	@ranlib $@
-
-test: coverage_flag $(OBJ_T) $(LIB_NAME)
+test: coverage_flag $(OBJ_T)
 ifeq ($(OS), Darwin)
-	$(CXX) $(CFLAGS) $(OBJ_T) $(LIB_NAME) $(LIBS) -o $(PATH_TO_TESTS)$(EXEC_T)
+	$(CXX) $(CFLAGS) $(OBJ_T) $(LIBS) -o $(PATH_TO_TESTS)$(EXEC_T)
 	$(PATH_TO_TESTS)./$(EXEC_T) || true
 else
-	$(CXX) $(CFLAGS) $(OBJ_T) $(LIB_NAME) -o $(PATH_TO_TESTS)$(EXEC_T) -lgtest -lsubunit -lrt -lpthread -lm
+	$(CXX) $(CFLAGS) $(OBJ_T) -o $(PATH_TO_TESTS)$(EXEC_T) -lgtest -lpthread -lm
 	$(PATH_TO_TESTS)./$(EXEC_T) || true
 endif
 
@@ -42,16 +34,16 @@ $(PATH_TO_OBJ)%.o: %.cpp
 
 format-check:
 	@cp ../materials/linters/.clang-format ./
-	@find . -name '*.cpp' -o -name '*.hpp' -o -name '*.h' | xargs clang-format -n
+	@find . -name '*.cpp' -o -name '*.tpp' -o -name '*.h' | xargs clang-format -n
 	@rm .clang-format
 
 format:
 	@cp ../materials/linters/.clang-format ./
-	@find . -name '*.cpp' -o -name '*.hpp' -o -name '*.h' | xargs clang-format -i
+	@find . -name '*.cpp' -o -name '*.tpp' -o -name '*.h' | xargs clang-format -i
 	@rm .clang-format
 
 cppcheck:
-	@find . -name '*.cpp' -o -name '*.hpp' -o -name '*.h' | xargs cppcheck --enable=all --suppress=missingIncludeSystem
+	@find . -name '*.cpp' -o -name '*.tpp' -o -name '*.h' | xargs cppcheck --enable=all --suppress=missingIncludeSystem
 
 valgrind:
 	@if [ -f "$(PATH_TO_TESTS)$(EXEC_T)" ]; then \
@@ -88,7 +80,7 @@ clean:
 	find $(PATH_TO_OBJ) -name '*.o' -exec rm {} +
 	find $(PATH_TO_OBJ) -name '*.gcno' -exec rm {} +
 	find $(PATH_TO_OBJ) -name '*.gcda' -exec rm {} +
-	rm -rf $(LIB_NAME) && rm -rf $(PATH_TO_TESTS)$(EXEC_T)
+	rm -rf $(PATH_TO_TESTS)$(EXEC_T)
 	rm -rf $(COV_REPORT)*.css && rm -rf $(COV_REPORT)*.html
 	rm -rf *.info && rm -rf *.gcov
 	rm -rf RESULT_VALGRIND.txt gcov_*
