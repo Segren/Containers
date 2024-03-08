@@ -16,6 +16,8 @@ class ConstIterator {
   virtual ConstIterator<T>& operator=(const ConstIterator<T>& other) = 0;
   // Получение константной ссылки на текущий элемент
   virtual const T& operator*() const = 0;
+  // Получение константного указателя на текущий элемент
+  virtual const T* operator->() const = 0;
 
   // Проверка на неравенство
   virtual bool operator!=(const ConstIterator<T>& other) const = 0;
