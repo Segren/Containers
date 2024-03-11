@@ -7,7 +7,7 @@
 namespace s21 {
 
 template <typename T>
-class SetIterator : public Iterator<T> {
+class SetIterator {
   using Key = T;
   using tree_only_key = BinaryTree<Key, nullptr_t>;
   using node_only_key = TreeNode<Key, nullptr_t>;
@@ -17,25 +17,25 @@ class SetIterator : public Iterator<T> {
   node_only_key* current;
 
  public:
-  SetIterator(tree_only_key& set, node_only_key* start_node = nullptr)
+  SetIterator(tree_only_key& set, node_only_key start_node = nullptr)
       : set(set), current(start_node) {}
 
-  ~SetIterator() override = default;
+  ~SetIterator() = default;
 
-  SetIterator<T>& operator=(const Iterator<T>& other) override {
+  SetIterator<T>& operator=(const Iterator<T>& other) {
     const auto& other_iterator = dynamic_cast<const SetIterator<T>&>(other);
     this->set = other_iterator.set;
     this->current = other_iterator.current;
     return *this;
   }
 
-  SetIterator<T> begin() const override {
+  SetIterator<T> begin() const {
     return SetIterator<T>(set, set.minValueNode(set.root));
   }
 
-  SetIterator<T> end() const override { return SetIterator<T>(set, nullptr); }
+  SetIterator<T> end() const { return SetIterator<T>(set, nullptr); }
 
-  void operator++() override {
+  void operator++() {
     if (current == nullptr) {
       return;
     }
@@ -55,7 +55,7 @@ class SetIterator : public Iterator<T> {
     }
   }
 
-  void operator--() override {
+  void operator--() {
     if (current == nullptr) {
       return;
     }
@@ -74,26 +74,26 @@ class SetIterator : public Iterator<T> {
     }
   }
 
-  T& operator*() const override {
+  T& operator*() const {
     if (current == nullptr) {
       return nullptr;
     }
     return current->value;
   }
 
-  T* operator->() const override {
+  T* operator->() const {
     if (current == nullptr) {
       return nullptr;
     }
     return &(current->value);
   }
 
-  bool operator!=(const Iterator<T>& other) const override {
+  bool operator!=(const Iterator<T>& other) const {
     const auto& other_iterator = dynamic_cast<const SetIterator<T>&>(other);
     return (this->current != other_iterator.current);
   }
 
-  bool operator==(const Iterator<T>& other) const override {
+  bool operator==(const Iterator<T>& other) const {
     const auto& other_iterator = dynamic_cast<const SetIterator<T>&>(other);
     return (this->current == other_iterator.current);
   }

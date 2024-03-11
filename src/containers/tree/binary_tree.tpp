@@ -125,7 +125,7 @@ TreeNode<K, V>* BinaryTree<K, V>::remove(TreeNode<K, V>* node, const K& key) {
 }
 
 template <typename K, typename V>
-TreeNode<K, V>* BinaryTree<K, V>::minValueNode(TreeNode<K, V>* node) const {
+TreeNode<K, V> BinaryTree<K, V>::minValueNode(TreeNode<K, V>* node) const {
   TreeNode<K, V>* current = node;
 
   while (current != nullptr && current->left != nullptr) {
@@ -136,7 +136,7 @@ TreeNode<K, V>* BinaryTree<K, V>::minValueNode(TreeNode<K, V>* node) const {
 }
 
 template <typename K, typename V>
-TreeNode<K, V>* BinaryTree<K, V>::maxValueNode(TreeNode<K, V>* node) const {
+TreeNode<K, V> BinaryTree<K, V>::maxValueNode(TreeNode<K, V>* node) const {
   TreeNode<K, V>* current = node;
 
   while (current != nullptr && current->right != nullptr) {

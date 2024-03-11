@@ -24,8 +24,6 @@ class BinaryTree {
   TreeNode<K, V>* insert(TreeNode<K, V>* node, const K& key, const V& value);
   TreeNode<K, V>* find(TreeNode<K, V>* node, const K& key) const;
   TreeNode<K, V>* remove(TreeNode<K, V>* node, const K& key);
-  TreeNode<K, V>* minValueNode(TreeNode<K, V>* node) const;
-  TreeNode<K, V>* maxValueNode(TreeNode<K, V>* node) const;
   void inorderTraversal(TreeNode<K, V>* node) const;
 
  public:
@@ -40,6 +38,8 @@ class BinaryTree {
   void remove(const K& key);
   void inorderTraversal() const;
   TreeNode<K, V> getRoot() const;
+  TreeNode<K, V> minValueNode(TreeNode<K, V>* node) const;
+  TreeNode<K, V> maxValueNode(TreeNode<K, V>* node) const;
 
  private:
   size_t countNodes(TreeNode<K, V>* node) const;
