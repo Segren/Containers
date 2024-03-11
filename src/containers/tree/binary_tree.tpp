@@ -177,4 +177,9 @@ void BinaryTree<K, V>::inorderTraversal() const {
   std::cout << std::endl;
 }
 
+template <typename K, typename V>
+TreeNode<K, V> BinaryTree<K, V>::getRoot() const {
+  return root;
+}
+
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_TREE_BINARY_TREE_TPP_

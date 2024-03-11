@@ -39,6 +39,7 @@ class BinaryTree {
   V* find(const K& key) const;
   void remove(const K& key);
   void inorderTraversal() const;
+  TreeNode<K, V> getRoot() const;
 
  private:
   size_t countNodes(TreeNode<K, V>* node) const;

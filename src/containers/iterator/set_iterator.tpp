@@ -20,6 +20,8 @@ class SetIterator : public Iterator<T> {
   SetIterator(tree_only_key& set, node_only_key* start_node = nullptr)
       : set(set), current(start_node) {}
 
+  ~SetIterator() override = default;
+
   SetIterator<T>& operator=(const Iterator<T>& other) override {
     const auto& other_iterator = dynamic_cast<const SetIterator<T>&>(other);
     this->set = other_iterator.set;
