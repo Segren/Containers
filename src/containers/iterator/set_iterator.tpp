@@ -20,6 +20,19 @@ class SetIterator : public Iterator<T> {
   SetIterator(tree_only_key& set, node_only_key* start_node = nullptr)
       : set(set), current(start_node) {}
 
+  SetIterator<T>& operator=(const Iterator<T>& other) override {
+    const auto& other_iterator = dynamic_cast<const SetIterator<T>&>(other);
+    this->set = other_iterator.set;
+    this->current = other_iterator.current;
+    return *this;
+  }
+
+  SetIterator<T> begin() const override {
+    return SetIterator<T>(set, set.minValueNode(set.root));
+  }
+
+  SetIterator<T> end() const override { return SetIterator<T>(set, nullptr); }
+
   void operator++() override {
     if (current == nullptr) {
       return;
@@ -61,14 +74,14 @@ class SetIterator : public Iterator<T> {
 
   T& operator*() const override {
     if (current == nullptr) {
-      throw std::out_of_range("Iterator is out of bounds");
+      return nullptr;
     }
     return current->value;
   }
 
   T* operator->() const override {
     if (current == nullptr) {
-      throw std::out_of_range("Iterator is out of bounds");
+      return nullptr;
     }
     return &(current->value);
   }

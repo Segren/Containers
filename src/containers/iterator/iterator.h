@@ -13,18 +13,18 @@ class Iterator : public ConstIterator<T> {
   using ConstIterator<T>::operator++;
   using ConstIterator<T>::operator--;
 
-  virtual Iterator<T>& operator=(const Iterator<T>& other);
-  virtual T& operator*() const override;
-  virtual T* operator->() const override;
+  virtual void operator++() override = 0;
+  virtual void operator--() override = 0;
 
-  virtual bool operator!=(const Iterator<T>& other) const override;
-  virtual bool operator==(const Iterator<T>& other) const override;
+  virtual Iterator<T>& operator=(const Iterator<T>& other) = 0;
+  virtual T& operator*() const = 0;
+  virtual T* operator->() const = 0;
 
-  virtual Iterator<T> begin() const override;
-  virtual Iterator<T> end() const override;
+  virtual bool operator!=(const Iterator<T>& other) const = 0;
+  virtual bool operator==(const Iterator<T>& other) const = 0;
 
-  void operator++() override { ConstIterator<T>::operator++(); }
-  void operator--() override { ConstIterator<T>::operator--(); }
+  virtual Iterator<T> begin() const = 0;
+  virtual Iterator<T> end() const = 0;
 };
 
 }  // namespace s21
