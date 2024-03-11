@@ -8,16 +8,8 @@ BinaryTree<K, V>::BinaryTree() : root(nullptr) {}
 
 template <typename K, typename V>
 BinaryTree<K, V>::~BinaryTree() {
-  if (root != nullptr) delete root;
-}
-
-template <typename K, typename V>
-TreeNode<K, V>::~TreeNode() {
-  if (left != nullptr) {
-    delete left;
-  }
-  if (right != nullptr) {
-    delete right;
+  if (root != nullptr) {
+    delete root;
   }
 }
 
@@ -37,7 +29,7 @@ size_t BinaryTree<K, V>::maxSize() const {
 }
 
 template <typename K, typename V>
-size_t BinaryTree<K, V>::calculateDepth(TreeNode<K, V>* node) const {
+size_t BinaryTree<K, V>::calculateDepth(TreeNode<K, V>& node) const {
   if (node == nullptr) {
     return 0;
   }
@@ -49,13 +41,13 @@ size_t BinaryTree<K, V>::calculateDepth(TreeNode<K, V>* node) const {
 }
 
 template <typename K, typename V>
-size_t BinaryTree<K, V>::calculateMaxSize(TreeNode<K, V>* node) const {
+size_t BinaryTree<K, V>::calculateMaxSize(TreeNode<K, V>& node) const {
   size_t depth = calculateDepth(node);
   return (1 << (depth + 1)) - 1;
 }
 
 template <typename K, typename V>
-size_t BinaryTree<K, V>::countNodes(TreeNode<K, V>* node) const {
+size_t BinaryTree<K, V>::countNodes(TreeNode<K, V>& node) const {
   if (node == nullptr) {
     return 0;
   }
@@ -64,7 +56,7 @@ size_t BinaryTree<K, V>::countNodes(TreeNode<K, V>* node) const {
 }
 
 template <typename K, typename V>
-TreeNode<K, V>* BinaryTree<K, V>::insert(TreeNode<K, V>* node, const K& key,
+TreeNode<K, V>* BinaryTree<K, V>::insert(TreeNode<K, V>& node, const K& key,
                                          const V& value) {
   if (node == nullptr) {
     return new TreeNode<K, V>(key, value);
@@ -80,7 +72,7 @@ TreeNode<K, V>* BinaryTree<K, V>::insert(TreeNode<K, V>* node, const K& key,
 }
 
 template <typename K, typename V>
-TreeNode<K, V>* BinaryTree<K, V>::find(TreeNode<K, V>* node,
+TreeNode<K, V>* BinaryTree<K, V>::find(TreeNode<K, V>& node,
                                        const K& key) const {
   if (node == nullptr || node->key == key) {
     return node;
@@ -94,7 +86,7 @@ TreeNode<K, V>* BinaryTree<K, V>::find(TreeNode<K, V>* node,
 }
 
 template <typename K, typename V>
-TreeNode<K, V>* BinaryTree<K, V>::remove(TreeNode<K, V>* node, const K& key) {
+TreeNode<K, V>* BinaryTree<K, V>::remove(TreeNode<K, V>& node, const K& key) {
   if (node == nullptr) {
     return node;
   }
@@ -125,29 +117,29 @@ TreeNode<K, V>* BinaryTree<K, V>::remove(TreeNode<K, V>* node, const K& key) {
 }
 
 template <typename K, typename V>
-TreeNode<K, V> BinaryTree<K, V>::minValueNode(TreeNode<K, V>* node) const {
+TreeNode<K, V>& BinaryTree<K, V>::minValueNode(TreeNode<K, V>& node) const {
   TreeNode<K, V>* current = node;
 
   while (current != nullptr && current->left != nullptr) {
     current = current->left;
   }
 
-  return current;
+  return *current;
 }
 
 template <typename K, typename V>
-TreeNode<K, V> BinaryTree<K, V>::maxValueNode(TreeNode<K, V>* node) const {
+TreeNode<K, V>& BinaryTree<K, V>::maxValueNode(TreeNode<K, V>& node) const {
   TreeNode<K, V>* current = node;
 
   while (current != nullptr && current->right != nullptr) {
     current = current->right;
   }
 
-  return current;
+  return *current;
 }
 
 template <typename K, typename V>
-void BinaryTree<K, V>::inorderTraversal(TreeNode<K, V>* node) const {
+void BinaryTree<K, V>::inorderTraversal(TreeNode<K, V>& node) const {
   if (node != nullptr) {
     inorderTraversal(node->left);
     std::cout << node->key << ": " << node->value << " ";
@@ -178,8 +170,8 @@ void BinaryTree<K, V>::inorderTraversal() const {
 }
 
 template <typename K, typename V>
-TreeNode<K, V> BinaryTree<K, V>::getRoot() const {
-  return root;
+TreeNode<K, V>& BinaryTree<K, V>::getRoot() const {
+  return *root;
 }
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_TREE_BINARY_TREE_TPP_

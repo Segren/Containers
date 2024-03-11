@@ -42,7 +42,7 @@ set<T> &set<T>::operator=(set &s) {
 
 template <typename T>
 typename set<T>::iterator set<T>::begin() {
-  TreeNode<key_type, nullptr_t>* minNode = tree.minValueNode(tree.getRoot());
+  TreeNode<key_type, nullptr_t> *minNode = tree.minValueNode(tree.getRoot());
   key_type k = minNode ? minNode->key : key_type{};
   return iterator(k);
 }
@@ -54,7 +54,7 @@ typename set<T>::iterator set<T>::end() {
 
 template <typename T>
 typename set<T>::const_iterator set<T>::cbegin() {
-  TreeNode<key_type, nullptr_t>* minNode = tree.minValueNode(tree.getRoot());
+  TreeNode<key_type, nullptr_t> *minNode = tree.minValueNode(tree.getRoot());
   key_type k = minNode ? minNode->key : key_type{};
   return const_iterator(k);
 }
