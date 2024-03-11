@@ -19,13 +19,13 @@ template <typename T>
 set<T>::set(const set &s) : tree(s.tree) {}
 
 template <typename T>
-set<T>::set(set &&s) : tree(std::move(s.tree)) {}
+set<T>::set(set &&s) noexcept : tree(std::move(s.tree)) {}
 
 template <typename T>
-set<T>::~set() {}
+set<T>::~set() = default;
 
 template <typename T>
-set<T> &set<T>::operator=(set &&s) {
+set<T> &set<T>::operator=(set &&s) noexcept {
   if (this != &s) {
     tree = std::move(s.tree);
   }
@@ -77,7 +77,7 @@ typename set<T>::size_type set<T>::max_size() {
 
 template <typename T>
 void set<T>::clear() {
-  tree.clear();
+  delete tree;
 }
 
 template <typename T>

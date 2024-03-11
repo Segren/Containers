@@ -21,9 +21,9 @@ class set {
   set();
   set(std::initializer_list<value_type> const &items);
   set(const set &s);
-  set(set &&s);
+  set(set &&s) noexcept;
   ~set();
-  set &operator=(set &&s);
+  set &operator=(set &&s) noexcept;
   set &operator=(set &s);
 
   iterator begin();
