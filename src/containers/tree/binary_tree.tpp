@@ -8,9 +8,7 @@ BinaryTree<K, V>::BinaryTree() : root(nullptr) {}
 
 template <typename K, typename V>
 BinaryTree<K, V>::~BinaryTree() {
-  if (root != nullptr) {
-    delete root;
-  }
+  if (root != nullptr) delete root;
 }
 
 template <typename K, typename V>
@@ -21,6 +19,48 @@ TreeNode<K, V>::~TreeNode() {
   if (right != nullptr) {
     delete right;
   }
+}
+
+template <typename K, typename V>
+bool BinaryTree<K, V>::empty() const {
+  return (root == nullptr);
+}
+
+template <typename K, typename V>
+size_t BinaryTree<K, V>::size() const {
+  return countNodes(root);
+}
+
+template <typename K, typename V>
+size_t BinaryTree<K, V>::maxSize() const {
+  return calculateMaxSize(root);
+}
+
+template <typename K, typename V>
+size_t BinaryTree<K, V>::calculateDepth(TreeNode<K, V>* node) const {
+  if (node == nullptr) {
+    return 0;
+  }
+
+  size_t left_depth = calculateDepth(node->left);
+  size_t right_depth = calculateDepth(node->right);
+
+  return std::max(left_depth, right_depth) + 1;
+}
+
+template <typename K, typename V>
+size_t BinaryTree<K, V>::calculateMaxSize(TreeNode<K, V>* node) const {
+  size_t depth = calculateDepth(node);
+  return (1 << (depth + 1)) - 1;
+}
+
+template <typename K, typename V>
+size_t BinaryTree<K, V>::countNodes(TreeNode<K, V>* node) const {
+  if (node == nullptr) {
+    return 0;
+  }
+
+  return 1 + countNodes(node->left) + countNodes(node->right);
 }
 
 template <typename K, typename V>

@@ -32,10 +32,18 @@ class BinaryTree {
   BinaryTree();
   ~BinaryTree();
 
+  bool empty() const;
+  size_t size() const;
+  size_t maxSize() const;
   void insert(const K& key, const V& value);
   V* find(const K& key) const;
   void remove(const K& key);
   void inorderTraversal() const;
+
+ private:
+  size_t countNodes(TreeNode<K, V>* node) const;
+  size_t calculateMaxSize(TreeNode<K, V>* node) const;
+  size_t calculateDepth(TreeNode<K, V>* node) const;
 };
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_TREE_BINARY_TREE_H_

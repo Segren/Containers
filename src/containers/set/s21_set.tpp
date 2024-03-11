@@ -72,7 +72,7 @@ typename set<T>::size_type set<T>::size() {
 
 template <typename T>
 typename set<T>::size_type set<T>::max_size() {
-  // todo realize it
+  return tree.maxSize();
 }
 
 template <typename T>

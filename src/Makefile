@@ -65,7 +65,7 @@ coverage_flag:
 gcov_report: coverage_flag test
 	rm -rf $(PATH_TO_OBJ)$(PATH_TO_TESTS)*.gcno
 	rm -rf $(PATH_TO_OBJ)$(PATH_TO_TESTS)*.gcda
-	gcov -b -l -p -c $(OBJ)
+	gcov -b -l -p -c $(OBJ_T)
 	gcovr -o $(COV_REPORT)gcov_report.html --html --html-details
 	rm -rf *.info && rm -rf *.gcov
 	@if command -v xdg-open > /dev/null; then \
