@@ -6,7 +6,7 @@ namespace s21 {
 template <typename T>
 class ConstIterator {
  public:
-  virtual ~ConstIterator() {}
+  virtual ~ConstIterator() = default;
   // Переход к следующему элементу
   virtual void operator++() = 0;
   // Переход к предыдущему элементу
@@ -15,9 +15,9 @@ class ConstIterator {
   // Оператор присваивания для итератора
   virtual ConstIterator<T>& operator=(const ConstIterator<T>& other) = 0;
   // Получение константной ссылки на текущий элемент
-  virtual const T& operator*() const = 0;
+  virtual T& operator*() const = 0;
   // Получение константного указателя на текущий элемент
-  virtual const T* operator->() const = 0;
+  virtual T* operator->() const = 0;
 
   // Проверка на неравенство
   virtual bool operator!=(const ConstIterator<T>& other) const = 0;

@@ -8,13 +8,10 @@ namespace s21 {
 template <typename T>
 class Iterator : public ConstIterator<T> {
  public:
-  virtual ~Iterator() {}
+  virtual ~Iterator() = default;
 
   using ConstIterator<T>::operator++;
   using ConstIterator<T>::operator--;
-
-  virtual void operator++() override;
-  virtual void operator--() override;
 
   virtual Iterator<T>& operator=(const Iterator<T>& other);
   virtual T& operator*() const override;
@@ -25,6 +22,9 @@ class Iterator : public ConstIterator<T> {
 
   virtual Iterator<T> begin() const override;
   virtual Iterator<T> end() const override;
+
+  void operator++() override { ConstIterator<T>::operator++(); }
+  void operator--() override { ConstIterator<T>::operator--(); }
 };
 
 }  // namespace s21
