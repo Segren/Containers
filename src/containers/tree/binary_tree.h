@@ -25,6 +25,7 @@ class BinaryTree {
   TreeNode<K, V>* find(TreeNode<K, V>* node, const K& key) const;
   TreeNode<K, V>* remove(TreeNode<K, V>* node, const K& key);
   TreeNode<K, V>* minValueNode(TreeNode<K, V>* node) const;
+  TreeNode<K, V>* maxValueNode(TreeNode<K, V>* node) const;
   void inorderTraversal(TreeNode<K, V>* node) const;
 
  public:

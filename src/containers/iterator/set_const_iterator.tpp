@@ -1,5 +1,5 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_SET_CONT_ITERATOR_TPP_
-#define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_SET_CONT_ITERATOR_TPP_
+#ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_SET_CONST_ITERATOR_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_SET_CONST_ITERATOR_TPP_
 
 #include "../tree/binary_tree.h"
 #include "const_iterator.h"
@@ -23,7 +23,7 @@ class SetConstIterator : public ConstIterator<T> {
 
   // SetConstIterator(const SetConstIterator& other) { operator=(other); }
 
-  virtual ~SetConstIterator() {}
+  virtual ~SetConstIterator() = default;
 
   virtual void operator++() override {
     if (current == nullptr) {
@@ -45,7 +45,24 @@ class SetConstIterator : public ConstIterator<T> {
     }
   }
 
-  virtual void operator--() override {}
+  virtual void operator--() override {
+    if (current == nullptr) {
+      return;
+    }
+
+    if (current->left != nullptr) {
+      current = set.maxValueNode(current->left);
+    } else {
+      node_only_key* parent = nullptr;
+      node_only_key* temp = set.root;
+
+      while (temp != nullptr && current == temp->left) {
+        parent = temp;
+        temp = temp->left;
+      }
+      current = parent;
+    }
+  }
 
   virtual ConstIterator<Key>& operator=(
       const ConstIterator<Key>& other) override {
@@ -93,4 +110,4 @@ class SetConstIterator : public ConstIterator<T> {
 
 }  // namespace s21
 
-#endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_SET_CONT_ITERATOR_TPP_
+#endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_SET_CONST_ITERATOR_TPP_

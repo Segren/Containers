@@ -96,6 +96,17 @@ TreeNode<K, V>* BinaryTree<K, V>::minValueNode(TreeNode<K, V>* node) const {
 }
 
 template <typename K, typename V>
+TreeNode<K, V>* BinaryTree<K, V>::maxValueNode(TreeNode<K, V>* node) const {
+  TreeNode<K, V>* current = node;
+
+  while (current != nullptr && current->right != nullptr) {
+    current = current->right;
+  }
+
+  return current;
+}
+
+template <typename K, typename V>
 void BinaryTree<K, V>::inorderTraversal(TreeNode<K, V>* node) const {
   if (node != nullptr) {
     inorderTraversal(node->left);

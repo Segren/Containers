@@ -1,6 +1,7 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_SET_S21_SET_H_
 #define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_SET_S21_SET_H_
 
+#include "../iterator/set_const_iterator.tpp"
 #include "../iterator/set_iterator.tpp"
 
 namespace s21 {
@@ -26,8 +27,8 @@ class set {
 
   iterator begin();
   iterator end();
-  const_iterator begin();
-  const_iterator end();
+  //  const_iterator begin();
+  //  const_iterator end();
 
   bool empty();
   size_type size();
