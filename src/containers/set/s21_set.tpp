@@ -40,23 +40,23 @@ set<T> &set<T>::operator=(set &s) {
   return *this;
 }
 
-// template <typename T>
-// typename set<T>::iterator set<T>::begin() {
-//   return iterator(tree.minValueNode(tree.getRoot()));
-// }
-//
-// template <typename T>
-// typename set<T>::iterator set<T>::end() {
-//   return iterator(nullptr);
-// }
+template <typename T>
+typename set<T>::iterator set<T>::begin() {
+  return iterator(tree.minValueNode(tree.getRoot()));
+}
 
 template <typename T>
-typename set<T>::const_iterator set<T>::begin() {
+typename set<T>::iterator set<T>::end() {
+  return iterator(nullptr);
+}
+
+template <typename T>
+typename set<T>::const_iterator set<T>::cbegin() {
   return const_iterator(tree.minValueNode(tree.getRoot()));
 }
 
 template <typename T>
-typename set<T>::const_iterator set<T>::end() {
+typename set<T>::const_iterator set<T>::cend() {
   return const_iterator(nullptr);
 }
 

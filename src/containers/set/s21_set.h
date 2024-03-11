@@ -26,10 +26,10 @@ class set {
   set &operator=(set &&s);
   set &operator=(set &s);
 
-  // iterator begin();
-  // iterator end();
-  const_iterator begin();
-  const_iterator end();
+  iterator begin();
+  iterator end();
+  const_iterator cbegin();
+  const_iterator cend();
 
   bool empty();
   size_type size();

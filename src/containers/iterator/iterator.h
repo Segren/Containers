@@ -16,7 +16,7 @@ class Iterator : public ConstIterator<T> {
   virtual void operator++() override;
   virtual void operator--() override;
 
-  virtual Iterator<T>& operator=(const Iterator<T>& other) override;
+  virtual Iterator<T>& operator=(const Iterator<T>& other);
   virtual T& operator*() const override;
   virtual T* operator->() const override;
 
