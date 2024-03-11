@@ -20,7 +20,7 @@ class SetIterator : public Iterator<T> {
   SetIterator(tree_only_key& set, node_only_key* start_node = nullptr)
       : set(set), current(start_node) {}
 
-  virtual void operator++() override {
+  void operator++() override {
     if (current == nullptr) {
       return;
     }
@@ -40,7 +40,7 @@ class SetIterator : public Iterator<T> {
     }
   }
 
-  virtual void operator--() override {
+  void operator--() override {
     if (current == nullptr) {
       return;
     }
@@ -59,29 +59,27 @@ class SetIterator : public Iterator<T> {
     }
   }
 
-  virtual T& operator*() const override {
+  T& operator*() const override {
     if (current == nullptr) {
       throw std::out_of_range("Iterator is out of bounds");
     }
     return current->value;
   }
 
-  virtual T* operator->() const override {
+  T* operator->() const override {
     if (current == nullptr) {
       throw std::out_of_range("Iterator is out of bounds");
     }
     return &(current->value);
   }
 
-  virtual bool operator!=(const Iterator<T>& other) const override {
-    const SetIterator<T>& other_iterator =
-        dynamic_cast<const SetIterator<T>&>(other);
+  bool operator!=(const Iterator<T>& other) const override {
+    const auto& other_iterator = dynamic_cast<const SetIterator<T>&>(other);
     return (this->current != other_iterator.current);
   }
 
-  virtual bool operator==(const Iterator<T>& other) const override {
-    const SetIterator<T>& other_iterator =
-        dynamic_cast<const SetIterator<T>&>(other);
+  bool operator==(const Iterator<T>& other) const override {
+    const auto& other_iterator = dynamic_cast<const SetIterator<T>&>(other);
     return (this->current == other_iterator.current);
   }
 };

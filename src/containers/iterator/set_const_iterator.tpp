@@ -17,15 +17,15 @@ class SetConstIterator : public ConstIterator<T> {
   node_only_key* current;
 
  public:
-  SetConstIterator(const tree_only_key& set,
-                   node_only_key* start_node = nullptr)
+  explicit SetConstIterator(const tree_only_key& set,
+                            node_only_key* start_node = nullptr)
       : set(set), current(start_node) {}
 
   // SetConstIterator(const SetConstIterator& other) { operator=(other); }
 
   virtual ~SetConstIterator() = default;
 
-  virtual void operator++() override {
+  void operator++() override {
     if (current == nullptr) {
       return;
     }
@@ -45,7 +45,7 @@ class SetConstIterator : public ConstIterator<T> {
     }
   }
 
-  virtual void operator--() override {
+  void operator--() override {
     if (current == nullptr) {
       return;
     }
@@ -64,46 +64,45 @@ class SetConstIterator : public ConstIterator<T> {
     }
   }
 
-  virtual ConstIterator<Key>& operator=(
-      const ConstIterator<Key>& other) override {
-    const SetConstIterator<Key>& other_iterator =
+  SetConstIterator<Key>& operator=(const ConstIterator<Key>& other) override {
+    const auto& other_iterator =
         dynamic_cast<const SetConstIterator<Key>&>(other);
     this->set = other_iterator.set;
     this->current = other_iterator.current;
     return *this;
   }
 
-  virtual const Key& operator*() const override {
+  const Key& operator*() const override {
     if (current == nullptr) {
       throw std::out_of_range("Iterator is out of bounds");
     }
     return current->value;
   }
 
-  virtual const Key* operator->() const override {
+  const Key* operator->() const override {
     if (current == nullptr) {
       throw std::out_of_range("Iterator is out of bounds");
     }
     return &(current->value);
   }
 
-  virtual bool operator!=(const ConstIterator<Key>& other) const override {
-    const SetConstIterator<Key>& other_iterator =
+  bool operator!=(const ConstIterator<Key>& other) const override {
+    const auto& other_iterator =
         dynamic_cast<const SetConstIterator<Key>&>(other);
     return (this->current != other_iterator.current);
   }
 
-  virtual bool operator==(const ConstIterator<Key>& other) const override {
-    const SetConstIterator<Key>& other_iterator =
+  bool operator==(const ConstIterator<Key>& other) const override {
+    const auto& other_iterator =
         dynamic_cast<const SetConstIterator<Key>&>(other);
     return (this->current == other_iterator.current);
   }
 
-  virtual ConstIterator<Key> begin() const override {
+  ConstIterator<Key> begin() const override {
     return SetConstIterator<Key>(set, set.minValueNode(set.root));
   }
 
-  virtual ConstIterator<Key> end() const override {
+  ConstIterator<Key> end() const override {
     return SetConstIterator<Key>(set, nullptr);
   }
 };
