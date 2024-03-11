@@ -3,6 +3,7 @@
 
 #include "../iterator/set_const_iterator.tpp"
 #include "../iterator/set_iterator.tpp"
+#include "../tree/binary_tree.tpp"
 
 namespace s21 {
 
@@ -25,10 +26,10 @@ class set {
   set &operator=(set &&s);
   set &operator=(set &s);
 
-  iterator begin();
-  iterator end();
-  //  const_iterator begin();
-  //  const_iterator end();
+  // iterator begin();
+  // iterator end();
+  const_iterator begin();
+  const_iterator end();
 
   bool empty();
   size_type size();
@@ -42,6 +43,9 @@ class set {
 
   iterator find(const_reference &key);
   bool contains(const_reference &key);
+
+ private:
+  BinaryTree<key_type, nullptr_t> tree;
 };
 
 }  // namespace s21
