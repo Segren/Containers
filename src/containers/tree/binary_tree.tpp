@@ -57,8 +57,6 @@ typename BinaryTree<Key, Value>::Iterator BinaryTree<Key, Value>::end() {
   return test;
 }
 
-// SIZE
-
 template <typename Key, typename Value>
 bool BinaryTree<Key, Value>::empty() {
   return root_ == nullptr;
@@ -74,8 +72,6 @@ size_t BinaryTree<Key, Value>::max_size() {
   return std::numeric_limits<size_type>::max() /
          sizeof(typename BinaryTree<Key, Value>::TreeNode);
 }
-
-// INSERT and DELETE and CLEAR
 
 template <typename Key, typename Value>
 void BinaryTree<Key, Value>::clear() {
@@ -136,8 +132,6 @@ BinaryTree<Key, Value>::TreeNode::TreeNode(Key key, value_type value,
                                            TreeNode *node)
     : key_(key), value_(value), parent_(node) {}
 
-// SUPPORT FOR AVL_TREE CONSTRUCTORS
-
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::TreeNode *BinaryTree<Key, Value>::CopyTree(
     BinaryTree::TreeNode *node, BinaryTree::TreeNode *parent) {
@@ -155,8 +149,6 @@ void BinaryTree<Key, Value>::FreeNode(TreeNode *node) {
   FreeNode(node->right_);
   delete node;
 }
-
-// AVL BALANCE
 
 template <typename Key, typename Value>
 int BinaryTree<Key, Value>::GetHeight(BinaryTree::TreeNode *node) {
@@ -247,8 +239,6 @@ void BinaryTree<Key, Value>::Balance(TreeNode *node) {
     LeftRotate(node);
   }
 }
-
-// MIN AND MAX IN TREE
 
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::TreeNode *BinaryTree<Key, Value>::GetMin(
