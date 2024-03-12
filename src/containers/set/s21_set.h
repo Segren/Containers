@@ -1,51 +1,32 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_SET_S21_SET_H_
 #define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_SET_S21_SET_H_
 
-#include "../iterator/set_const_iterator.tpp"
-#include "../iterator/set_iterator.tpp"
 #include "../tree/binary_tree.tpp"
 
 namespace s21 {
 
-template <typename T>
-class set {
+template <typename Key>
+class set : public BinaryTree<Key, Key> {
  public:
-  using key_type = T;
-  using value_type = T;
+  using key_type = Key;
+  using value_type = Key;
   using reference = value_type &;
-  using const_reference = const value_type &;
-  using iterator = SetIterator<T>;
-  using const_iterator = SetConstIterator<T>;
+  using const_reference = const Key &;
+  using iterator = typename BinaryTree<Key, Key>::Iterator;
+  using const_iterator = typename BinaryTree<Key, Key>::ConstIterator;
   using size_type = size_t;
 
-  set();
+  set() : BinaryTree<Key, Key>(){};
   set(std::initializer_list<value_type> const &items);
-  set(const set &s);
-  set(set &&s) noexcept;
-  ~set();
-  set &operator=(set &&s) noexcept;
-  set &operator=(set &s);
+  set(const set &other) : BinaryTree<Key, Key>(other){};
+  set(set &&other) noexcept : BinaryTree<Key, Key>(std::move(other)){};
+  set &operator=(set &&other) noexcept;
+  set &operator=(const set &other);
+  ~set() = default;
 
-  iterator begin();
-  iterator end();
-  const_iterator cbegin();
-  const_iterator cend();
-
-  bool empty();
-  size_type size();
-  size_type max_size();
-
-  void clear();
-  std::pair<iterator, bool> insert(const value_type &value);
-  void erase(iterator pos);
-  void swap(set &other);
-  void merge(set &other);
-
-  iterator find(const_reference &key);
-  bool contains(const_reference &key);
-
- private:
-  BinaryTree<key_type, nullptr_t> tree;
+  iterator find(const Key &key) { return BinaryTree<Key, Key>::Find(key); };
+  template <class... Args>
+  std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);
 };
 
 }  // namespace s21

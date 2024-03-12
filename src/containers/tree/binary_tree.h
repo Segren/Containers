@@ -3,76 +3,99 @@
 
 #include <iostream>
 
-template <typename K, typename V>
-class TreeNode {
- public:
-  K key;
-  V value;
-  TreeNode* left;
-  TreeNode* right;
-
-  TreeNode(const K& k, const V& v)
-      : key(k), value(v), left(nullptr), right(nullptr) {}
-
-  TreeNode(const TreeNode&) = delete;
-  TreeNode& operator=(const TreeNode&) = delete;
-
-  TreeNode(TreeNode&& other) noexcept
-      : key(std::move(other.key)),
-        value(std::move(other.value)),
-        left(other.left),
-        right(other.right) {
-    other.left = nullptr;
-    other.right = nullptr;
-  }
-
-  TreeNode& operator=(TreeNode&& other) noexcept {
-    if (this != &other) {
-      key = std::move(other.key);
-      value = std::move(other.value);
-      left = other.left;
-      right = other.right;
-      other.left = nullptr;
-      other.right = nullptr;
-    }
-    return *this;
-  }
-
-  ~TreeNode() {
-    delete left;
-    delete right;
-  }
-};
-
-template <typename K, typename V>
+template <typename Key, typename Value>
 class BinaryTree {
- private:
-  TreeNode<K, V>* root;
-
-  TreeNode<K, V>* insert(TreeNode<K, V>& node, const K& key, const V& value);
-  TreeNode<K, V>* find(TreeNode<K, V>& node, const K& key) const;
-  TreeNode<K, V>* remove(TreeNode<K, V>& node, const K& key);
-  void inorderTraversal(TreeNode<K, V>& node) const;
+ protected:
+  struct TreeNode;
 
  public:
+  class Iterator;
+  class ConstIterator;
+
+  using key_type = Key;
+  using value_type = Value;
+  using reference = value_type&;
+  using const_reference = const value_type&;
+  using iterator = Iterator;
+  using const_iterator = ConstIterator;
+  using size_type = size_t;
+
+  class Iterator {
+   public:
+    Iterator();
+    Iterator(TreeNode* node, TreeNode* past_node = nullptr);
+    iterator& operator++();
+    iterator operator++(int);
+    iterator& operator--();
+    iterator operator--(int);
+    reference operator*();
+    bool operator==(const iterator& it);
+    friend class BinaryTree<Key, Value>;
+    bool operator!=(const iterator& it);
+
+   protected:
+    TreeNode* iter_node_;
+    TreeNode* iter_past_node_;
+    TreeNode* MoveForward(TreeNode* node);
+    TreeNode* MoveBack(TreeNode* node);
+  };
+  class ConstIterator : public Iterator {
+   public:
+    ConstIterator() : Iterator(){};
+    const_reference operator*() const { return Iterator::operator*(); };
+  };
+
   BinaryTree();
+  BinaryTree(const BinaryTree& other);
+  BinaryTree(BinaryTree&& other) noexcept;
   ~BinaryTree();
+  BinaryTree& operator=(BinaryTree&& other) noexcept;
+  BinaryTree& operator=(const BinaryTree& other);
+  iterator begin();
+  iterator end();
+  bool empty();
+  size_type size();
+  size_type max_size();
+  void clear();
+  std::pair<iterator, bool> insert(const Key& key);
+  void erase(iterator pos);
+  void swap(BinaryTree& other);
+  void merge(BinaryTree& other);
+  bool contains(const Key& key);
 
-  bool empty() const;
-  size_t size() const;
-  size_t maxSize() const;
-  void insert(const K& key, const V& value);
-  V* find(const K& key) const;
-  void remove(const K& key);
-  void inorderTraversal() const;
-  TreeNode<K, V>& getRoot() const;
-  TreeNode<K, V>& minValueNode(TreeNode<K, V>& node) const;
-  TreeNode<K, V>& maxValueNode(TreeNode<K, V>& node) const;
-
- private:
-  size_t countNodes(TreeNode<K, V>& node) const;
-  size_t calculateMaxSize(TreeNode<K, V>& node) const;
-  size_t calculateDepth(TreeNode<K, V>& node) const;
+ protected:
+  iterator Find(const Key& key);
+  struct TreeNode {
+    TreeNode(Key key, value_type value);
+    TreeNode(Key key, value_type value, TreeNode* parent);
+    Key key_;
+    value_type value_;
+    TreeNode* left_ = nullptr;
+    TreeNode* right_ = nullptr;
+    TreeNode* parent_ = nullptr;
+    int height_ = 0;
+    friend class BinaryTree<Key, Value>;
+  };
+  TreeNode* root_;
+  // SUPPORT FOR CONSTRUCTORS
+  void FreeNode(TreeNode* node);
+  TreeNode* CopyTree(TreeNode* node, TreeNode* parent);
+  // AVL BALANCE
+  void SwapValue(TreeNode* a, TreeNode* b);
+  void RightRotate(TreeNode* node);
+  void LeftRotate(TreeNode* node);
+  void Balance(TreeNode* node);
+  int GetBalance(TreeNode* node);
+  int GetHeight(TreeNode* node);
+  void SetHeight(TreeNode* node);
+  // MIN && MAX
+  static TreeNode* GetMin(TreeNode* node);
+  static TreeNode* GetMax(TreeNode* node);
+  // RECURSIVE SUPPORT FUNCTIONS
+  bool RecursiveInsert(TreeNode* node, const Key& key, Value value);
+  TreeNode* RecursiveDelete(TreeNode* node, Key key);
+  size_t RecursiveSize(TreeNode* node);
+  TreeNode* RecursiveFind(TreeNode* node, const Key& key);
 };
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_TREE_BINARY_TREE_H_
