@@ -9,7 +9,7 @@ COV_REPORT = report/
 EXEC_T = unit_tests
 
 SRC_T = $(wildcard $(PATH_TO_TESTS)*.cpp)
-OBJ_T = $(patsubst %.cpp, $(PATH_TO_OBJ)%.o, $(SRC_T))
+OBJ_T = $(patsubst %.cpp, $(PATH_TO_OBJ)%.o, $(notdir $(SRC_T)))
 
 OS := $(shell uname -s)
 
@@ -29,7 +29,7 @@ else
 	$(PATH_TO_TESTS)./$(EXEC_T) || true
 endif
 
-$(PATH_TO_OBJ)%.o: %.cpp
+$(PATH_TO_OBJ)%.o: $(PATH_TO_TESTS)%.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
 
 format-check:
