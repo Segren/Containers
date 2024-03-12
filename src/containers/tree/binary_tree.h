@@ -20,31 +20,6 @@ class BinaryTree {
   using const_iterator = ConstIterator;
   using size_type = size_t;
 
-  class Iterator {
-   public:
-    Iterator();
-    Iterator(TreeNode* node, TreeNode* past_node = nullptr);
-    iterator& operator++();
-    iterator operator++(int);
-    iterator& operator--();
-    iterator operator--(int);
-    reference operator*();
-    bool operator==(const iterator& it);
-    friend class BinaryTree<Key, Value>;
-    bool operator!=(const iterator& it);
-
-   protected:
-    TreeNode* iter_node_;
-    TreeNode* iter_past_node_;
-    TreeNode* MoveForward(TreeNode* node);
-    TreeNode* MoveBack(TreeNode* node);
-  };
-  class ConstIterator : public Iterator {
-   public:
-    ConstIterator() : Iterator(){};
-    const_reference operator*() const { return Iterator::operator*(); };
-  };
-
   BinaryTree();
   BinaryTree(const BinaryTree& other);
   BinaryTree(BinaryTree&& other) noexcept;
