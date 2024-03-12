@@ -3,8 +3,6 @@
 
 #include "binary_tree.h"
 
-// КОНСТРУКТОРЫ ДЛЯ ДЕРЕВА / ДЕСТРУКТОР / ОПЕРАТОРЫ
-
 template <typename Key, typename Value>
 BinaryTree<Key, Value>::BinaryTree() : root_(nullptr) {}
 
@@ -44,8 +42,6 @@ BinaryTree<Key, Value> &BinaryTree<Key, Value>::operator=(
   }
   return *this;
 }
-
-// BEGIN AND END
 
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::Iterator BinaryTree<Key, Value>::begin() {
@@ -103,8 +99,6 @@ BinaryTree<Key, Value>::insert(const Key &key) {
   return return_value;
 }
 
-// SWAP AND MERGE
-
 template <typename Key, typename Value>
 void BinaryTree<Key, Value>::swap(BinaryTree &other) {
   std::swap(root_, other.root_);
@@ -120,8 +114,6 @@ void BinaryTree<Key, Value>::merge(BinaryTree &other) {
   }
 }
 
-// FIND AND CONTAINS
-
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::iterator BinaryTree<Key, Value>::Find(
     const Key &key) {
@@ -135,9 +127,6 @@ bool BinaryTree<Key, Value>::contains(const Key &key) {
   return contain_node != nullptr;
 }
 
-// SUPPORT
-
-// КОНСРУКТОР ДЛЯ УЗЛОВ
 template <typename Key, typename Value>
 BinaryTree<Key, Value>::TreeNode::TreeNode(Key key, value_type value)
     : key_(key), value_(value) {}

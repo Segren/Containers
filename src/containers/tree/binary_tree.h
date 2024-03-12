@@ -28,6 +28,7 @@ class BinaryTree {
   BinaryTree& operator=(const BinaryTree& other);
   iterator begin();
   iterator end();
+  iterator Find(const Key& key);
   bool empty();
   size_type size();
   size_type max_size();
@@ -39,8 +40,6 @@ class BinaryTree {
   bool contains(const Key& key);
 
  private:
-  iterator Find(const Key& key);
-
   struct TreeNode {
     TreeNode(Key key, value_type value);
     TreeNode(Key key, value_type value, TreeNode* parent);
@@ -53,10 +52,10 @@ class BinaryTree {
     friend class BinaryTree<Key, Value>;
   };
   TreeNode* root_;
-  // SUPPORT FOR CONSTRUCTORS
+
   void FreeNode(TreeNode* node);
   TreeNode* CopyTree(TreeNode* node, TreeNode* parent);
-  // AVL BALANCE
+
   void SwapValue(TreeNode* a, TreeNode* b);
   void RightRotate(TreeNode* node);
   void LeftRotate(TreeNode* node);
@@ -64,10 +63,10 @@ class BinaryTree {
   int GetBalance(TreeNode* node);
   int GetHeight(TreeNode* node);
   void SetHeight(TreeNode* node);
-  // MIN && MAX
+
   static TreeNode* GetMin(TreeNode* node);
   static TreeNode* GetMax(TreeNode* node);
-  // RECURSIVE SUPPORT FUNCTIONS
+
   bool RecursiveInsert(TreeNode* node, const Key& key, Value value);
   TreeNode* RecursiveDelete(TreeNode* node, Key key);
   size_t RecursiveSize(TreeNode* node);
