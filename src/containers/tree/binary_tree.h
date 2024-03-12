@@ -5,7 +5,7 @@
 
 template <typename Key, typename Value>
 class BinaryTree {
- protected:
+ private:
   struct TreeNode;
 
  public:
@@ -63,8 +63,9 @@ class BinaryTree {
   void merge(BinaryTree& other);
   bool contains(const Key& key);
 
- protected:
+ private:
   iterator Find(const Key& key);
+
   struct TreeNode {
     TreeNode(Key key, value_type value);
     TreeNode(Key key, value_type value, TreeNode* parent);
