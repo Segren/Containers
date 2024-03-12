@@ -266,8 +266,6 @@ typename BinaryTree<Key, Value>::TreeNode *BinaryTree<Key, Value>::GetMax(
   return GetMax(node->right_);
 }
 
-// RECURSIVE SUPPORT FUNCTIONS
-
 template <typename Key, typename Value>
 size_t BinaryTree<Key, Value>::RecursiveSize(BinaryTree::TreeNode *node) {
   if (node == nullptr) return 0;
@@ -346,6 +344,20 @@ BinaryTree<Key, Value>::RecursiveFind(BinaryTree::TreeNode *node,
   } else {
     return RecursiveFind(node->left_, key);
   }
+}
+
+template <typename Key, typename Value>
+void BinaryTree<Key, Value>::print(TreeNode *node) {
+  if (node != nullptr) {
+    print(node->left_);
+    std::cout << node->key_ << ": " << node->value_ << std::endl;
+    print(node->right_);
+  }
+}
+
+template <typename Key, typename Value>
+void BinaryTree<Key, Value>::print() {
+  print(root_);
 }
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_TREE_BINARY_TREE_TPP_

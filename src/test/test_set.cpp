@@ -565,25 +565,6 @@ TEST(set_begin, case6) {
   EXPECT_EQ(*s21_set.begin(), "hello");
 }
 
-TEST(set_end, case3) {
-  s21::set<std::string> s21_set = {"hello", "hi", "hola-hola", "hola",
-                                   "hello, there"};
-
-  EXPECT_EQ(*s21_set.end(), "hola-hola");
-}
-
-TEST(set_end, case5) {
-  s21::set<double> s21_set = {1.4, 1.4};
-
-  EXPECT_EQ(*s21_set.end(), 1.4);
-}
-
-TEST(set_end, case6) {
-  s21::set<std::string> s21_set = {"hello", "hello", "hello"};
-
-  EXPECT_EQ(*s21_set.end(), "hello");
-}
-
 TEST(set_balance, case1) {
   s21::set<int> s21_set = {1, 15, 5};
 
@@ -594,7 +575,7 @@ TEST(set_balance, case1) {
 TEST(set_balance, case2) {
   s21::set<double> s21_set = {11.4, 2.770001, 3.901};
 
-  EXPECT_EQ(*s21_set.end(), 11.4);
+  EXPECT_EQ(*(--s21_set.end()), 11.4);
   EXPECT_EQ(s21_set.size(), 3U);
 }
 
@@ -602,14 +583,14 @@ TEST(set_balance, case3) {
   s21::set<std::string> s21_set = {"hello", "hi", "hola-hola", "hola",
                                    "hello, there"};
 
-  EXPECT_EQ(*s21_set.end(), "hola-hola");
+  EXPECT_EQ(*(--s21_set.end()), "hola-hola");
   EXPECT_EQ(s21_set.size(), 5U);
 }
 
 TEST(set_balance, case4) {
   s21::set<int> s21_set = {10, 5, 20, 30, 1543};
 
-  EXPECT_EQ(*s21_set.end(), 1543);
+  EXPECT_EQ(*(--s21_set.end()), 1543);
   EXPECT_EQ(*s21_set.begin(), 5);
   EXPECT_EQ(s21_set.size(), 5U);
 }
@@ -617,7 +598,7 @@ TEST(set_balance, case4) {
 TEST(set_balance, case5) {
   s21::set<int> s21_set = {30, 5, 43, 1, 20, 40, 60, 35, 32};
 
-  EXPECT_EQ(*s21_set.end(), 60);
+  EXPECT_EQ(*(--s21_set.end()), 60);
   EXPECT_EQ(*s21_set.begin(), 1);
   EXPECT_EQ(s21_set.size(), 9U);
 }
@@ -632,27 +613,27 @@ TEST(set_erase, case1) {
   it++;
   s21_set.erase(it);
   EXPECT_EQ(*s21_set.begin(), 4);
-  EXPECT_EQ(*s21_set.end(), 18);
+  EXPECT_EQ(*(--s21_set.end()), 18);
   EXPECT_EQ(s21_set.size(), 6U);
 
   it = s21_set.begin();
   s21_set.erase(it);
   EXPECT_EQ(*s21_set.begin(), 5);
-  EXPECT_EQ(*s21_set.end(), 18);
+  EXPECT_EQ(*(--s21_set.end()), 18);
   EXPECT_EQ(s21_set.size(), 5U);
 
   it = s21_set.begin();
   it++;
   s21_set.erase(it);
   EXPECT_EQ(*s21_set.begin(), 5);
-  EXPECT_EQ(*s21_set.end(), 18);
+  EXPECT_EQ(*(--s21_set.end()), 18);
   EXPECT_EQ(s21_set.size(), 4U);
 
   it = s21_set.end();
   it--;
   s21_set.erase(it);
   EXPECT_EQ(*s21_set.begin(), 5);
-  EXPECT_EQ(*s21_set.end(), 16);
+  EXPECT_EQ(*(--s21_set.end()), 16);
   EXPECT_EQ(s21_set.size(), 3U);
 
   it = s21_set.begin();
@@ -824,21 +805,6 @@ TEST(set_empty, case2) {
 
   EXPECT_EQ(s21_set.empty(), 1);
 }
-
-// TEST(set_MaxSize, case1) {
-//   s21::set<double> s21_set;
-//   std::set<double> std_set;
-
-//   EXPECT_EQ(s21_set.max_size(), std_set.max_size());
-// }
-
-// TEST(set_MaxSize, case2) {
-//   s21::set<double> s21_set = {22.2, 44.48, 12.4457, 1.44};
-
-//   std::set<double> std_set = {22.2, 44.48, 12.4457, 1.44};
-
-//   EXPECT_EQ(s21_set.max_size(), std_set.max_size());
-// }
 
 TEST(set_swap, case1) {
   s21::set<double> s21_set_ref = {22.2, 44.48};

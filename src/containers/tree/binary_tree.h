@@ -38,6 +38,8 @@ class BinaryTree {
   void swap(BinaryTree& other);
   void merge(BinaryTree& other);
   bool contains(const Key& key);
+  void print(TreeNode *node);
+  void print();
 
  private:
   struct TreeNode {
