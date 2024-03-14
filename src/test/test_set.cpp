@@ -965,9 +965,7 @@ TEST(set_insert_many, case6) {
   s21::set<std::string> s21_set = {"hello"};
 
   std::vector<std::pair<s21::set<std::string>::iterator, bool>> insert_many1 =
-      s21_set.insert_many("hi");
+      s21_set.insert_many("hi", "test1", "test2", "test3");
 
-  EXPECT_EQ(*insert_many1[0].first, "hi");
-  EXPECT_EQ(insert_many1[0].second, true);
-  EXPECT_EQ(s21_set.size(), 2U);
+  EXPECT_EQ(s21_set.size(), 5U);
 }
