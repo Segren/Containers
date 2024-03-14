@@ -9,12 +9,12 @@ COV_REPORT = report/
 EXEC_T = unit_tests
 
 SRC_T = $(wildcard $(PATH_TO_TESTS)*.cpp)
-OBJ_T = $(patsubst %.cpp, $(PATH_TO_OBJ)%.o, $(SRC_T))
+OBJ_T = $(patsubst %.cpp, $(PATH_TO_OBJ)%.o, $(notdir $(SRC_T)))
 
 OS := $(shell uname -s)
 
 ifeq ($(OS), Darwin)
-	CFLAGS+=$(shell pkg-config --cflags check) 
+	CFLAGS+=$(shell pkg-config --cflags check)
 	LIBS+=$(shell pkg-config --libs check)
 endif
 
@@ -29,7 +29,7 @@ else
 	$(PATH_TO_TESTS)./$(EXEC_T) || true
 endif
 
-$(PATH_TO_OBJ)%.o: %.cpp
+$(PATH_TO_OBJ)%.o: $(PATH_TO_TESTS)%.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
 
 format-check:
@@ -65,7 +65,7 @@ coverage_flag:
 gcov_report: coverage_flag test
 	rm -rf $(PATH_TO_OBJ)$(PATH_TO_TESTS)*.gcno
 	rm -rf $(PATH_TO_OBJ)$(PATH_TO_TESTS)*.gcda
-	gcov -b -l -p -c $(OBJ)
+	gcov -b -l -p -c $(OBJ_T)
 	gcovr -o $(COV_REPORT)gcov_report.html --html --html-details
 	rm -rf *.info && rm -rf *.gcov
 	@if command -v xdg-open > /dev/null; then \
