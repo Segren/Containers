@@ -7,7 +7,7 @@ template <typename Key, typename Value>
 class BinaryTree<Key, Value>::Iterator {
  public:
   Iterator();
-  Iterator(TreeNode* node, TreeNode* past_node = nullptr);
+  Iterator(TreeNode* node, TreeNode* prev_node = nullptr);
   iterator& operator++();
   iterator operator++(int);
   iterator& operator--();
@@ -18,8 +18,8 @@ class BinaryTree<Key, Value>::Iterator {
   bool operator!=(const iterator& it);
 
  protected:
-  TreeNode* iter_node_;
-  TreeNode* iter_past_node_;
+  TreeNode* curr_node_;
+  TreeNode* prev_node_;
   TreeNode* MoveForward(TreeNode* node);
   TreeNode* MoveBack(TreeNode* node);
 };

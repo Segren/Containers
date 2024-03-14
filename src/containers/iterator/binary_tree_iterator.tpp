@@ -5,7 +5,7 @@
 
 template <typename Key, typename Value>
 void BinaryTree<Key, Value>::erase(iterator pos) {
-  if (root_ == nullptr || pos.iter_node_ == nullptr) return;
+  if (root_ == nullptr || pos.curr_node_ == nullptr) return;
   root_ = RecursiveDelete(root_, *pos);
 }
 
@@ -39,23 +39,23 @@ BinaryTree<Key, Value>::Iterator::MoveBack(BinaryTree::TreeNode *node) {
 
 template <typename Key, typename Value>
 BinaryTree<Key, Value>::Iterator::Iterator()
-    : iter_node_(nullptr), iter_past_node_(nullptr) {}
+    : curr_node_(nullptr), prev_node_(nullptr) {}
 
 template <typename Key, typename Value>
 BinaryTree<Key, Value>::Iterator::Iterator(BinaryTree::TreeNode *node,
-                                           BinaryTree::TreeNode *past_node)
-    : iter_node_(node), iter_past_node_(past_node) {}
+                                           BinaryTree::TreeNode *prev_node)
+    : curr_node_(node), prev_node_(prev_node) {}
 
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::Iterator &
 BinaryTree<Key, Value>::Iterator::operator++() {
   TreeNode *tmp;
-  if (iter_node_ != nullptr) {
-    tmp = GetMax(iter_node_);
+  if (curr_node_ != nullptr) {
+    tmp = GetMax(curr_node_);
   }
-  iter_node_ = MoveForward(iter_node_);
-  if (iter_node_ == nullptr) {
-    iter_past_node_ = tmp;
+  curr_node_ = MoveForward(curr_node_);
+  if (curr_node_ == nullptr) {
+    prev_node_ = tmp;
   }
   return *this;
 }
@@ -71,11 +71,11 @@ BinaryTree<Key, Value>::Iterator::operator++(int) {
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::Iterator &
 BinaryTree<Key, Value>::Iterator::operator--() {
-  if (iter_node_ == nullptr && iter_past_node_ != nullptr) {
-    *this = iter_past_node_;
+  if (curr_node_ == nullptr && prev_node_ != nullptr) {
+    *this = prev_node_;
     return *this;
   }
-  iter_node_ = MoveBack(iter_node_);
+  curr_node_ = MoveBack(curr_node_);
   return *this;
 }
 
@@ -89,23 +89,23 @@ BinaryTree<Key, Value>::Iterator::operator--(int) {
 
 template <typename Key, typename Value>
 Value &BinaryTree<Key, Value>::Iterator::operator*() {
-  if (iter_node_ == nullptr) {
-    static Value fake_value{};
-    return fake_value;
+  if (curr_node_ == nullptr) {
+    static Value end_value{};
+    return end_value;
   }
-  return iter_node_->key_;
+  return curr_node_->key_;
 }
 
 template <typename Key, typename Value>
 bool BinaryTree<Key, Value>::Iterator::operator==(
     const BinaryTree::Iterator &it) {
-  return iter_node_ == it.iter_node_;
+  return curr_node_ == it.curr_node_;
 }
 
 template <typename Key, typename Value>
 bool BinaryTree<Key, Value>::Iterator::operator!=(
     const BinaryTree::Iterator &it) {
-  return iter_node_ != it.iter_node_;
+  return curr_node_ != it.curr_node_;
 }
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_BINARY_TREE_ITERATOR_TPP_
