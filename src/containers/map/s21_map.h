@@ -51,9 +51,8 @@ class map : public BinaryTree<Key, T> {
    public:
     friend class map;
     ConstMapIterator() : MapIterator(){};
-    ConstMapIterator(typename BinaryTree<Key, T>::TreeNode *node,
-                     typename BinaryTree<Key, T>::TreeNode *past_node = nullptr)
-        : MapIterator(node, past_node = nullptr){};
+    ConstMapIterator(typename BinaryTree<Key, T>::TreeNode *node)
+        : MapIterator(node, nullptr){};
     const_reference operator*() const { return MapIterator::operator*(); };
   };
 
