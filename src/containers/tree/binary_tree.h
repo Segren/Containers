@@ -6,18 +6,25 @@
 template <typename Key, typename Value>
 class BinaryTree {
  private:
-  struct TreeNode;
+  // struct TreeNode;
 
  public:
-  class Iterator;
-  class ConstIterator;
+  class SetIterator;
+  class MapIterator;
+  class ConstSetIterator;
+  class ConstMapIterator;
+  struct TreeNode;
 
   using key_type = Key;
   using value_type = Value;
   using reference = value_type&;
+  using map_reference = std::pair<const key_type, value_type>&;
   using const_reference = const value_type&;
-  using iterator = Iterator;
-  using const_iterator = ConstIterator;
+  using const_map_reference = map_reference&;
+  using set_iterator = SetIterator;
+  using map_iterator = MapIterator;
+  using const_set_iterator = ConstSetIterator;
+  using const_map_iterator = ConstMapIterator;
   using size_type = size_t;
 
   BinaryTree();
@@ -26,22 +33,25 @@ class BinaryTree {
   ~BinaryTree();
   BinaryTree& operator=(BinaryTree&& other) noexcept;
   BinaryTree& operator=(const BinaryTree& other);
-  iterator begin();
-  iterator end();
-  iterator Find(const Key& key);
+  //  set_iterator begin();
+  //  set_iterator end();
+  set_iterator Find(const Key& key);
+  map_iterator Find_map(const Key& key);
   bool empty();
   size_type size();
   size_type max_size();
   void clear();
-  std::pair<iterator, bool> insert(const Key& key);
-  void erase(iterator pos);
+  std::pair<set_iterator, bool> insert(const Key& key);
+  std::pair<map_iterator, bool> insert(const Key& key, Value value);
+  void erase(set_iterator pos);
+  void erase(map_iterator pos);
   void swap(BinaryTree& other);
-  void merge(BinaryTree& other);
+  // void merge(BinaryTree& other);
   bool contains(const Key& key);
   void print(TreeNode* node);
   void print();
 
- private:
+  // private:
   struct TreeNode {
     TreeNode(Key key, value_type value);
     TreeNode(Key key, value_type value, TreeNode* parent);

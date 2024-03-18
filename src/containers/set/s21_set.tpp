@@ -39,6 +39,33 @@ std::vector<std::pair<typename set<Key>::iterator, bool>> set<Key>::insert_many(
   return vec;
 }
 
+template <typename Key>
+typename BinaryTree<Key, Key>::SetIterator set<Key>::begin() {
+  return typename BinaryTree<Key, Key>::SetIterator(this->GetMin(this->root_));
+}
+
+template <typename Key>
+typename set<Key>::iterator set<Key>::end() {
+  if (BinaryTree<Key, Key>::root_ == nullptr) return begin();
+
+  auto *last_node = BinaryTree<Key, Key>::GetMax(BinaryTree<Key, Key>::root_);
+  iterator last(nullptr, last_node);
+  return last;
+}
+
+template <typename Key>
+void set<Key>::merge(BinaryTree<Key, Key> &other) {
+  BinaryTree const_tree(other);
+  iterator it(BinaryTree<Key, Key>::GetMin(const_tree.root_));
+  auto *last_node = BinaryTree<Key, Key>::GetMax(const_tree.root_);
+  iterator end(nullptr, last_node);
+
+  for (; it != end; ++it) {
+    std::pair<set<Key>::iterator, bool> pr = BinaryTree<Key, Key>::insert(*it);
+    if (pr.second) other.erase(pr.first);
+  }
+}
+
 }  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_SET_S21_SET_TPP_
