@@ -26,17 +26,91 @@ namespace s21 {
     }
 
     template <typename value_type>
+    list<value_type>::list(std::initializer_list<value_type> const &items) :
+        head_(nullptr), tail_(nullptr), end_(nullptr), size_(0){
+            end_= new Node(size_);
+            for (const auto& item : items){
+                push_back(item);
+                change_end();
+            }
+        }
+        
+    template <typename value_type>
+    list<value_type>::list(const list &l){
+        : head_(nullptr), tail_(nullptr), end_(nullptr), size_(0){
+            end_= new Node(size_);
+            this->copy(1);
+        }
+    }
+
+    template <typename value_type>
+    list<value_type>::list(list &&l){
+        : head_(nullptr), tail_(nullptr), end_(nullptr), size_(0){
+            swap(1);
+        }
+    }
+
+    template <typename value_type>
+    list<value_type>::~list(){
+        clear();
+        delete(end_);
+    }
+
+    template <typename value_type>
+    typename list<value_type>::list& list<value_type>operator=(list &&l){
+        if (this != &l){
+            clear();
+            swap(1);
+        }
+        return *this;
+    }
+
+    template <typename value_type>
     bool list<value_type>::empty() {
         return size_==0;     
     }
 
     template <typename value_type>
-    size_type list<value_type>::size(){
-        
+    typename list<value_type>::size_type list<value_type>::size(){
+        return size_;
     }
 
     template <typename value_type>
-    list<value_type>::size_type max_size(){}
+    typename list<value_type>::size_type list<value_type>::max_size(){
+        return (std::numeric_limits<size_type>::max()/sizeof(Node)/2);
+    }
+
+    // List Element access
+    template <typename value_type>
+    typename list <value_type>::const_reference list<value_type>::front(){
+        return !head_ ? end_->value_ : head_->value_;
+    } 
+
+    template <typename value_type>
+    typename list <value_type>::const_reference list<value_type>::back(){
+        return !tail_ ? end_->value_ : tail_->value_;
+    }
+
+    // ITERATORS
+    template <typename value_type>
+    typename list <value_type>::iterator list<value_type>::begin(){
+        return !head_ ? iterator(end_) : iterator(head_);
+    }
+
+    template <typename value_type>
+    typename list<value_type>::iterator list<value_type>::end(){
+        return iterator(end_);
+    }
+
+    template <typename value_type>
+    typename list <value_type>::const_iterator list<value_type>::begin(){
+        return !head_ ? iterator(end_) : iterator(head_);
+    }
+
+    template <typename value_type>
+    typename list<value_type>::const_iterator list <value_type>::end(){
+        return const_iterator(end_);
+    }
 
 
     template <typename value_type>
