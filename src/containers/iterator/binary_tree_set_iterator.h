@@ -20,8 +20,8 @@ class BinaryTree<Key, Value>::SetIterator {
 
   TreeNode* curr_node_;
   TreeNode* prev_node_;
-  TreeNode* MoveForward(TreeNode* node);
-  TreeNode* MoveBack(TreeNode* node);
+  TreeNode* MoveToNext(TreeNode* node);
+  TreeNode* MoveToPrev(TreeNode* node);
 };
 
 template <typename key_type, typename value_type>

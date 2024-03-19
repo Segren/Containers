@@ -5,7 +5,7 @@
 
 template <typename Key, typename T>
 typename BinaryTree<Key, T>::TreeNode *
-BinaryTree<Key, T>::MapIterator::MoveForward(BinaryTree::TreeNode *node) {
+BinaryTree<Key, T>::MapIterator::MoveToNext(TreeNode *node) {
   if (node->right_ != nullptr) {
     return GetMinNode(node->right_);
   }
@@ -19,7 +19,7 @@ BinaryTree<Key, T>::MapIterator::MoveForward(BinaryTree::TreeNode *node) {
 
 template <typename Key, typename T>
 typename BinaryTree<Key, T>::TreeNode *
-BinaryTree<Key, T>::MapIterator::MoveBack(BinaryTree::TreeNode *node) {
+BinaryTree<Key, T>::MapIterator::MoveToBack(TreeNode *node) {
   if (node->left_ != nullptr) {
     return GetMaxNode(node->left_);
   }
@@ -47,7 +47,7 @@ BinaryTree<Key, T>::MapIterator::operator++() {
   if (curr_node_ != nullptr) {
     tmp = GetMaxNode(curr_node_);
   }
-  curr_node_ = MoveForward(curr_node_);
+  curr_node_ = MoveToNext(curr_node_);
   if (curr_node_ == nullptr) {
     prev_node_ = tmp;
   }
@@ -69,7 +69,7 @@ BinaryTree<Key, T>::MapIterator::operator--() {
     *this = prev_node_;
     return *this;
   }
-  curr_node_ = MoveBack(curr_node_);
+  curr_node_ = MoveToBack(curr_node_);
   return *this;
 }
 
@@ -103,20 +103,20 @@ bool BinaryTree<Key, T>::MapIterator::operator!=(
 
 template <typename Key, typename T>
 T &BinaryTree<Key, T>::MapIterator::return_value() {
-  if (BinaryTree<Key, T>::MapIterator::curr_node_ == nullptr) {
+  if (this->curr_node_ == nullptr) {
     static T end_value{};
     return end_value;
   }
-  return BinaryTree<Key, T>::MapIterator::curr_node_->value_;
+  return this->curr_node_->value_;
 }
 
 template <typename Key, typename T>
 Key &BinaryTree<Key, T>::MapIterator::return_key() {
-  if (BinaryTree<Key, T>::MapIterator::curr_node_ == nullptr) {
+  if (this->curr_node_ == nullptr) {
     static Key end_key{};
     return end_key;
   }
-  return BinaryTree<Key, T>::MapIterator::curr_node_->key_;
+  return this->curr_node_->key_;
 }
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_BINARY_TREE_MAP_ITERATOR_TPP_

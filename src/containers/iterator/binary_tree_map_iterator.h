@@ -22,8 +22,8 @@ class BinaryTree<Key, Value>::MapIterator {
 
   TreeNode* curr_node_;
   TreeNode* prev_node_;
-  TreeNode* MoveForward(TreeNode* node);
-  TreeNode* MoveBack(TreeNode* node);
+  TreeNode* MoveToNext(TreeNode* node);
+  TreeNode* MoveToBack(TreeNode* node);
 };
 
 template <typename key_type, typename value_type>

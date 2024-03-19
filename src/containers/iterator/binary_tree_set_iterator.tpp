@@ -5,7 +5,7 @@
 
 template <typename Key, typename T>
 typename BinaryTree<Key, T>::TreeNode *
-BinaryTree<Key, T>::SetIterator::MoveForward(BinaryTree::TreeNode *node) {
+BinaryTree<Key, T>::SetIterator::MoveToNext(TreeNode *node) {
   if (node->right_ != nullptr) {
     return GetMinNode(node->right_);
   }
@@ -19,7 +19,7 @@ BinaryTree<Key, T>::SetIterator::MoveForward(BinaryTree::TreeNode *node) {
 
 template <typename Key, typename T>
 typename BinaryTree<Key, T>::TreeNode *
-BinaryTree<Key, T>::SetIterator::MoveBack(BinaryTree::TreeNode *node) {
+BinaryTree<Key, T>::SetIterator::MoveToPrev(TreeNode *node) {
   if (node->left_ != nullptr) {
     return GetMaxNode(node->left_);
   }
@@ -47,7 +47,7 @@ BinaryTree<Key, T>::SetIterator::operator++() {
   if (curr_node_ != nullptr) {
     tmp = GetMaxNode(curr_node_);
   }
-  curr_node_ = MoveForward(curr_node_);
+  curr_node_ = MoveToNext(curr_node_);
   if (curr_node_ == nullptr) {
     prev_node_ = tmp;
   }
@@ -69,7 +69,7 @@ BinaryTree<Key, T>::SetIterator::operator--() {
     *this = prev_node_;
     return *this;
   }
-  curr_node_ = MoveBack(curr_node_);
+  curr_node_ = MoveToPrev(curr_node_);
   return *this;
 }
 
