@@ -38,9 +38,14 @@ class map : public BinaryTree<Key, T> {
   iterator end();
 
   // Capacity
-  bool empty();
+  bool empty() { return BinaryTree<key_type, mapped_type>::Empty(); }
+  size_type size() { return BinaryTree<key_type, mapped_type>::Size(); };
+  size_type max_size() {
+    return BinaryTree<key_type, mapped_type>::GetMaxSize();
+  }
 
   // Modifiers
+  void clear() { BinaryTree<key_type, mapped_type>::Clear(); }
   void merge(map &other);
   std::pair<iterator, bool> insert_or_assign(const key_type &key,
                                              const mapped_type &obj);

@@ -33,9 +33,12 @@ class set : public BinaryTree<Key, Key> {
   iterator end();
 
   // Capacity
-  bool empty();
+  bool empty() { return BinaryTree<key_type, key_type>::Empty(); }
+  size_type size() { return BinaryTree<key_type, key_type>::Size(); };
+  size_type max_size() { return BinaryTree<key_type, key_type>::GetMaxSize(); }
 
   // Modifiers
+  void clear() { BinaryTree<key_type, key_type>::Clear(); }
   void merge(BinaryTree<key_type, key_type> &other);
   template <class... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);

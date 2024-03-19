@@ -19,7 +19,7 @@ BinaryTree<Key, T>::BinaryTree(BinaryTree &&other) noexcept {
 
 template <typename Key, typename T>
 BinaryTree<Key, T>::~BinaryTree() {
-  clear();
+  Clear();
 }
 
 template <typename Key, typename T>
@@ -42,20 +42,25 @@ BinaryTree<Key, T> &BinaryTree<Key, T>::operator=(const BinaryTree &other) {
 }
 
 template <typename Key, typename T>
-size_t BinaryTree<Key, T>::size() {
-  return GetSize(root_);
-}
-
-template <typename Key, typename T>
-size_t BinaryTree<Key, T>::max_size() {
+size_t BinaryTree<Key, T>::GetMaxSize() {
   return std::numeric_limits<size_type>::max() /
          sizeof(typename BinaryTree<Key, T>::TreeNode);
 }
 
 template <typename Key, typename T>
-void BinaryTree<Key, T>::clear() {
+void BinaryTree<Key, T>::Clear() {
   if (root_ != nullptr) FreeNode(root_);
   root_ = nullptr;
+}
+
+template <typename Key, typename T>
+bool BinaryTree<Key, T>::Empty() {
+  return root_ == nullptr;
+}
+
+template <typename Key, typename T>
+size_t BinaryTree<Key, T>::Size() {
+  return GetSize(root_);
 }
 
 template <typename Key, typename T>

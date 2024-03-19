@@ -32,9 +32,12 @@ class BinaryTree {
   BinaryTree& operator=(const BinaryTree& other);
   set_iterator FindInSet(const key_type& key);
   map_iterator FindInMap(const key_type& key);
-  size_type size();
-  size_type max_size();
-  void clear();
+  size_type GetMaxSize();
+
+  void Clear();
+  bool Empty();
+  size_type Size();
+
   std::pair<set_iterator, bool> insert(const key_type& key);
   std::pair<map_iterator, bool> insert(const key_type& key, value_type value);
   std::pair<map_iterator, bool> insert(std::pair<const key_type&, value_type>);

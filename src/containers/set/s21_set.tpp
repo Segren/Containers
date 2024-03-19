@@ -68,11 +68,6 @@ void set<Key>::merge(BinaryTree<Key, Key> &other) {
   }
 }
 
-template <typename Key>
-bool set<Key>::empty() {
-  return this->root_ == nullptr;
-}
-
 }  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_SET_S21_SET_TPP_
