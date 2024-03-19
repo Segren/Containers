@@ -3,15 +3,15 @@
 
 #include "binary_tree_set_iterator.h"
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::erase(set_iterator pos) {
+template <typename Key, typename T>
+void BinaryTree<Key, T>::erase(set_iterator pos) {
   if (root_ == nullptr || pos.curr_node_ == nullptr) return;
   root_ = RecursiveDelete(root_, *pos);
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *
-BinaryTree<Key, Value>::SetIterator::MoveForward(BinaryTree::TreeNode *node) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::TreeNode *
+BinaryTree<Key, T>::SetIterator::MoveForward(BinaryTree::TreeNode *node) {
   if (node->right_ != nullptr) {
     return GetMinNode(node->right_);
   }
@@ -23,9 +23,9 @@ BinaryTree<Key, Value>::SetIterator::MoveForward(BinaryTree::TreeNode *node) {
   return parent;
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *
-BinaryTree<Key, Value>::SetIterator::MoveBack(BinaryTree::TreeNode *node) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::TreeNode *
+BinaryTree<Key, T>::SetIterator::MoveBack(BinaryTree::TreeNode *node) {
   if (node->left_ != nullptr) {
     return GetMaxNode(node->left_);
   }
@@ -37,18 +37,18 @@ BinaryTree<Key, Value>::SetIterator::MoveBack(BinaryTree::TreeNode *node) {
   return parent;
 }
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value>::SetIterator::SetIterator()
+template <typename Key, typename T>
+BinaryTree<Key, T>::SetIterator::SetIterator()
     : curr_node_(nullptr), prev_node_(nullptr) {}
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value>::SetIterator::SetIterator(
-    BinaryTree::TreeNode *node, BinaryTree::TreeNode *prev_node)
+template <typename Key, typename T>
+BinaryTree<Key, T>::SetIterator::SetIterator(BinaryTree::TreeNode *node,
+                                             BinaryTree::TreeNode *prev_node)
     : curr_node_(node), prev_node_(prev_node) {}
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::SetIterator &
-BinaryTree<Key, Value>::SetIterator::operator++() {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::SetIterator &
+BinaryTree<Key, T>::SetIterator::operator++() {
   TreeNode *tmp;
   if (curr_node_ != nullptr) {
     tmp = GetMaxNode(curr_node_);
@@ -60,17 +60,17 @@ BinaryTree<Key, Value>::SetIterator::operator++() {
   return *this;
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::SetIterator
-BinaryTree<Key, Value>::SetIterator::operator++(int) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::SetIterator
+BinaryTree<Key, T>::SetIterator::operator++(int) {
   SetIterator temp = *this;
   operator++();
   return temp;
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::SetIterator &
-BinaryTree<Key, Value>::SetIterator::operator--() {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::SetIterator &
+BinaryTree<Key, T>::SetIterator::operator--() {
   if (curr_node_ == nullptr && prev_node_ != nullptr) {
     *this = prev_node_;
     return *this;
@@ -79,31 +79,31 @@ BinaryTree<Key, Value>::SetIterator::operator--() {
   return *this;
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::SetIterator
-BinaryTree<Key, Value>::SetIterator::operator--(int) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::SetIterator
+BinaryTree<Key, T>::SetIterator::operator--(int) {
   SetIterator temp = *this;
   operator--();
   return temp;
 }
 
-template <typename Key, typename Value>
-Value &BinaryTree<Key, Value>::SetIterator::operator*() {
+template <typename Key, typename T>
+T &BinaryTree<Key, T>::SetIterator::operator*() {
   if (curr_node_ == nullptr) {
-    static Value end_value{};
+    static T end_value{};
     return end_value;
   }
   return curr_node_->key_;
 }
 
-template <typename Key, typename Value>
-bool BinaryTree<Key, Value>::SetIterator::operator==(
+template <typename Key, typename T>
+bool BinaryTree<Key, T>::SetIterator::operator==(
     const BinaryTree::SetIterator &it) {
   return curr_node_ == it.curr_node_;
 }
 
-template <typename Key, typename Value>
-bool BinaryTree<Key, Value>::SetIterator::operator!=(
+template <typename Key, typename T>
+bool BinaryTree<Key, T>::SetIterator::operator!=(
     const BinaryTree::SetIterator &it) {
   return curr_node_ != it.curr_node_;
 }

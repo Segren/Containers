@@ -16,7 +16,7 @@ class BinaryTree<Key, Value>::SetIterator {
   bool operator==(const set_iterator& it);
   bool operator!=(const set_iterator& it);
 
-  friend class BinaryTree<Key, Value>;
+  friend class BinaryTree<key_type, value_type>;
 
  protected:
   TreeNode* curr_node_;
@@ -25,8 +25,8 @@ class BinaryTree<Key, Value>::SetIterator {
   TreeNode* MoveBack(TreeNode* node);
 };
 
-template <typename Key, typename Value>
-class BinaryTree<Key, Value>::ConstSetIterator : public SetIterator {
+template <typename key_type, typename value_type>
+class BinaryTree<key_type, value_type>::ConstSetIterator : public SetIterator {
  public:
   ConstSetIterator() : SetIterator(){};
   const_reference operator*() const { return SetIterator::operator*(); };

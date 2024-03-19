@@ -15,10 +15,10 @@ class BinaryTree<Key, Value>::MapIterator {
   std::pair<const key_type, value_type> operator*();
   bool operator==(const map_iterator& it);
   bool operator!=(const map_iterator& it);
-  Value& return_value();
-  Key& return_key();
+  value_type& return_value();
+  key_type& return_key();
 
-  friend class BinaryTree<Key, Value>;
+  friend class BinaryTree<key_type, value_type>;
 
  protected:
   TreeNode* curr_node_;
@@ -27,8 +27,8 @@ class BinaryTree<Key, Value>::MapIterator {
   TreeNode* MoveBack(TreeNode* node);
 };
 
-template <typename Key, typename Value>
-class BinaryTree<Key, Value>::ConstMapIterator : public MapIterator {
+template <typename key_type, typename value_type>
+class BinaryTree<key_type, value_type>::ConstMapIterator : public MapIterator {
  public:
   ConstMapIterator() : MapIterator(){};
   const_map_reference operator*() const { return MapIterator::operator*(); };

@@ -10,9 +10,9 @@ void BinaryTree<Key, T>::erase(map_iterator pos) {
       BinaryTree<Key, T>::root_, pos.return_key());
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *
-BinaryTree<Key, Value>::MapIterator::MoveForward(BinaryTree::TreeNode *node) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::TreeNode *
+BinaryTree<Key, T>::MapIterator::MoveForward(BinaryTree::TreeNode *node) {
   if (node->right_ != nullptr) {
     return GetMinNode(node->right_);
   }
@@ -24,9 +24,9 @@ BinaryTree<Key, Value>::MapIterator::MoveForward(BinaryTree::TreeNode *node) {
   return parent;
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *
-BinaryTree<Key, Value>::MapIterator::MoveBack(BinaryTree::TreeNode *node) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::TreeNode *
+BinaryTree<Key, T>::MapIterator::MoveBack(BinaryTree::TreeNode *node) {
   if (node->left_ != nullptr) {
     return GetMaxNode(node->left_);
   }
@@ -38,18 +38,18 @@ BinaryTree<Key, Value>::MapIterator::MoveBack(BinaryTree::TreeNode *node) {
   return parent;
 }
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value>::MapIterator::MapIterator()
+template <typename Key, typename T>
+BinaryTree<Key, T>::MapIterator::MapIterator()
     : curr_node_(nullptr), prev_node_(nullptr) {}
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value>::MapIterator::MapIterator(
-    BinaryTree::TreeNode *node, BinaryTree::TreeNode *prev_node)
+template <typename Key, typename T>
+BinaryTree<Key, T>::MapIterator::MapIterator(BinaryTree::TreeNode *node,
+                                             BinaryTree::TreeNode *prev_node)
     : curr_node_(node), prev_node_(prev_node) {}
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::MapIterator &
-BinaryTree<Key, Value>::MapIterator::operator++() {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::MapIterator &
+BinaryTree<Key, T>::MapIterator::operator++() {
   TreeNode *tmp;
   if (curr_node_ != nullptr) {
     tmp = GetMaxNode(curr_node_);
@@ -61,17 +61,17 @@ BinaryTree<Key, Value>::MapIterator::operator++() {
   return *this;
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::MapIterator
-BinaryTree<Key, Value>::MapIterator::operator++(int) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::MapIterator
+BinaryTree<Key, T>::MapIterator::operator++(int) {
   SetIterator temp = *this;
   operator++();
   return temp;
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::MapIterator &
-BinaryTree<Key, Value>::MapIterator::operator--() {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::MapIterator &
+BinaryTree<Key, T>::MapIterator::operator--() {
   if (curr_node_ == nullptr && prev_node_ != nullptr) {
     *this = prev_node_;
     return *this;
@@ -80,30 +80,30 @@ BinaryTree<Key, Value>::MapIterator::operator--() {
   return *this;
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::MapIterator
-BinaryTree<Key, Value>::MapIterator::operator--(int) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::MapIterator
+BinaryTree<Key, T>::MapIterator::operator--(int) {
   SetIterator temp = *this;
   operator--();
   return temp;
 }
 
-template <typename Key, typename Value>
-std::pair<const Key, Value> BinaryTree<Key, Value>::MapIterator::operator*() {
+template <typename Key, typename T>
+std::pair<const Key, T> BinaryTree<Key, T>::MapIterator::operator*() {
   if (curr_node_ == nullptr) {
-    return std::make_pair(Key(), Value());
+    return std::make_pair(Key(), T());
   }
   return std::make_pair(curr_node_->key_, curr_node_->value_);
 }
 
-template <typename Key, typename Value>
-bool BinaryTree<Key, Value>::MapIterator::operator==(
+template <typename Key, typename T>
+bool BinaryTree<Key, T>::MapIterator::operator==(
     const BinaryTree::MapIterator &it) {
   return curr_node_ == it.curr_node_;
 }
 
-template <typename Key, typename Value>
-bool BinaryTree<Key, Value>::MapIterator::operator!=(
+template <typename Key, typename T>
+bool BinaryTree<Key, T>::MapIterator::operator!=(
     const BinaryTree::MapIterator &it) {
   return curr_node_ != it.curr_node_;
 }
