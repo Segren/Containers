@@ -41,7 +41,7 @@ class BinaryTree {
   std::pair<set_iterator, bool> insert(const key_type& key);
   std::pair<map_iterator, bool> insert(const key_type& key, value_type value);
   std::pair<map_iterator, bool> insert(std::pair<const key_type&, value_type>);
-  void swap(BinaryTree& other);
+  void Swap(BinaryTree& other);
   bool contains(const key_type& key);
 
   struct TreeNode {

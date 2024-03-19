@@ -112,7 +112,7 @@ BinaryTree<Key, T>::insert(std::pair<const Key &, T> pair) {
 }
 
 template <typename Key, typename T>
-void BinaryTree<Key, T>::swap(BinaryTree &other) {
+void BinaryTree<Key, T>::Swap(BinaryTree &other) {
   std::swap(root_, other.root_);
 }
 

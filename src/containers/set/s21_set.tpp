@@ -64,7 +64,7 @@ void set<Key>::erase(iterator pos) {
 }
 
 template <typename Key>
-void set<Key>::merge(set& other) {
+void set<Key>::merge(set &other) {
   BinaryTree const_tree(other);
   iterator it(BinaryTree<Key, Key>::GetMinNode(const_tree.root_));
   auto *last_node = BinaryTree<Key, Key>::GetMaxNode(const_tree.root_);
