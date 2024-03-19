@@ -47,10 +47,9 @@ typename BinaryTree<Key, Key>::SetIterator set<Key>::begin() {
 
 template <typename Key>
 typename set<Key>::iterator set<Key>::end() {
-  if (BinaryTree<Key, Key>::root_ == nullptr) return begin();
+  if (this->root_ == nullptr) return begin();
 
-  auto *last_node =
-      BinaryTree<Key, Key>::GetMaxNode(BinaryTree<Key, Key>::root_);
+  auto *last_node = this->GetMaxNode(this->root_);
   iterator last(nullptr, last_node);
   return last;
 }
@@ -59,15 +58,13 @@ template <typename Key>
 std::pair<typename BinaryTree<Key, Key>::SetIterator, bool> set<Key>::insert(
     const Key &key) {
   std::pair<iterator, bool> return_value;
-  if (BinaryTree<Key, Key>::root_ == nullptr) {
-    BinaryTree<Key, Key>::root_ =
-        new typename BinaryTree<Key, Key>::TreeNode(key, key);
-    return_value.first = iterator(BinaryTree<Key, Key>::root_);
+  if (this->root_ == nullptr) {
+    this->root_ = new typename BinaryTree<Key, Key>::TreeNode(key, key);
+    return_value.first = iterator(this->root_);
     return_value.second = true;
   } else {
-    bool check_insert = BinaryTree<Key, Key>::RecursiveInsert(
-        BinaryTree<Key, Key>::root_, key, key);
-    return_value.first = BinaryTree<Key, Key>::FindInSet(key);
+    bool check_insert = this->RecursiveInsert(this->root_, key, key);
+    return_value.first = this->FindInSet(key);
     return_value.second = check_insert;
   }
   return return_value;
@@ -75,17 +72,15 @@ std::pair<typename BinaryTree<Key, Key>::SetIterator, bool> set<Key>::insert(
 
 template <typename Key>
 void set<Key>::erase(iterator pos) {
-  if (BinaryTree<Key, Key>::root_ == nullptr || pos.curr_node_ == nullptr)
-    return;
-  BinaryTree<Key, Key>::root_ =
-      BinaryTree<Key, Key>::RecursiveDelete(BinaryTree<Key, Key>::root_, *pos);
+  if (this->root_ == nullptr || pos.curr_node_ == nullptr) return;
+  this->root_ = this->RecursiveDelete(this->root_, *pos);
 }
 
 template <typename Key>
 void set<Key>::merge(set &other) {
   BinaryTree const_tree(other);
-  iterator it(BinaryTree<Key, Key>::GetMinNode(const_tree.root_));
-  auto *last_node = BinaryTree<Key, Key>::GetMaxNode(const_tree.root_);
+  iterator it(this->GetMinNode(const_tree.root_));
+  auto *last_node = this->GetMaxNode(const_tree.root_);
   iterator end(nullptr, last_node);
 
   for (; it != end; ++it) {

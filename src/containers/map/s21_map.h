@@ -38,18 +38,16 @@ class map : public BinaryTree<Key, T> {
   iterator end();
 
   // Capacity
-  bool empty() { return BinaryTree<key_type, mapped_type>::Empty(); }
-  size_type size() { return BinaryTree<key_type, mapped_type>::Size(); };
-  size_type max_size() {
-    return BinaryTree<key_type, mapped_type>::GetMaxSize();
-  }
+  bool empty() { return this->Empty(); }
+  size_type size() { return this->Size(); };
+  size_type max_size() { return this->GetMaxSize(); }
 
   // Modifiers
   void clear() { BinaryTree<key_type, mapped_type>::Clear(); }
   std::pair<iterator, bool> insert(const key_type &key, mapped_type value);
   std::pair<iterator, bool> insert(std::pair<const key_type &, mapped_type>);
   void erase(iterator pos);
-  void swap(map &other) { BinaryTree<key_type, mapped_type>::Swap(other); };
+  void swap(map &other) { this->Swap(other); };
   void merge(map &other);
   std::pair<iterator, bool> insert_or_assign(const key_type &key,
                                              const mapped_type &obj);
@@ -57,9 +55,7 @@ class map : public BinaryTree<Key, T> {
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);
 
   // Lookup
-  bool contains(const Key &key) {
-    return BinaryTree<key_type, mapped_type>::Contains(key);
-  }
+  bool contains(const Key &key) { return this->Contains(key); }
 };
 
 }  // namespace s21

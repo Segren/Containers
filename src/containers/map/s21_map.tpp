@@ -32,7 +32,7 @@ map<Key, T> &map<Key, T>::operator=(const map &m) {
 template <typename Key, typename T>
 std::pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert_or_assign(
     const Key &key, const T &obj) {
-  auto it = BinaryTree<Key, T>::FindInMap(key);
+  auto it = this->FindInMap(key);
   if (it != this->end()) {
     erase(it);
     auto pr = insert(key, obj);
@@ -55,7 +55,7 @@ map<Key, T>::insert_many(Args &&...args) {
 
 template <typename Key, typename T>
 T &map<Key, T>::at(const Key &key) {
-  iterator it = BinaryTree<Key, T>::FindInMap(key);
+  iterator it = this->FindInMap(key);
   if (it == nullptr)
     throw std::out_of_range(
         "Container does not have an element with the specified key");
@@ -64,7 +64,7 @@ T &map<Key, T>::at(const Key &key) {
 
 template <typename Key, typename T>
 T &map<Key, T>::operator[](const Key &key) {
-  iterator it = BinaryTree<Key, T>::FindInMap(key);
+  iterator it = this->FindInMap(key);
   if (it == nullptr) {
     it = insert({key, T()}).first;
   }
@@ -79,9 +79,9 @@ typename map<Key, T>::iterator map<Key, T>::begin() {
 
 template <typename Key, typename T>
 typename map<Key, T>::iterator map<Key, T>::end() {
-  if (BinaryTree<Key, T>::root_ == nullptr) return begin();
+  if (this->root_ == nullptr) return begin();
 
-  auto *last_node = BinaryTree<Key, T>::GetMaxNode(BinaryTree<Key, T>::root_);
+  auto *last_node = this->GetMaxNode(this->root_);
   iterator last(nullptr, last_node);
   return last;
 }
@@ -122,9 +122,10 @@ std::pair<typename BinaryTree<Key, T>::MapIterator, bool> map<Key, T>::insert(
 
 template <typename Key, typename T>
 void map<Key, T>::erase(iterator pos) {
-  if (BinaryTree<Key, T>::root_ == nullptr || pos.curr_node_ == nullptr) return;
-  BinaryTree<Key, T>::root_ = BinaryTree<Key, T>::RecursiveDelete(
-      BinaryTree<Key, T>::root_, pos.return_key());
+  if (this->root_ == nullptr || pos.curr_node_ == nullptr) {
+    return;
+  }
+  this->root_ = this->RecursiveDelete(this->root_, pos.return_key());
 }
 
 template <typename Key, typename T>
@@ -135,7 +136,9 @@ void map<Key, T>::merge(map &other) {
     auto key = const_it.return_key();
     auto obj = const_it.return_value();
     std::pair<iterator, bool> pr = insert(key, obj);
-    if (pr.second) other.erase(pr.first);
+    if (pr.second) {
+      other.erase(pr.first);
+    }
   }
 }
 

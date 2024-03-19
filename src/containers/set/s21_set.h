@@ -33,26 +33,22 @@ class set : public BinaryTree<Key, Key> {
   iterator end();
 
   // Capacity
-  bool empty() { return BinaryTree<key_type, key_type>::Empty(); }
-  size_type size() { return BinaryTree<key_type, key_type>::Size(); };
-  size_type max_size() { return BinaryTree<key_type, key_type>::GetMaxSize(); }
+  bool empty() { return this->Empty(); }
+  size_type size() { return this->Size(); };
+  size_type max_size() { return this->GetMaxSize(); }
 
   // Modifiers
   void clear() { BinaryTree<key_type, key_type>::Clear(); }
   std::pair<iterator, bool> insert(const key_type &key);
   void erase(iterator pos);
-  void swap(set &other) { BinaryTree<key_type, key_type>::Swap(other); }
+  void swap(set &other) { this->Swap(other); }
   void merge(set &other);
   template <class... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);
 
   // Lookup
-  iterator find(const key_type &key) {
-    return BinaryTree<key_type, key_type>::FindInSet(key);
-  };
-  bool contains(const Key &key) {
-    return BinaryTree<key_type, key_type>::Contains(key);
-  }
+  iterator find(const key_type &key) { return this->FindInSet(key); };
+  bool contains(const Key &key) { return this->Contains(key); }
 };
 
 }  // namespace s21
