@@ -29,52 +29,6 @@ map<Key, T> &map<Key, T>::operator=(const map &other) {
   return *this;
 }
 
-// template <typename Key, typename T>
-// std::pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert(
-//     const value_type &value) {
-//   return insert(value.first, value.second);
-// }
-
-// template <typename Key, typename T>
-// std::pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert(
-//     const Key &key, const T &obj) {
-//   std::pair<iterator, bool> return_value;
-//   if (BinaryTree<Key, T>::root_ == nullptr) {
-//     BinaryTree<Key, T>::root_ =
-//         new typename BinaryTree<Key, T>::TreeNode(key, obj);
-//     return_value.first = iterator(BinaryTree<Key, T>::root_);
-//     return_value.second = true;
-//   } else {
-//     bool check_insert = BinaryTree<Key, T>::RecursiveInsert(
-//         BinaryTree<Key, T>::root_, key, obj);
-//     return_value.first = find(key);
-//     return_value.second = check_insert;
-//   }
-//   return return_value;
-// }
-
-// template <typename Key, typename T>
-// typename map<Key, T>::value_type &map<Key, T>::MapIterator::operator*() {
-//   if (BinaryTree<Key, T>::SetIterator::curr_node_ == nullptr) {
-//     static value_type end_value{};
-//     return end_value;
-//   }
-//   std::pair<const key_type, mapped_type> pr =
-//       std::make_pair(BinaryTree<Key, T>::SetIterator::curr_node_->key_,
-//                      BinaryTree<Key, T>::SetIterator::curr_node_->value_);
-//   std::pair<const key_type, mapped_type> &ref = pr;
-//   return ref;
-// }
-//
-// template <typename Key, typename T>
-// T &map<Key, T>::set_iterator::return_value() {
-//   if (BinaryTree<Key, T>::MapIterator::curr_node_ == nullptr) {
-//     static T end_value{};
-//     return end_value;
-//   }
-//   return BinaryTree<Key, T>::MapIterator::curr_node_->value_;
-// }
-
 template <typename Key, typename T>
 std::pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert_or_assign(
     const Key &key, const T &obj) {
