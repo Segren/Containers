@@ -15,6 +15,7 @@ class BinaryTree<Key, Value>::MapIterator {
   map_reference operator*();
   bool operator==(const map_iterator& it);
   bool operator!=(const map_iterator& it);
+  Value& return_value();
 
   friend class BinaryTree<Key, Value>;
 

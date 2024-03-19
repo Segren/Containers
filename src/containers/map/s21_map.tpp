@@ -101,7 +101,7 @@ map<Key, T>::insert_many(Args &&...args) {
 
 template <typename Key, typename T>
 T &map<Key, T>::at(const Key &key) {
-  auto it = find(key);
+  iterator it = BinaryTree<Key, T>::Find_map(key);
   if (it == nullptr)
     throw std::out_of_range(
         "Container does not have an element with the specified key");
@@ -110,10 +110,9 @@ T &map<Key, T>::at(const Key &key) {
 
 template <typename Key, typename T>
 T &map<Key, T>::operator[](const Key &key) {
-  auto it = find(key);
+  iterator it = BinaryTree<Key, T>::Find_map(key);
   if (it == nullptr) {
-    auto pr = insert(std::make_pair(key, T()));
-    it = pr.first;
+    it = BinaryTree<Key, T>::insert(key, T()).first;
   }
   return it.return_value();
 }

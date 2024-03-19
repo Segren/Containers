@@ -111,4 +111,13 @@ bool BinaryTree<Key, Value>::MapIterator::operator!=(
   return curr_node_ != it.curr_node_;
 }
 
+template <typename Key, typename T>
+T &BinaryTree<Key, T>::MapIterator::return_value() {
+  if (BinaryTree<Key, T>::MapIterator::curr_node_ == nullptr) {
+    static T end_value{};
+    return end_value;
+  }
+  return BinaryTree<Key, T>::MapIterator::curr_node_->value_;
+}
+
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_BINARY_TREE_MAP_ITERATOR_TPP_
