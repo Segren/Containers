@@ -94,7 +94,7 @@ std::vector<std::pair<typename map<Key, T>::iterator, bool>>
 map<Key, T>::insert_many(Args &&...args) {
   std::vector<std::pair<typename map<Key, T>::iterator, bool>> vec;
   for (const auto &arg : {args...}) {
-    vec.push_back(insert(arg));
+    vec.push_back(BinaryTree<Key, T>::insert(arg));
   }
   return vec;
 }
@@ -130,20 +130,6 @@ typename map<Key, T>::iterator map<Key, T>::end() {
   iterator last(nullptr, last_node);
   return last;
 }
-//
-// template <typename Key, typename T>
-// typename map<Key, T>::const_set_iterator map<Key, T>::cbegin() const {
-//   return map<Key, T>::ConstMapIterator(
-//       BinaryTree<Key, T>::GetMin(BinaryTree<Key, T>::root_));
-// }
-//
-// template <typename Key, typename T>
-// typename map<Key, T>::const_set_iterator map<Key, T>::cend() const {
-//   if (BinaryTree<Key, T>::root_ == nullptr) return cbegin();
-//
-//   const_set_iterator test(nullptr);
-//   return test;
-// }
 
 template <typename Key, typename T>
 void map<Key, T>::merge(map &other) {

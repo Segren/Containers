@@ -5,9 +5,6 @@
 
 template <typename Key, typename Value>
 class BinaryTree {
- private:
-  // struct TreeNode;
-
  public:
   class SetIterator;
   class MapIterator;
@@ -33,8 +30,6 @@ class BinaryTree {
   ~BinaryTree();
   BinaryTree& operator=(BinaryTree&& other) noexcept;
   BinaryTree& operator=(const BinaryTree& other);
-  //  set_iterator begin();
-  //  set_iterator end();
   set_iterator Find(const Key& key);
   map_iterator Find_map(const Key& key);
   bool empty();
@@ -47,12 +42,8 @@ class BinaryTree {
   void erase(set_iterator pos);
   void erase(map_iterator pos);
   void swap(BinaryTree& other);
-  // void merge(BinaryTree& other);
   bool contains(const Key& key);
-  void print(TreeNode* node);
-  void print();
 
-  // private:
   struct TreeNode {
     TreeNode(Key key, value_type value);
     TreeNode(Key key, value_type value, TreeNode* parent);

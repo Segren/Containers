@@ -34,7 +34,6 @@ class map : public BinaryTree<Key, T> {
   std::pair<iterator, bool> insert_or_assign(const Key &key, const T &obj);
   template <class... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);
-  // void erase(iterator pos);
 };
 
 }  // namespace s21

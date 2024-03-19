@@ -351,18 +351,4 @@ BinaryTree<Key, Value>::RecursiveFind(BinaryTree::TreeNode *node,
   }
 }
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::print(TreeNode *node) {
-  if (node != nullptr) {
-    print(node->left_);
-    std::cout << node->key_ << ": " << node->value_ << std::endl;
-    print(node->right_);
-  }
-}
-
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::print() {
-  print(root_);
-}
-
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_TREE_BINARY_TREE_TPP_

@@ -96,16 +96,6 @@ Value &BinaryTree<Key, Value>::SetIterator::operator*() {
   return curr_node_->key_;
 }
 
-// template <typename Key, typename Value>
-// std::pair<const Key, Value> &BinaryTree<Key, Value>::SetIterator::operator*()
-// {
-//   if (curr_node_ == nullptr) {
-//     static std::pair<const Key, Value> end_value{};
-//     return end_value;
-//   }
-//   return std::make_pair(curr_node_->key_, curr_node_->value_);
-// }
-
 template <typename Key, typename Value>
 bool BinaryTree<Key, Value>::SetIterator::operator==(
     const BinaryTree::SetIterator &it) {
