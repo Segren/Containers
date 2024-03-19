@@ -50,6 +50,9 @@ class set : public BinaryTree<Key, Key> {
   iterator find(const key_type &key) {
     return BinaryTree<key_type, key_type>::FindInSet(key);
   };
+  bool contains(const Key &key) {
+    return BinaryTree<key_type, key_type>::Contains(key);
+  }
 };
 
 }  // namespace s21

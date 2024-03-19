@@ -115,7 +115,7 @@ typename BinaryTree<Key, T>::map_iterator BinaryTree<Key, T>::FindInMap(
 }
 
 template <typename Key, typename T>
-bool BinaryTree<Key, T>::contains(const Key &key) {
+bool BinaryTree<Key, T>::Contains(const Key &key) {
   TreeNode *contain_node = RecursiveFind(root_, key);
   return contain_node != nullptr;
 }

@@ -55,6 +55,9 @@ class map : public BinaryTree<Key, T> {
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);
 
   // Lookup
+  bool contains(const Key &key) {
+    return BinaryTree<key_type, mapped_type>::Contains(key);
+  }
 };
 
 }  // namespace s21
