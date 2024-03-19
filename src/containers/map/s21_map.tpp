@@ -82,7 +82,7 @@ std::pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert_or_assign(
   if (it != this->end()) {
     BinaryTree<Key, T>::erase(it);
     auto pr = BinaryTree<Key, T>::insert(key, obj);
-    pr.second = false;
+    pr.second = true;
     return pr;
   }
   return BinaryTree<Key, T>::insert(key, obj);

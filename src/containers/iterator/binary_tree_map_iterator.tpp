@@ -7,7 +7,7 @@ template <typename Key, typename T>
 void BinaryTree<Key, T>::erase(map_iterator pos) {
   if (BinaryTree<Key, T>::root_ == nullptr || pos.curr_node_ == nullptr) return;
   BinaryTree<Key, T>::root_ = BinaryTree<Key, T>::RecursiveDelete(
-      BinaryTree<Key, T>::root_, (*pos).first);
+      BinaryTree<Key, T>::root_, pos.return_key());
 }
 
 template <typename Key, typename Value>
