@@ -39,8 +39,9 @@ class set : public BinaryTree<Key, Key> {
 
   // Modifiers
   void clear() { BinaryTree<key_type, key_type>::Clear(); }
+  std::pair<iterator, bool> insert(const key_type &key);
   void erase(iterator pos);
-  void swap(set &other) { BinaryTree<key_type, key_type>::Swap(other); };
+  void swap(set &other) { BinaryTree<key_type, key_type>::Swap(other); }
   void merge(set &other);
   template <class... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);

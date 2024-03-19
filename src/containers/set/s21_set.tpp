@@ -8,7 +8,7 @@ namespace s21 {
 template <typename Key>
 set<Key>::set(const std::initializer_list<key_type> &items) {
   for (auto i = items.begin(); i != items.end(); ++i) {
-    BinaryTree<Key, Key>::insert(*i);
+    insert(*i);
   }
 }
 
@@ -34,7 +34,7 @@ std::vector<std::pair<typename set<Key>::iterator, bool>> set<Key>::insert_many(
     Args &&...args) {
   std::vector<std::pair<typename set<Key>::iterator, bool>> vec;
   for (const auto &arg : {args...}) {
-    vec.push_back(BinaryTree<Key, Key>::insert(arg));
+    vec.push_back(insert(arg));
   }
   return vec;
 }
@@ -56,6 +56,24 @@ typename set<Key>::iterator set<Key>::end() {
 }
 
 template <typename Key>
+std::pair<typename BinaryTree<Key, Key>::SetIterator, bool> set<Key>::insert(
+    const Key &key) {
+  std::pair<iterator, bool> return_value;
+  if (BinaryTree<Key, Key>::root_ == nullptr) {
+    BinaryTree<Key, Key>::root_ =
+        new typename BinaryTree<Key, Key>::TreeNode(key, key);
+    return_value.first = iterator(BinaryTree<Key, Key>::root_);
+    return_value.second = true;
+  } else {
+    bool check_insert = BinaryTree<Key, Key>::RecursiveInsert(
+        BinaryTree<Key, Key>::root_, key, key);
+    return_value.first = BinaryTree<Key, Key>::FindInSet(key);
+    return_value.second = check_insert;
+  }
+  return return_value;
+}
+
+template <typename Key>
 void set<Key>::erase(iterator pos) {
   if (BinaryTree<Key, Key>::root_ == nullptr || pos.curr_node_ == nullptr)
     return;
@@ -71,7 +89,7 @@ void set<Key>::merge(set &other) {
   iterator end(nullptr, last_node);
 
   for (; it != end; ++it) {
-    std::pair<set<Key>::iterator, bool> pr = BinaryTree<Key, Key>::insert(*it);
+    std::pair<set<Key>::iterator, bool> pr = insert(*it);
     if (pr.second) {
       other.erase(pr.first);
     }
