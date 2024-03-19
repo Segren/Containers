@@ -152,37 +152,37 @@ TEST(Set, Lookup_Contains) {
 }
 
 TEST(set, ConstructorDefaultSet) {
-  s21::set<char> my_empty_set;
-  std::set<char> orig_empty_set;
-  EXPECT_EQ(my_empty_set.empty(), orig_empty_set.empty());
+  s21::set<char> s21_set;
+  std::set<char> std_set;
+  EXPECT_EQ(s21_set.empty(), std_set.empty());
 }
 
 TEST(set, ConstructorInitializerSet) {
-  s21::set<char> my_set = {'x', 'b', 'z', 'y'};
-  std::set<char> orig_set = {'x', 'b', 'z', 'y'};
-  EXPECT_EQ(my_set.size(), orig_set.size());
-  auto my_it = my_set.begin();
-  auto orig_it = orig_set.begin();
-  for (; my_it != my_set.end(); ++my_it, ++orig_it) {
+  s21::set<char> s21_set = {'x', 'b', 'z', 'y'};
+  std::set<char> std_set = {'x', 'b', 'z', 'y'};
+  EXPECT_EQ(s21_set.size(), std_set.size());
+  auto my_it = s21_set.begin();
+  auto orig_it = std_set.begin();
+  for (; my_it != s21_set.end(); ++my_it, ++orig_it) {
     EXPECT_TRUE(*orig_it == *my_it);
   }
 }
 
 TEST(set, ConstructorInitializer2Set) {
-  s21::set<char> my_set = {};
-  std::set<char> orig_set = {};
-  EXPECT_EQ(my_set.size(), orig_set.size());
+  s21::set<char> s21_set = {};
+  std::set<char> std_set = {};
+  EXPECT_EQ(s21_set.size(), std_set.size());
 }
 
 TEST(set, ConstructorCopySet) {
-  s21::set<int> my_set = {1, 2, 3, 4, 5};
-  std::set<int> orig_set = {1, 2, 3, 4, 5};
-  s21::set<int> my_set_copy = my_set;
-  std::set<int> orig_set_copy = orig_set;
-  EXPECT_EQ(my_set_copy.size(), orig_set_copy.size());
-  auto my_it = my_set_copy.begin();
-  auto orig_it = orig_set_copy.begin();
-  for (; my_it != my_set_copy.end(); ++my_it, ++orig_it) {
+  s21::set<int> s21_set = {1, 2, 3, 4, 5};
+  std::set<int> std_set = {1, 2, 3, 4, 5};
+  s21::set<int> s21_set_copy = s21_set;
+  std::set<int> std_set_copy = std_set;
+  EXPECT_EQ(s21_set_copy.size(), std_set_copy.size());
+  auto my_it = s21_set_copy.begin();
+  auto orig_it = std_set_copy.begin();
+  for (; my_it != s21_set_copy.end(); ++my_it, ++orig_it) {
     EXPECT_TRUE(*orig_it == *my_it);
   }
 }
