@@ -64,38 +64,6 @@ size_t BinaryTree<Key, T>::Size() {
 }
 
 template <typename Key, typename T>
-std::pair<typename BinaryTree<Key, T>::MapIterator, bool>
-BinaryTree<Key, T>::insert(const Key &key, const T value) {
-  std::pair<MapIterator, bool> return_value;
-  if (root_ == nullptr) {
-    root_ = new TreeNode(key, value);
-    return_value.first = MapIterator(root_);
-    return_value.second = true;
-  } else {
-    bool check_insert = RecursiveInsert(root_, key, value);
-    return_value.first = FindInMap(key);
-    return_value.second = check_insert;
-  }
-  return return_value;
-}
-
-template <typename Key, typename T>
-std::pair<typename BinaryTree<Key, T>::MapIterator, bool>
-BinaryTree<Key, T>::insert(std::pair<const Key &, T> pair) {
-  std::pair<MapIterator, bool> return_value;
-  if (root_ == nullptr) {
-    root_ = new TreeNode(pair.first, pair.second);
-    return_value.first = MapIterator(root_);
-    return_value.second = true;
-  } else {
-    bool check_insert = RecursiveInsert(root_, pair.first, pair.second);
-    return_value.first = FindInMap(pair.first);
-    return_value.second = check_insert;
-  }
-  return return_value;
-}
-
-template <typename Key, typename T>
 void BinaryTree<Key, T>::Swap(BinaryTree &other) {
   std::swap(root_, other.root_);
 }

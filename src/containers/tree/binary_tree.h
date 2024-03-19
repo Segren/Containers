@@ -38,8 +38,6 @@ class BinaryTree {
   bool Empty();
   size_type Size();
 
-  std::pair<map_iterator, bool> insert(const key_type& key, value_type value);
-  std::pair<map_iterator, bool> insert(std::pair<const key_type&, value_type>);
   void Swap(BinaryTree& other);
   bool Contains(const key_type& key);
 

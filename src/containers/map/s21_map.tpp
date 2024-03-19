@@ -9,7 +9,7 @@ namespace s21 {
 template <typename Key, typename T>
 map<Key, T>::map(const std::initializer_list<value_type> &items) {
   for (auto i = items.begin(); i != items.end(); ++i) {
-    BinaryTree<Key, T>::insert((*i).first, (*i).second);
+    insert((*i).first, (*i).second);
   }
 }
 
@@ -35,11 +35,11 @@ std::pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert_or_assign(
   auto it = BinaryTree<Key, T>::FindInMap(key);
   if (it != this->end()) {
     erase(it);
-    auto pr = BinaryTree<Key, T>::insert(key, obj);
+    auto pr = insert(key, obj);
     pr.second = true;
     return pr;
   }
-  return BinaryTree<Key, T>::insert(key, obj);
+  return insert(key, obj);
 }
 
 template <typename Key, typename T>
@@ -48,7 +48,7 @@ std::vector<std::pair<typename map<Key, T>::iterator, bool>>
 map<Key, T>::insert_many(Args &&...args) {
   std::vector<std::pair<typename map<Key, T>::iterator, bool>> vec;
   for (const auto &arg : {args...}) {
-    vec.push_back(BinaryTree<Key, T>::insert(arg));
+    vec.push_back(insert(arg));
   }
   return vec;
 }
@@ -66,7 +66,7 @@ template <typename Key, typename T>
 T &map<Key, T>::operator[](const Key &key) {
   iterator it = BinaryTree<Key, T>::FindInMap(key);
   if (it == nullptr) {
-    it = BinaryTree<Key, T>::insert({key, T()}).first;
+    it = insert({key, T()}).first;
   }
   return it.return_value();
 }
@@ -87,6 +87,40 @@ typename map<Key, T>::iterator map<Key, T>::end() {
 }
 
 template <typename Key, typename T>
+std::pair<typename BinaryTree<Key, T>::MapIterator, bool> map<Key, T>::insert(
+    const Key &key, T value) {
+  std::pair<iterator, bool> return_value;
+  if (this->root_ == nullptr) {
+    this->root_ = new typename BinaryTree<Key, T>::TreeNode(key, value);
+    return_value.first = iterator(this->root_);
+    return_value.second = true;
+  } else {
+    bool check_insert = this->RecursiveInsert(this->root_, key, value);
+    return_value.first = this->FindInMap(key);
+    return_value.second = check_insert;
+  }
+  return return_value;
+}
+
+template <typename Key, typename T>
+std::pair<typename BinaryTree<Key, T>::MapIterator, bool> map<Key, T>::insert(
+    std::pair<const Key &, T> pair) {
+  std::pair<iterator, bool> return_value;
+  if (this->root_ == nullptr) {
+    this->root_ =
+        new typename BinaryTree<Key, T>::TreeNode(pair.first, pair.second);
+    return_value.first = iterator(this->root_);
+    return_value.second = true;
+  } else {
+    bool check_insert =
+        this->RecursiveInsert(this->root_, pair.first, pair.second);
+    return_value.first = this->FindInMap(pair.first);
+    return_value.second = check_insert;
+  }
+  return return_value;
+}
+
+template <typename Key, typename T>
 void map<Key, T>::erase(iterator pos) {
   if (BinaryTree<Key, T>::root_ == nullptr || pos.curr_node_ == nullptr) return;
   BinaryTree<Key, T>::root_ = BinaryTree<Key, T>::RecursiveDelete(
@@ -100,7 +134,7 @@ void map<Key, T>::merge(map &other) {
   for (; const_it != const_tree.end(); ++const_it) {
     auto key = const_it.return_key();
     auto obj = const_it.return_value();
-    std::pair<iterator, bool> pr = BinaryTree<Key, T>::insert(key, obj);
+    std::pair<iterator, bool> pr = insert(key, obj);
     if (pr.second) other.erase(pr.first);
   }
 }

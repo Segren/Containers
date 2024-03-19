@@ -46,6 +46,8 @@ class map : public BinaryTree<Key, T> {
 
   // Modifiers
   void clear() { BinaryTree<key_type, mapped_type>::Clear(); }
+  std::pair<iterator, bool> insert(const key_type &key, mapped_type value);
+  std::pair<iterator, bool> insert(std::pair<const key_type &, mapped_type>);
   void erase(iterator pos);
   void swap(map &other) { BinaryTree<key_type, mapped_type>::Swap(other); };
   void merge(map &other);
