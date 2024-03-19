@@ -42,7 +42,7 @@ std::vector<std::pair<typename set<Key>::iterator, bool>> set<Key>::insert_many(
 template <typename Key>
 typename BinaryTree<Key, Key>::SetIterator set<Key>::begin() {
   return
-      typename BinaryTree<Key, Key>::SetIterator(this->getMinNode(this->root_));
+      typename BinaryTree<Key, Key>::SetIterator(this->GetMinNode(this->root_));
 }
 
 template <typename Key>
@@ -50,7 +50,7 @@ typename set<Key>::iterator set<Key>::end() {
   if (BinaryTree<Key, Key>::root_ == nullptr) return begin();
 
   auto *last_node =
-      BinaryTree<Key, Key>::getMaxNode(BinaryTree<Key, Key>::root_);
+      BinaryTree<Key, Key>::GetMaxNode(BinaryTree<Key, Key>::root_);
   iterator last(nullptr, last_node);
   return last;
 }
@@ -58,8 +58,8 @@ typename set<Key>::iterator set<Key>::end() {
 template <typename Key>
 void set<Key>::merge(BinaryTree<Key, Key> &other) {
   BinaryTree const_tree(other);
-  iterator it(BinaryTree<Key, Key>::getMinNode(const_tree.root_));
-  auto *last_node = BinaryTree<Key, Key>::getMaxNode(const_tree.root_);
+  iterator it(BinaryTree<Key, Key>::GetMinNode(const_tree.root_));
+  auto *last_node = BinaryTree<Key, Key>::GetMaxNode(const_tree.root_);
   iterator end(nullptr, last_node);
 
   for (; it != end; ++it) {

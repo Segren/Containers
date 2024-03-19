@@ -28,7 +28,7 @@ class set : public BinaryTree<Key, Key> {
   iterator begin();
   iterator end();
   void merge(BinaryTree<Key, Key> &other);
-  iterator find(const Key &key) { return BinaryTree<Key, Key>::Find(key); };
+  iterator find(const Key &key) { return BinaryTree<Key, Key>::FindInSet(key); };
   template <class... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);
 };

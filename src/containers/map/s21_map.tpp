@@ -32,7 +32,7 @@ map<Key, T> &map<Key, T>::operator=(const map &other) {
 template <typename Key, typename T>
 std::pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert_or_assign(
     const Key &key, const T &obj) {
-  auto it = BinaryTree<Key, T>::Find_map(key);
+  auto it = BinaryTree<Key, T>::FindInMap(key);
   if (it != this->end()) {
     BinaryTree<Key, T>::erase(it);
     auto pr = BinaryTree<Key, T>::insert(key, obj);
@@ -55,7 +55,7 @@ map<Key, T>::insert_many(Args &&...args) {
 
 template <typename Key, typename T>
 T &map<Key, T>::at(const Key &key) {
-  iterator it = BinaryTree<Key, T>::Find_map(key);
+  iterator it = BinaryTree<Key, T>::FindInMap(key);
   if (it == nullptr)
     throw std::out_of_range(
         "Container does not have an element with the specified key");
@@ -64,7 +64,7 @@ T &map<Key, T>::at(const Key &key) {
 
 template <typename Key, typename T>
 T &map<Key, T>::operator[](const Key &key) {
-  iterator it = BinaryTree<Key, T>::Find_map(key);
+  iterator it = BinaryTree<Key, T>::FindInMap(key);
   if (it == nullptr) {
     it = BinaryTree<Key, T>::insert({key, T()}).first;
   }
@@ -74,14 +74,14 @@ T &map<Key, T>::operator[](const Key &key) {
 template <typename Key, typename T>
 typename map<Key, T>::iterator map<Key, T>::begin() {
   return
-      typename BinaryTree<Key, T>::MapIterator(this->getMinNode(this->root_));
+      typename BinaryTree<Key, T>::MapIterator(this->GetMinNode(this->root_));
 }
 
 template <typename Key, typename T>
 typename map<Key, T>::iterator map<Key, T>::end() {
   if (BinaryTree<Key, T>::root_ == nullptr) return begin();
 
-  auto *last_node = BinaryTree<Key, T>::getMaxNode(BinaryTree<Key, T>::root_);
+  auto *last_node = BinaryTree<Key, T>::GetMaxNode(BinaryTree<Key, T>::root_);
   iterator last(nullptr, last_node);
   return last;
 }

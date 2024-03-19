@@ -30,8 +30,8 @@ class BinaryTree {
   ~BinaryTree();
   BinaryTree& operator=(BinaryTree&& other) noexcept;
   BinaryTree& operator=(const BinaryTree& other);
-  set_iterator Find(const key_type& key);
-  map_iterator Find_map(const key_type& key);
+  set_iterator FindInSet(const key_type& key);
+  map_iterator FindInMap(const key_type& key);
   bool empty();
   size_type size();
   size_type max_size();
@@ -58,23 +58,23 @@ class BinaryTree {
   TreeNode* root_;
 
   void FreeNode(TreeNode* node);
-  TreeNode* CopyTree(TreeNode* node, TreeNode* parent);
+  TreeNode* CopyTreeNode(TreeNode* node, TreeNode* parent);
 
-  void swapValue(TreeNode* a, TreeNode* b);
-  void rightRotateNode(TreeNode* node);
-  void leftRotateNode(TreeNode* node);
-  void balancing(TreeNode* node);
-  int getBalance(TreeNode* node);
-  int getHeight(TreeNode* node);
-  void setHeight(TreeNode* node);
+  void SwapValueBetweenNodes(TreeNode* a, TreeNode* b);
+  void RightRotateNode(TreeNode* node);
+  void LeftRotateNode(TreeNode* node);
+  void Balancing(TreeNode* node);
+  int GetBalance(TreeNode* node);
+  int GetHeight(TreeNode* node);
+  void SetHeight(TreeNode* node);
 
-  static TreeNode* getMinNode(TreeNode* node);
-  static TreeNode* getMaxNode(TreeNode* node);
+  static TreeNode* GetMinNode(TreeNode* node);
+  static TreeNode* GetMaxNode(TreeNode* node);
 
-  bool recursiveInsert(TreeNode* node, const key_type& key, value_type value);
-  TreeNode* recursiveDelete(TreeNode* node, key_type key);
-  size_type getSize(TreeNode* node);
-  TreeNode* recursiveFind(TreeNode* node, const key_type& key);
+  bool RecursiveInsert(TreeNode* node, const key_type& key, value_type value);
+  TreeNode* RecursiveDelete(TreeNode* node, key_type key);
+  size_type GetSize(TreeNode* node);
+  TreeNode* RecursiveFind(TreeNode* node, const key_type& key);
 };
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_TREE_BINARY_TREE_H_

@@ -3,28 +3,27 @@
 
 #include "binary_tree.h"
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value>::BinaryTree() : root_(nullptr) {}
+template <typename Key, typename T>
+BinaryTree<Key, T>::BinaryTree() : root_(nullptr) {}
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value>::BinaryTree(const BinaryTree &other) {
-  root_ = CopyTree(other.root_, nullptr);
+template <typename Key, typename T>
+BinaryTree<Key, T>::BinaryTree(const BinaryTree &other) {
+  root_ = CopyTreeNode(other.root_, nullptr);
 }
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value>::BinaryTree(BinaryTree &&other) noexcept {
+template <typename Key, typename T>
+BinaryTree<Key, T>::BinaryTree(BinaryTree &&other) noexcept {
   root_ = other.root_;
   other.root_ = nullptr;
 }
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value>::~BinaryTree() {
+template <typename Key, typename T>
+BinaryTree<Key, T>::~BinaryTree() {
   clear();
 }
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value> &BinaryTree<Key, Value>::operator=(
-    BinaryTree &&other) noexcept {
+template <typename Key, typename T>
+BinaryTree<Key, T> &BinaryTree<Key, T>::operator=(BinaryTree &&other) noexcept {
   if (this != &other) {
     root_ = other.root_;
     other.root_ = nullptr;
@@ -32,9 +31,8 @@ BinaryTree<Key, Value> &BinaryTree<Key, Value>::operator=(
   return *this;
 }
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value> &BinaryTree<Key, Value>::operator=(
-    const BinaryTree &other) {
+template <typename Key, typename T>
+BinaryTree<Key, T> &BinaryTree<Key, T>::operator=(const BinaryTree &other) {
   if (this != &other) {
     BinaryTree temp(other);
     FreeNode(root_);
@@ -43,156 +41,155 @@ BinaryTree<Key, Value> &BinaryTree<Key, Value>::operator=(
   return *this;
 }
 
-template <typename Key, typename Value>
-bool BinaryTree<Key, Value>::empty() {
+template <typename Key, typename T>
+bool BinaryTree<Key, T>::empty() {
   return root_ == nullptr;
 }
 
-template <typename Key, typename Value>
-size_t BinaryTree<Key, Value>::size() {
-  return getSize(root_);
+template <typename Key, typename T>
+size_t BinaryTree<Key, T>::size() {
+  return GetSize(root_);
 }
 
-template <typename Key, typename Value>
-size_t BinaryTree<Key, Value>::max_size() {
+template <typename Key, typename T>
+size_t BinaryTree<Key, T>::max_size() {
   return std::numeric_limits<size_type>::max() /
-         sizeof(typename BinaryTree<Key, Value>::TreeNode);
+         sizeof(typename BinaryTree<Key, T>::TreeNode);
 }
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::clear() {
+template <typename Key, typename T>
+void BinaryTree<Key, T>::clear() {
   if (root_ != nullptr) FreeNode(root_);
   root_ = nullptr;
 }
 
-template <typename Key, typename Value>
-std::pair<typename BinaryTree<Key, Value>::SetIterator, bool>
-BinaryTree<Key, Value>::insert(const Key &key) {
+template <typename Key, typename T>
+std::pair<typename BinaryTree<Key, T>::SetIterator, bool>
+BinaryTree<Key, T>::insert(const Key &key) {
   std::pair<SetIterator, bool> return_value;
   if (root_ == nullptr) {
     root_ = new TreeNode(key, key);
     return_value.first = SetIterator(root_);
     return_value.second = true;
   } else {
-    bool check_insert = recursiveInsert(root_, key, key);
-    return_value.first = Find(key);
+    bool check_insert = RecursiveInsert(root_, key, key);
+    return_value.first = FindInSet(key);
     return_value.second = check_insert;
   }
   return return_value;
 }
 
-template <typename Key, typename Value>
-std::pair<typename BinaryTree<Key, Value>::MapIterator, bool>
-BinaryTree<Key, Value>::insert(const Key &key, const Value value) {
+template <typename Key, typename T>
+std::pair<typename BinaryTree<Key, T>::MapIterator, bool>
+BinaryTree<Key, T>::insert(const Key &key, const T value) {
   std::pair<MapIterator, bool> return_value;
   if (root_ == nullptr) {
     root_ = new TreeNode(key, value);
     return_value.first = MapIterator(root_);
     return_value.second = true;
   } else {
-    bool check_insert = recursiveInsert(root_, key, value);
-    return_value.first = Find_map(key);
+    bool check_insert = RecursiveInsert(root_, key, value);
+    return_value.first = FindInMap(key);
     return_value.second = check_insert;
   }
   return return_value;
 }
 
-template <typename Key, typename Value>
-std::pair<typename BinaryTree<Key, Value>::MapIterator, bool>
-BinaryTree<Key, Value>::insert(std::pair<const Key &, Value> pair) {
+template <typename Key, typename T>
+std::pair<typename BinaryTree<Key, T>::MapIterator, bool>
+BinaryTree<Key, T>::insert(std::pair<const Key &, T> pair) {
   std::pair<MapIterator, bool> return_value;
   if (root_ == nullptr) {
     root_ = new TreeNode(pair.first, pair.second);
     return_value.first = MapIterator(root_);
     return_value.second = true;
   } else {
-    bool check_insert = recursiveInsert(root_, pair.first, pair.second);
-    return_value.first = Find_map(pair.first);
+    bool check_insert = RecursiveInsert(root_, pair.first, pair.second);
+    return_value.first = FindInMap(pair.first);
     return_value.second = check_insert;
   }
   return return_value;
 }
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::swap(BinaryTree &other) {
+template <typename Key, typename T>
+void BinaryTree<Key, T>::swap(BinaryTree &other) {
   std::swap(root_, other.root_);
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::set_iterator BinaryTree<Key, Value>::Find(
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::set_iterator BinaryTree<Key, T>::FindInSet(
     const Key &key) {
-  TreeNode *exact_node = recursiveFind(root_, key);
+  TreeNode *exact_node = RecursiveFind(root_, key);
   return SetIterator(exact_node);
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::map_iterator BinaryTree<Key, Value>::Find_map(
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::map_iterator BinaryTree<Key, T>::FindInMap(
     const Key &key) {
-  TreeNode *exact_node = recursiveFind(root_, key);
+  TreeNode *exact_node = RecursiveFind(root_, key);
   return MapIterator(exact_node);
 }
 
-template <typename Key, typename Value>
-bool BinaryTree<Key, Value>::contains(const Key &key) {
-  TreeNode *contain_node = recursiveFind(root_, key);
+template <typename Key, typename T>
+bool BinaryTree<Key, T>::contains(const Key &key) {
+  TreeNode *contain_node = RecursiveFind(root_, key);
   return contain_node != nullptr;
 }
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value>::TreeNode::TreeNode(Key key, value_type value)
+template <typename Key, typename T>
+BinaryTree<Key, T>::TreeNode::TreeNode(Key key, T value)
     : key_(key), value_(value) {}
 
-template <typename Key, typename Value>
-BinaryTree<Key, Value>::TreeNode::TreeNode(Key key, value_type value,
-                                           TreeNode *node)
+template <typename Key, typename T>
+BinaryTree<Key, T>::TreeNode::TreeNode(Key key, T value, TreeNode *node)
     : key_(key), value_(value), parent_(node) {}
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *BinaryTree<Key, Value>::CopyTree(
-    BinaryTree::TreeNode *node, BinaryTree::TreeNode *parent) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::TreeNode *BinaryTree<Key, T>::CopyTreeNode(
+    TreeNode *node, TreeNode *parent) {
   if (node == nullptr) return nullptr;
   auto *new_node = new TreeNode(node->key_, node->value_, parent);
-  new_node->left_ = CopyTree(node->left_, new_node);
-  new_node->right_ = CopyTree(node->right_, new_node);
+  new_node->left_ = CopyTreeNode(node->left_, new_node);
+  new_node->right_ = CopyTreeNode(node->right_, new_node);
   return new_node;
 }
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::FreeNode(TreeNode *node) {
+template <typename Key, typename T>
+void BinaryTree<Key, T>::FreeNode(TreeNode *node) {
   if (node == nullptr) return;
   FreeNode(node->left_);
   FreeNode(node->right_);
   delete node;
 }
 
-template <typename Key, typename Value>
-int BinaryTree<Key, Value>::getHeight(TreeNode *node) {
+template <typename Key, typename T>
+int BinaryTree<Key, T>::GetHeight(TreeNode *node) {
   return node == nullptr ? -1 : node->height_;
 }
 
-template <typename Key, typename Value>
-int BinaryTree<Key, Value>::getBalance(TreeNode *node) {
-  return node == nullptr ? 0 : getHeight(node->right_) - getHeight(node->left_);
+template <typename Key, typename T>
+int BinaryTree<Key, T>::GetBalance(TreeNode *node) {
+  return node == nullptr ? 0 : GetHeight(node->right_) - GetHeight(node->left_);
 }
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::setHeight(TreeNode *node) {
-  node->height_ = std::max(getHeight(node->left_), getHeight(node->right_)) + 1;
+template <typename Key, typename T>
+void BinaryTree<Key, T>::SetHeight(TreeNode *node) {
+  node->height_ = std::max(GetHeight(node->left_), GetHeight(node->right_)) + 1;
 }
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::swapValue(TreeNode *a, TreeNode *b) {
+template <typename Key, typename T>
+void BinaryTree<Key, T>::SwapValueBetweenNodes(TreeNode *a, TreeNode *b) {
   std::swap(a->key_, b->key_);
   std::swap(a->value_, b->value_);
 }
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::rightRotateNode(TreeNode *node) {
+template <typename Key, typename T>
+void BinaryTree<Key, T>::RightRotateNode(TreeNode *node) {
   TreeNode *new_left = node->left_->left_;
   TreeNode *new_right_right = node->right_;
   TreeNode *new_right_left = node->left_->right_;
 
-  swapValue(node, node->left_);
+  SwapValueBetweenNodes(node, node->left_);
   node->right_ = node->left_;
 
   node->left_ = new_left;
@@ -210,17 +207,17 @@ void BinaryTree<Key, Value>::rightRotateNode(TreeNode *node) {
     node->right_->right_->parent_ = node->right_;
   }
 
-  setHeight(node->right_);
-  setHeight(node);
+  SetHeight(node->right_);
+  SetHeight(node);
 }
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::leftRotateNode(TreeNode *node) {
+template <typename Key, typename T>
+void BinaryTree<Key, T>::LeftRotateNode(TreeNode *node) {
   TreeNode *new_right = node->right_->right_;
   TreeNode *new_left_left = node->left_;
   TreeNode *new_left_right = node->right_->left_;
 
-  swapValue(node, node->right_);
+  SwapValueBetweenNodes(node, node->right_);
   node->left_ = node->right_;
 
   node->right_ = new_right;
@@ -238,80 +235,80 @@ void BinaryTree<Key, Value>::leftRotateNode(TreeNode *node) {
     node->left_->left_->parent_ = node->left_;
   }
 
-  setHeight(node->left_);
-  setHeight(node);
+  SetHeight(node->left_);
+  SetHeight(node);
 }
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::balancing(TreeNode *node) {
-  int balance = getBalance(node);
+template <typename Key, typename T>
+void BinaryTree<Key, T>::Balancing(TreeNode *node) {
+  int balance = GetBalance(node);
   if (balance == -2) {
-    if (getBalance(node->left_) == 1) leftRotateNode(node->left_);
-    rightRotateNode(node);
+    if (GetBalance(node->left_) == 1) LeftRotateNode(node->left_);
+    RightRotateNode(node);
   } else if (balance == 2) {
-    if (getBalance(node->right_) == -1) rightRotateNode(node->right_);
-    leftRotateNode(node);
+    if (GetBalance(node->right_) == -1) RightRotateNode(node->right_);
+    LeftRotateNode(node);
   }
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *BinaryTree<Key, Value>::getMinNode(
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::TreeNode *BinaryTree<Key, T>::GetMinNode(
     TreeNode *node) {
   if (node == nullptr) return nullptr;
   if (node->left_ == nullptr) return node;
-  return getMinNode(node->left_);
+  return GetMinNode(node->left_);
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *BinaryTree<Key, Value>::getMaxNode(
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::TreeNode *BinaryTree<Key, T>::GetMaxNode(
     TreeNode *node) {
   if (node == nullptr) return nullptr;
   if (node->right_ == nullptr) return node;
-  return getMaxNode(node->right_);
+  return GetMaxNode(node->right_);
 }
 
-template <typename Key, typename Value>
-size_t BinaryTree<Key, Value>::getSize(TreeNode *node) {
+template <typename Key, typename T>
+size_t BinaryTree<Key, T>::GetSize(TreeNode *node) {
   if (node == nullptr) return 0;
-  size_t left_size = getSize(node->left_);
-  size_t right_size = getSize(node->right_);
+  size_t left_size = GetSize(node->left_);
+  size_t right_size = GetSize(node->right_);
   return 1 + left_size + right_size;
 }
 
-template <typename Key, typename Value>
-bool BinaryTree<Key, Value>::recursiveInsert(TreeNode *node, const Key &key,
-                                             Value value) {
+template <typename Key, typename T>
+bool BinaryTree<Key, T>::RecursiveInsert(TreeNode *node, const Key &key,
+                                         T value) {
   bool check_insert = false;
   if (key < node->key_) {
     if (node->left_ == nullptr) {
       node->left_ = new TreeNode(key, value, node);
       check_insert = true;
     } else {
-      check_insert = recursiveInsert(node->left_, key, value);
+      check_insert = RecursiveInsert(node->left_, key, value);
     }
   } else if (key > node->key_) {
     if (node->right_ == nullptr) {
       node->right_ = new TreeNode(key, value, node);
       check_insert = true;
     } else {
-      check_insert = recursiveInsert(node->right_, key, value);
+      check_insert = RecursiveInsert(node->right_, key, value);
     }
   } else if (key == node->key_) {
     return check_insert;
   }
-  setHeight(node);
-  balancing(node);
+  SetHeight(node);
+  Balancing(node);
   return check_insert;
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *
-BinaryTree<Key, Value>::recursiveDelete(TreeNode *node, Key key) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::TreeNode *BinaryTree<Key, T>::RecursiveDelete(
+    TreeNode *node, Key key) {
   if (node == nullptr) return nullptr;
   if (key < node->key_) {
-    node->left_ = recursiveDelete(node->left_, key);
+    node->left_ = RecursiveDelete(node->left_, key);
   } else if (key > node->key_) {
-    node->right_ = recursiveDelete(node->right_, key);
+    node->right_ = RecursiveDelete(node->right_, key);
   } else {
     if (node->left_ == nullptr || node->right_ == nullptr) {
       TreeNode *node_right = node->right_;
@@ -325,27 +322,27 @@ BinaryTree<Key, Value>::recursiveDelete(TreeNode *node, Key key) {
       }
       if (node != nullptr) node->parent_ = node_parent;
     } else {
-      TreeNode *min_in_right = getMinNode(node->right_);
+      TreeNode *min_in_right = GetMinNode(node->right_);
       node->key_ = min_in_right->key_;
       node->value_ = min_in_right->value_;
-      node->right_ = recursiveDelete(node->right_, min_in_right->key_);
+      node->right_ = RecursiveDelete(node->right_, min_in_right->key_);
     }
   }
   if (node != nullptr) {
-    setHeight(node);
-    balancing(node);
+    SetHeight(node);
+    Balancing(node);
   }
   return node;
 }
 
-template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *
-BinaryTree<Key, Value>::recursiveFind(TreeNode *node, const Key &key) {
+template <typename Key, typename T>
+typename BinaryTree<Key, T>::TreeNode *BinaryTree<Key, T>::RecursiveFind(
+    TreeNode *node, const Key &key) {
   if (node == nullptr || node->key_ == key) return node;
   if (key > node->key_) {
-    return recursiveFind(node->right_, key);
+    return RecursiveFind(node->right_, key);
   } else {
-    return recursiveFind(node->left_, key);
+    return RecursiveFind(node->left_, key);
   }
 }
 
