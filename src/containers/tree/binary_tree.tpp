@@ -43,21 +43,6 @@ BinaryTree<Key, Value> &BinaryTree<Key, Value>::operator=(
   return *this;
 }
 
-// template <typename Key, typename Value>
-// typename BinaryTree<Key, Value>::SetIterator BinaryTree<Key, Value>::begin()
-// {
-//   return BinaryTree::SetIterator(GetMin(root_));
-// }
-//
-// template <typename Key, typename Value>
-// typename BinaryTree<Key, Value>::SetIterator BinaryTree<Key, Value>::end() {
-//   if (root_ == nullptr) return begin();
-//
-//   TreeNode *last_node = GetMax(root_);
-//   SetIterator test(nullptr, last_node);
-//   return test;
-// }
-
 template <typename Key, typename Value>
 bool BinaryTree<Key, Value>::empty() {
   return root_ == nullptr;
@@ -113,19 +98,25 @@ BinaryTree<Key, Value>::insert(const Key &key, const Value value) {
 }
 
 template <typename Key, typename Value>
+std::pair<typename BinaryTree<Key, Value>::MapIterator, bool>
+BinaryTree<Key, Value>::insert(std::pair<const Key &, Value> pair) {
+  std::pair<MapIterator, bool> return_value;
+  if (root_ == nullptr) {
+    root_ = new TreeNode(pair.first, pair.second);
+    return_value.first = MapIterator(root_);
+    return_value.second = true;
+  } else {
+    bool check_insert = RecursiveInsert(root_, pair.first, pair.second);
+    return_value.first = Find_map(pair.first);
+    return_value.second = check_insert;
+  }
+  return return_value;
+}
+
+template <typename Key, typename Value>
 void BinaryTree<Key, Value>::swap(BinaryTree &other) {
   std::swap(root_, other.root_);
 }
-
-// template <typename Key, typename Value>
-// void BinaryTree<Key, Value>::merge(BinaryTree &other) {
-//   BinaryTree const_tree(other);
-//   SetIterator const_it = const_tree.begin();
-//   for (; const_it != const_tree.end(); ++const_it) {
-//     std::pair<SetIterator, bool> pr = insert(*const_it);
-//     if (pr.second) other.erase(pr.first);
-//   }
-// }
 
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::set_iterator BinaryTree<Key, Value>::Find(

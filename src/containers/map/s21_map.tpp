@@ -78,14 +78,14 @@ map<Key, T> &map<Key, T>::operator=(const map &other) {
 template <typename Key, typename T>
 std::pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert_or_assign(
     const Key &key, const T &obj) {
-  auto it = find(key);
+  auto it = BinaryTree<Key, T>::Find_map(key);
   if (it != this->end()) {
-    erase(it);
-    auto pr = insert(key, obj);
+    BinaryTree<Key, T>::erase(it);
+    auto pr = BinaryTree<Key, T>::insert(key, obj);
     pr.second = false;
     return pr;
   }
-  return insert(key, obj);
+  return BinaryTree<Key, T>::insert(key, obj);
 }
 
 template <typename Key, typename T>
@@ -112,7 +112,7 @@ template <typename Key, typename T>
 T &map<Key, T>::operator[](const Key &key) {
   iterator it = BinaryTree<Key, T>::Find_map(key);
   if (it == nullptr) {
-    it = BinaryTree<Key, T>::insert(key, T()).first;
+    it = BinaryTree<Key, T>::insert({key, T()}).first;
   }
   return it.return_value();
 }
@@ -150,19 +150,12 @@ void map<Key, T>::merge(map &other) {
   map const_tree(other);
   iterator const_it = const_tree.begin();
   for (; const_it != const_tree.end(); ++const_it) {
-    auto key = (*const_it).first;
-    auto obj = (*const_it).second;
-    std::pair<iterator, bool> pr = insert(key, obj);
+    auto key = const_it.return_key();
+    auto obj = const_it.return_value();
+    std::pair<iterator, bool> pr = BinaryTree<Key, T>::insert(key, obj);
     if (pr.second) other.erase(pr.first);
   }
 }
-
-// template <typename Key, typename T>
-// void map<Key, T>::erase(map::iterator pos) {
-//   if (BinaryTree<Key, T>::root_ == nullptr || pos.curr_node_ == nullptr)
-//   return; BinaryTree<Key, T>::root_ = BinaryTree<Key, T>::RecursiveDelete(
-//       BinaryTree<Key, T>::root_, (*pos).first);
-// }
 
 }  // namespace s21
 

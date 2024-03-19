@@ -3,10 +3,11 @@
 
 #include "binary_tree_map_iterator.h"
 
-template <typename Key, typename Value>
-void BinaryTree<Key, Value>::erase(map_iterator pos) {
-  if (root_ == nullptr || pos.curr_node_ == nullptr) return;
-  root_ = RecursiveDelete(root_, *pos);
+template <typename Key, typename T>
+void BinaryTree<Key, T>::erase(map_iterator pos) {
+  if (BinaryTree<Key, T>::root_ == nullptr || pos.curr_node_ == nullptr) return;
+  BinaryTree<Key, T>::root_ = BinaryTree<Key, T>::RecursiveDelete(
+      BinaryTree<Key, T>::root_, (*pos).first);
 }
 
 template <typename Key, typename Value>
@@ -118,6 +119,15 @@ T &BinaryTree<Key, T>::MapIterator::return_value() {
     return end_value;
   }
   return BinaryTree<Key, T>::MapIterator::curr_node_->value_;
+}
+
+template <typename Key, typename T>
+Key &BinaryTree<Key, T>::MapIterator::return_key() {
+  if (BinaryTree<Key, T>::MapIterator::curr_node_ == nullptr) {
+    static Key end_key{};
+    return end_key;
+  }
+  return BinaryTree<Key, T>::MapIterator::curr_node_->key_;
 }
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_BINARY_TREE_MAP_ITERATOR_TPP_

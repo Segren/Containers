@@ -227,6 +227,6 @@ TEST(map, MergeMap) {
     EXPECT_TRUE((*my_it).first == (*orig_it).first);
     EXPECT_TRUE((*my_it).second == (*orig_it).second);
   }
-  EXPECT_EQ(my_map_merge.contains(4), orig_map_merge.contains(4));
-  EXPECT_EQ(my_map_merge.contains(3), orig_map_merge.contains(3));
+  EXPECT_EQ(my_map_merge.contains(4), orig_map_merge[4] == 4);
+  EXPECT_EQ(my_map_merge.contains(3), orig_map_merge[3] == 3);
 }

@@ -43,6 +43,7 @@ class BinaryTree {
   void clear();
   std::pair<set_iterator, bool> insert(const Key& key);
   std::pair<map_iterator, bool> insert(const Key& key, Value value);
+  std::pair<map_iterator, bool> insert(std::pair<const key_type&, value_type>);
   void erase(set_iterator pos);
   void erase(map_iterator pos);
   void swap(BinaryTree& other);
