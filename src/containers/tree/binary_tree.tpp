@@ -42,11 +42,6 @@ BinaryTree<Key, T> &BinaryTree<Key, T>::operator=(const BinaryTree &other) {
 }
 
 template <typename Key, typename T>
-bool BinaryTree<Key, T>::empty() {
-  return root_ == nullptr;
-}
-
-template <typename Key, typename T>
 size_t BinaryTree<Key, T>::size() {
   return GetSize(root_);
 }

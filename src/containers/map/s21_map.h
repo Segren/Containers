@@ -8,6 +8,7 @@ namespace s21 {
 
 template <typename Key, typename T>
 class map : public BinaryTree<Key, T> {
+  // Member type
  public:
   using key_type = Key;
   using mapped_type = T;
@@ -19,25 +20,34 @@ class map : public BinaryTree<Key, T> {
       typename BinaryTree<key_type, mapped_type>::ConstMapIterator;
   using size_type = size_t;
 
+  // Member functions
   map() : BinaryTree<key_type, mapped_type>(){};
   map(std::initializer_list<value_type> const &items);
   map(const map &m) : BinaryTree<key_type, mapped_type>(m){};
-  map(map &&m) noexcept
-      : BinaryTree<key_type, mapped_type>(std::move(m)){};
+  map(map &&m) noexcept : BinaryTree<key_type, mapped_type>(std::move(m)){};
   ~map() = default;
   map &operator=(map &&m) noexcept;
   map &operator=(const map &m);
 
+  // Element access
   mapped_type &at(const key_type &key);
   mapped_type &operator[](const key_type &key);
 
+  // Iterators
   iterator begin();
   iterator end();
+
+  // Capacity
+  bool empty();
+
+  // Modifiers
   void merge(map &other);
   std::pair<iterator, bool> insert_or_assign(const key_type &key,
                                              const mapped_type &obj);
   template <class... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);
+
+  // Lookup
 };
 
 }  // namespace s21

@@ -13,17 +13,17 @@ set<Key>::set(const std::initializer_list<key_type> &items) {
 }
 
 template <typename Key>
-set<Key> &set<Key>::operator=(set &&other) noexcept {
-  if (this != &other) {
-    BinaryTree<Key, Key>::operator=(std::move(other));
+set<Key> &set<Key>::operator=(set &&s) noexcept {
+  if (this != &s) {
+    BinaryTree<Key, Key>::operator=(std::move(s));
   }
   return *this;
 }
 
 template <typename Key>
-set<Key> &set<Key>::operator=(const set &other) {
-  if (this != &other) {
-    BinaryTree<Key, Key>::operator=(other);
+set<Key> &set<Key>::operator=(const set &s) {
+  if (this != &s) {
+    BinaryTree<Key, Key>::operator=(s);
   }
   return *this;
 }
@@ -66,6 +66,11 @@ void set<Key>::merge(BinaryTree<Key, Key> &other) {
     std::pair<set<Key>::iterator, bool> pr = BinaryTree<Key, Key>::insert(*it);
     if (pr.second) other.erase(pr.first);
   }
+}
+
+template <typename Key>
+bool set<Key>::empty() {
+  return this->root_ == nullptr;
 }
 
 }  // namespace s21

@@ -98,6 +98,11 @@ void map<Key, T>::merge(map &other) {
   }
 }
 
+template <typename Key, typename T>
+bool map<Key, T>::empty() {
+  return this->root_ == nullptr;
+}
+
 }  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_MAP_S21_MAP_TPP_

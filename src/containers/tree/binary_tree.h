@@ -32,7 +32,6 @@ class BinaryTree {
   BinaryTree& operator=(const BinaryTree& other);
   set_iterator FindInSet(const key_type& key);
   map_iterator FindInMap(const key_type& key);
-  bool empty();
   size_type size();
   size_type max_size();
   void clear();
