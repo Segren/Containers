@@ -4,12 +4,6 @@
 #include "binary_tree_set_iterator.h"
 
 template <typename Key, typename T>
-void BinaryTree<Key, T>::erase(set_iterator pos) {
-  if (root_ == nullptr || pos.curr_node_ == nullptr) return;
-  root_ = RecursiveDelete(root_, *pos);
-}
-
-template <typename Key, typename T>
 typename BinaryTree<Key, T>::TreeNode *
 BinaryTree<Key, T>::SetIterator::MoveForward(BinaryTree::TreeNode *node) {
   if (node->right_ != nullptr) {

@@ -39,7 +39,8 @@ class set : public BinaryTree<Key, Key> {
 
   // Modifiers
   void clear() { BinaryTree<key_type, key_type>::Clear(); }
-  void merge(BinaryTree<key_type, key_type> &other);
+  void erase(iterator pos);
+  void merge(set& other);
   template <class... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);
 

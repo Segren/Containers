@@ -20,7 +20,6 @@ class BinaryTree<Key, Value>::MapIterator {
 
   friend class BinaryTree<key_type, value_type>;
 
- protected:
   TreeNode* curr_node_;
   TreeNode* prev_node_;
   TreeNode* MoveForward(TreeNode* node);

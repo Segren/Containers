@@ -56,7 +56,15 @@ typename set<Key>::iterator set<Key>::end() {
 }
 
 template <typename Key>
-void set<Key>::merge(BinaryTree<Key, Key> &other) {
+void set<Key>::erase(iterator pos) {
+  if (BinaryTree<Key, Key>::root_ == nullptr || pos.curr_node_ == nullptr)
+    return;
+  BinaryTree<Key, Key>::root_ =
+      BinaryTree<Key, Key>::RecursiveDelete(BinaryTree<Key, Key>::root_, *pos);
+}
+
+template <typename Key>
+void set<Key>::merge(set& other) {
   BinaryTree const_tree(other);
   iterator it(BinaryTree<Key, Key>::GetMinNode(const_tree.root_));
   auto *last_node = BinaryTree<Key, Key>::GetMaxNode(const_tree.root_);
@@ -64,7 +72,9 @@ void set<Key>::merge(BinaryTree<Key, Key> &other) {
 
   for (; it != end; ++it) {
     std::pair<set<Key>::iterator, bool> pr = BinaryTree<Key, Key>::insert(*it);
-    if (pr.second) other.erase(pr.first);
+    if (pr.second) {
+      other.erase(pr.first);
+    }
   }
 }
 

@@ -34,7 +34,7 @@ std::pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert_or_assign(
     const Key &key, const T &obj) {
   auto it = BinaryTree<Key, T>::FindInMap(key);
   if (it != this->end()) {
-    BinaryTree<Key, T>::erase(it);
+    erase(it);
     auto pr = BinaryTree<Key, T>::insert(key, obj);
     pr.second = true;
     return pr;
@@ -84,6 +84,13 @@ typename map<Key, T>::iterator map<Key, T>::end() {
   auto *last_node = BinaryTree<Key, T>::GetMaxNode(BinaryTree<Key, T>::root_);
   iterator last(nullptr, last_node);
   return last;
+}
+
+template <typename Key, typename T>
+void map<Key, T>::erase(iterator pos) {
+  if (BinaryTree<Key, T>::root_ == nullptr || pos.curr_node_ == nullptr) return;
+  BinaryTree<Key, T>::root_ = BinaryTree<Key, T>::RecursiveDelete(
+      BinaryTree<Key, T>::root_, pos.return_key());
 }
 
 template <typename Key, typename T>
