@@ -8,11 +8,11 @@ class BinaryTree<Key, Value>::SetIterator {
  public:
   SetIterator();
   SetIterator(TreeNode* node, TreeNode* prev_node = nullptr);
+  reference operator*();
   set_iterator& operator++();
   set_iterator operator++(int);
   set_iterator& operator--();
   set_iterator operator--(int);
-  reference operator*();
   bool operator==(const set_iterator& it);
   bool operator!=(const set_iterator& it);
 

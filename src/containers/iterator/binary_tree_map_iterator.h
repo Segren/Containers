@@ -8,11 +8,11 @@ class BinaryTree<Key, Value>::MapIterator {
  public:
   MapIterator();
   MapIterator(TreeNode* node, TreeNode* prev_node = nullptr);
+  std::pair<const key_type, value_type> operator*();
   map_iterator& operator++();
   map_iterator operator++(int);
   map_iterator& operator--();
   map_iterator operator--(int);
-  std::pair<const key_type, value_type> operator*();
   bool operator==(const map_iterator& it);
   bool operator!=(const map_iterator& it);
   value_type& return_value();
