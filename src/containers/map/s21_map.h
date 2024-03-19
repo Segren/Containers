@@ -20,19 +20,20 @@ class map : public BinaryTree<Key, T> {
   using size_type = size_t;
 
   map() : BinaryTree<key_type, mapped_type>(){};
-  map(const std::initializer_list<value_type> &items);
-  map(const map &other) : BinaryTree<key_type, mapped_type>(other){};
-  map(map &&other) noexcept
-      : BinaryTree<key_type, mapped_type>(std::move(other)){};
-  map &operator=(map &&other) noexcept;
-  map &operator=(const map &other);
+  map(std::initializer_list<value_type> const &items);
+  map(const map &m) : BinaryTree<key_type, mapped_type>(m){};
+  map(map &&m) noexcept
+      : BinaryTree<key_type, mapped_type>(std::move(m)){};
   ~map() = default;
+  map &operator=(map &&m) noexcept;
+  map &operator=(const map &m);
+
+  mapped_type &at(const key_type &key);
+  mapped_type &operator[](const key_type &key);
 
   iterator begin();
   iterator end();
   void merge(map &other);
-  mapped_type &at(const key_type &key);
-  mapped_type &operator[](const key_type &key);
   std::pair<iterator, bool> insert_or_assign(const key_type &key,
                                              const mapped_type &obj);
   template <class... Args>

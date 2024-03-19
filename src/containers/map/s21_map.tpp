@@ -14,17 +14,17 @@ map<Key, T>::map(const std::initializer_list<value_type> &items) {
 }
 
 template <typename Key, typename T>
-map<Key, T> &map<Key, T>::operator=(map &&other) noexcept {
-  if (this != &other) {
-    BinaryTree<Key, T>::operator=(std::move(other));
+map<Key, T> &map<Key, T>::operator=(map &&m) noexcept {
+  if (this != &m) {
+    BinaryTree<Key, T>::operator=(std::move(m));
   }
   return *this;
 }
 
 template <typename Key, typename T>
-map<Key, T> &map<Key, T>::operator=(const map &other) {
-  if (this != &other) {
-    BinaryTree<Key, T>::operator=(other);
+map<Key, T> &map<Key, T>::operator=(const map &m) {
+  if (this != &m) {
+    BinaryTree<Key, T>::operator=(m);
   }
   return *this;
 }

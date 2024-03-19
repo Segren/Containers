@@ -8,6 +8,18 @@ TEST(map, ConstructorDefaultMap) {
   EXPECT_EQ(s21_map.empty(), std_map.empty());
 }
 
+TEST(map, ConstructorWithOtherMap) {
+  s21::map<int, char> s21_map_1 = {{1, 'x'}, {2, 'b'}, {3, 'z'}, {4, 'y'}};
+  s21::map<int, char> s21_map_2(s21_map_1);
+  EXPECT_EQ(s21_map_2.size(), s21_map_1.size());
+  auto s21_it = s21_map_2.begin();
+  auto orig_it = s21_map_1.begin();
+  for (; s21_it != s21_map_2.end(); ++s21_it, ++orig_it) {
+    EXPECT_TRUE((*s21_it).first == (*orig_it).first);
+    EXPECT_TRUE((*s21_it).second == (*orig_it).second);
+  }
+}
+
 TEST(map, ConstructorInitializerMap) {
   s21::map<int, char> s21_map = {{1, 'x'}, {2, 'b'}, {3, 'z'}, {4, 'y'}};
   std::map<int, char> std_map = {{1, 'x'}, {2, 'b'}, {3, 'z'}, {4, 'y'}};
