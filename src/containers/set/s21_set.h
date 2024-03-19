@@ -13,23 +13,25 @@ class set : public BinaryTree<Key, Key> {
   using value_type = Key;
   using reference = value_type &;
   using const_reference = const Key &;
-  using iterator = typename BinaryTree<Key, Key>::SetIterator;
-  using const_iterator = typename BinaryTree<Key, Key>::ConstSetIterator;
+  using iterator = typename BinaryTree<key_type, key_type>::SetIterator;
+  using const_iterator =
+      typename BinaryTree<key_type, key_type>::ConstSetIterator;
   using size_type = size_t;
 
-  set() : BinaryTree<Key, Key>(){};
-  set(std::initializer_list<value_type> const &items);
-  set(const set &other) : BinaryTree<Key, Key>(other){};
-  set(set &&other) noexcept : BinaryTree<Key, Key>(std::move(other)){};
+  set() : BinaryTree<key_type, key_type>(){};
+  set(std::initializer_list<key_type> const &items);
+  set(const set &other) : BinaryTree<key_type, key_type>(other){};
+  set(set &&other) noexcept
+      : BinaryTree<key_type, key_type>(std::move(other)){};
   set &operator=(set &&other) noexcept;
   set &operator=(const set &other);
   ~set() = default;
 
   iterator begin();
   iterator end();
-  void merge(BinaryTree<Key, Key> &other);
-  iterator find(const Key &key) {
-    return BinaryTree<Key, Key>::FindInSet(key);
+  void merge(BinaryTree<key_type, key_type> &other);
+  iterator find(const key_type &key) {
+    return BinaryTree<key_type, key_type>::FindInSet(key);
   };
   template <class... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args &&...args);

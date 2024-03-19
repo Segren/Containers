@@ -6,7 +6,7 @@
 namespace s21 {
 
 template <typename Key>
-set<Key>::set(const std::initializer_list<value_type> &items) {
+set<Key>::set(const std::initializer_list<key_type> &items) {
   for (auto i = items.begin(); i != items.end(); ++i) {
     BinaryTree<Key, Key>::insert(*i);
   }
