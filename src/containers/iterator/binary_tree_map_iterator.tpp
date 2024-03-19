@@ -6,7 +6,7 @@
 template <typename Key, typename T>
 void BinaryTree<Key, T>::erase(map_iterator pos) {
   if (BinaryTree<Key, T>::root_ == nullptr || pos.curr_node_ == nullptr) return;
-  BinaryTree<Key, T>::root_ = BinaryTree<Key, T>::RecursiveDelete(
+  BinaryTree<Key, T>::root_ = BinaryTree<Key, T>::recursiveDelete(
       BinaryTree<Key, T>::root_, pos.return_key());
 }
 
@@ -14,7 +14,7 @@ template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::TreeNode *
 BinaryTree<Key, Value>::MapIterator::MoveForward(BinaryTree::TreeNode *node) {
   if (node->right_ != nullptr) {
-    return GetMin(node->right_);
+    return getMinNode(node->right_);
   }
   TreeNode *parent = node->parent_;
   while (parent != nullptr && node == parent->right_) {
@@ -28,7 +28,7 @@ template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::TreeNode *
 BinaryTree<Key, Value>::MapIterator::MoveBack(BinaryTree::TreeNode *node) {
   if (node->left_ != nullptr) {
-    return GetMax(node->left_);
+    return getMaxNode(node->left_);
   }
   TreeNode *parent = node->parent_;
   while (parent != nullptr && node == parent->left_) {
@@ -52,7 +52,7 @@ typename BinaryTree<Key, Value>::MapIterator &
 BinaryTree<Key, Value>::MapIterator::operator++() {
   TreeNode *tmp;
   if (curr_node_ != nullptr) {
-    tmp = GetMax(curr_node_);
+    tmp = getMaxNode(curr_node_);
   }
   curr_node_ = MoveForward(curr_node_);
   if (curr_node_ == nullptr) {

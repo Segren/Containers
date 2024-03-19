@@ -50,7 +50,7 @@ bool BinaryTree<Key, Value>::empty() {
 
 template <typename Key, typename Value>
 size_t BinaryTree<Key, Value>::size() {
-  return RecursiveSize(root_);
+  return getSize(root_);
 }
 
 template <typename Key, typename Value>
@@ -74,7 +74,7 @@ BinaryTree<Key, Value>::insert(const Key &key) {
     return_value.first = SetIterator(root_);
     return_value.second = true;
   } else {
-    bool check_insert = RecursiveInsert(root_, key, key);
+    bool check_insert = recursiveInsert(root_, key, key);
     return_value.first = Find(key);
     return_value.second = check_insert;
   }
@@ -90,7 +90,7 @@ BinaryTree<Key, Value>::insert(const Key &key, const Value value) {
     return_value.first = MapIterator(root_);
     return_value.second = true;
   } else {
-    bool check_insert = RecursiveInsert(root_, key, value);
+    bool check_insert = recursiveInsert(root_, key, value);
     return_value.first = Find_map(key);
     return_value.second = check_insert;
   }
@@ -106,7 +106,7 @@ BinaryTree<Key, Value>::insert(std::pair<const Key &, Value> pair) {
     return_value.first = MapIterator(root_);
     return_value.second = true;
   } else {
-    bool check_insert = RecursiveInsert(root_, pair.first, pair.second);
+    bool check_insert = recursiveInsert(root_, pair.first, pair.second);
     return_value.first = Find_map(pair.first);
     return_value.second = check_insert;
   }
@@ -121,20 +121,20 @@ void BinaryTree<Key, Value>::swap(BinaryTree &other) {
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::set_iterator BinaryTree<Key, Value>::Find(
     const Key &key) {
-  TreeNode *exact_node = RecursiveFind(root_, key);
+  TreeNode *exact_node = recursiveFind(root_, key);
   return SetIterator(exact_node);
 }
 
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::map_iterator BinaryTree<Key, Value>::Find_map(
     const Key &key) {
-  TreeNode *exact_node = RecursiveFind(root_, key);
+  TreeNode *exact_node = recursiveFind(root_, key);
   return MapIterator(exact_node);
 }
 
 template <typename Key, typename Value>
 bool BinaryTree<Key, Value>::contains(const Key &key) {
-  TreeNode *contain_node = RecursiveFind(root_, key);
+  TreeNode *contain_node = recursiveFind(root_, key);
   return contain_node != nullptr;
 }
 
@@ -166,34 +166,33 @@ void BinaryTree<Key, Value>::FreeNode(TreeNode *node) {
 }
 
 template <typename Key, typename Value>
-int BinaryTree<Key, Value>::GetHeight(BinaryTree::TreeNode *node) {
+int BinaryTree<Key, Value>::getHeight(TreeNode *node) {
   return node == nullptr ? -1 : node->height_;
 }
 
 template <typename Key, typename Value>
-int BinaryTree<Key, Value>::GetBalance(BinaryTree::TreeNode *node) {
-  return node == nullptr ? 0 : GetHeight(node->right_) - GetHeight(node->left_);
+int BinaryTree<Key, Value>::getBalance(TreeNode *node) {
+  return node == nullptr ? 0 : getHeight(node->right_) - getHeight(node->left_);
 }
 
 template <typename Key, typename Value>
-void BinaryTree<Key, Value>::SetHeight(BinaryTree::TreeNode *node) {
-  node->height_ = std::max(GetHeight(node->left_), GetHeight(node->right_)) + 1;
+void BinaryTree<Key, Value>::setHeight(TreeNode *node) {
+  node->height_ = std::max(getHeight(node->left_), getHeight(node->right_)) + 1;
 }
 
 template <typename Key, typename Value>
-void BinaryTree<Key, Value>::SwapValue(BinaryTree::TreeNode *a,
-                                       BinaryTree::TreeNode *b) {
+void BinaryTree<Key, Value>::swapValue(TreeNode *a, TreeNode *b) {
   std::swap(a->key_, b->key_);
   std::swap(a->value_, b->value_);
 }
 
 template <typename Key, typename Value>
-void BinaryTree<Key, Value>::RightRotate(BinaryTree::TreeNode *node) {
+void BinaryTree<Key, Value>::rightRotateNode(TreeNode *node) {
   TreeNode *new_left = node->left_->left_;
   TreeNode *new_right_right = node->right_;
   TreeNode *new_right_left = node->left_->right_;
 
-  SwapValue(node, node->left_);
+  swapValue(node, node->left_);
   node->right_ = node->left_;
 
   node->left_ = new_left;
@@ -211,17 +210,17 @@ void BinaryTree<Key, Value>::RightRotate(BinaryTree::TreeNode *node) {
     node->right_->right_->parent_ = node->right_;
   }
 
-  SetHeight(node->right_);
-  SetHeight(node);
+  setHeight(node->right_);
+  setHeight(node);
 }
 
 template <typename Key, typename Value>
-void BinaryTree<Key, Value>::LeftRotate(BinaryTree::TreeNode *node) {
+void BinaryTree<Key, Value>::leftRotateNode(TreeNode *node) {
   TreeNode *new_right = node->right_->right_;
   TreeNode *new_left_left = node->left_;
   TreeNode *new_left_right = node->right_->left_;
 
-  SwapValue(node, node->right_);
+  swapValue(node, node->right_);
   node->left_ = node->right_;
 
   node->right_ = new_right;
@@ -239,80 +238,80 @@ void BinaryTree<Key, Value>::LeftRotate(BinaryTree::TreeNode *node) {
     node->left_->left_->parent_ = node->left_;
   }
 
-  SetHeight(node->left_);
-  SetHeight(node);
+  setHeight(node->left_);
+  setHeight(node);
 }
 
 template <typename Key, typename Value>
-void BinaryTree<Key, Value>::Balance(TreeNode *node) {
-  int balance = GetBalance(node);
+void BinaryTree<Key, Value>::balancing(TreeNode *node) {
+  int balance = getBalance(node);
   if (balance == -2) {
-    if (GetBalance(node->left_) == 1) LeftRotate(node->left_);
-    RightRotate(node);
+    if (getBalance(node->left_) == 1) leftRotateNode(node->left_);
+    rightRotateNode(node);
   } else if (balance == 2) {
-    if (GetBalance(node->right_) == -1) RightRotate(node->right_);
-    LeftRotate(node);
+    if (getBalance(node->right_) == -1) rightRotateNode(node->right_);
+    leftRotateNode(node);
   }
 }
 
 template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *BinaryTree<Key, Value>::GetMin(
-    BinaryTree::TreeNode *node) {
+typename BinaryTree<Key, Value>::TreeNode *BinaryTree<Key, Value>::getMinNode(
+    TreeNode *node) {
   if (node == nullptr) return nullptr;
   if (node->left_ == nullptr) return node;
-  return GetMin(node->left_);
+  return getMinNode(node->left_);
 }
 
 template <typename Key, typename Value>
-typename BinaryTree<Key, Value>::TreeNode *BinaryTree<Key, Value>::GetMax(
-    BinaryTree::TreeNode *node) {
+typename BinaryTree<Key, Value>::TreeNode *BinaryTree<Key, Value>::getMaxNode(
+    TreeNode *node) {
   if (node == nullptr) return nullptr;
   if (node->right_ == nullptr) return node;
-  return GetMax(node->right_);
+  return getMaxNode(node->right_);
 }
 
 template <typename Key, typename Value>
-size_t BinaryTree<Key, Value>::RecursiveSize(BinaryTree::TreeNode *node) {
+size_t BinaryTree<Key, Value>::getSize(TreeNode *node) {
   if (node == nullptr) return 0;
-  size_t left_size = RecursiveSize(node->left_);
-  size_t right_size = RecursiveSize(node->right_);
+  size_t left_size = getSize(node->left_);
+  size_t right_size = getSize(node->right_);
   return 1 + left_size + right_size;
 }
 
 template <typename Key, typename Value>
-bool BinaryTree<Key, Value>::RecursiveInsert(BinaryTree::TreeNode *node,
-                                             const Key &key, Value value) {
+bool BinaryTree<Key, Value>::recursiveInsert(TreeNode *node, const Key &key,
+                                             Value value) {
   bool check_insert = false;
   if (key < node->key_) {
     if (node->left_ == nullptr) {
       node->left_ = new TreeNode(key, value, node);
       check_insert = true;
     } else {
-      check_insert = RecursiveInsert(node->left_, key, value);
+      check_insert = recursiveInsert(node->left_, key, value);
     }
   } else if (key > node->key_) {
     if (node->right_ == nullptr) {
       node->right_ = new TreeNode(key, value, node);
       check_insert = true;
     } else {
-      check_insert = RecursiveInsert(node->right_, key, value);
+      check_insert = recursiveInsert(node->right_, key, value);
     }
   } else if (key == node->key_) {
     return check_insert;
   }
-  SetHeight(node);
-  Balance(node);
+  setHeight(node);
+  balancing(node);
   return check_insert;
 }
 
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::TreeNode *
-BinaryTree<Key, Value>::RecursiveDelete(BinaryTree::TreeNode *node, Key key) {
+BinaryTree<Key, Value>::recursiveDelete(TreeNode *node, Key key) {
   if (node == nullptr) return nullptr;
   if (key < node->key_) {
-    node->left_ = RecursiveDelete(node->left_, key);
+    node->left_ = recursiveDelete(node->left_, key);
   } else if (key > node->key_) {
-    node->right_ = RecursiveDelete(node->right_, key);
+    node->right_ = recursiveDelete(node->right_, key);
   } else {
     if (node->left_ == nullptr || node->right_ == nullptr) {
       TreeNode *node_right = node->right_;
@@ -326,28 +325,27 @@ BinaryTree<Key, Value>::RecursiveDelete(BinaryTree::TreeNode *node, Key key) {
       }
       if (node != nullptr) node->parent_ = node_parent;
     } else {
-      TreeNode *min_in_right = GetMin(node->right_);
+      TreeNode *min_in_right = getMinNode(node->right_);
       node->key_ = min_in_right->key_;
       node->value_ = min_in_right->value_;
-      node->right_ = RecursiveDelete(node->right_, min_in_right->key_);
+      node->right_ = recursiveDelete(node->right_, min_in_right->key_);
     }
   }
   if (node != nullptr) {
-    SetHeight(node);
-    Balance(node);
+    setHeight(node);
+    balancing(node);
   }
   return node;
 }
 
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::TreeNode *
-BinaryTree<Key, Value>::RecursiveFind(BinaryTree::TreeNode *node,
-                                      const Key &key) {
+BinaryTree<Key, Value>::recursiveFind(TreeNode *node, const Key &key) {
   if (node == nullptr || node->key_ == key) return node;
   if (key > node->key_) {
-    return RecursiveFind(node->right_, key);
+    return recursiveFind(node->right_, key);
   } else {
-    return RecursiveFind(node->left_, key);
+    return recursiveFind(node->left_, key);
   }
 }
 

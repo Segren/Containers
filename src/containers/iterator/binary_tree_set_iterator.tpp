@@ -6,14 +6,14 @@
 template <typename Key, typename Value>
 void BinaryTree<Key, Value>::erase(set_iterator pos) {
   if (root_ == nullptr || pos.curr_node_ == nullptr) return;
-  root_ = RecursiveDelete(root_, *pos);
+  root_ = recursiveDelete(root_, *pos);
 }
 
 template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::TreeNode *
 BinaryTree<Key, Value>::SetIterator::MoveForward(BinaryTree::TreeNode *node) {
   if (node->right_ != nullptr) {
-    return GetMin(node->right_);
+    return getMinNode(node->right_);
   }
   TreeNode *parent = node->parent_;
   while (parent != nullptr && node == parent->right_) {
@@ -27,7 +27,7 @@ template <typename Key, typename Value>
 typename BinaryTree<Key, Value>::TreeNode *
 BinaryTree<Key, Value>::SetIterator::MoveBack(BinaryTree::TreeNode *node) {
   if (node->left_ != nullptr) {
-    return GetMax(node->left_);
+    return getMaxNode(node->left_);
   }
   TreeNode *parent = node->parent_;
   while (parent != nullptr && node == parent->left_) {
@@ -51,7 +51,7 @@ typename BinaryTree<Key, Value>::SetIterator &
 BinaryTree<Key, Value>::SetIterator::operator++() {
   TreeNode *tmp;
   if (curr_node_ != nullptr) {
-    tmp = GetMax(curr_node_);
+    tmp = getMaxNode(curr_node_);
   }
   curr_node_ = MoveForward(curr_node_);
   if (curr_node_ == nullptr) {

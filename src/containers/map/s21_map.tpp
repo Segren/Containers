@@ -73,14 +73,15 @@ T &map<Key, T>::operator[](const Key &key) {
 
 template <typename Key, typename T>
 typename map<Key, T>::iterator map<Key, T>::begin() {
-  return typename BinaryTree<Key, T>::MapIterator(this->GetMin(this->root_));
+  return
+      typename BinaryTree<Key, T>::MapIterator(this->getMinNode(this->root_));
 }
 
 template <typename Key, typename T>
 typename map<Key, T>::iterator map<Key, T>::end() {
   if (BinaryTree<Key, T>::root_ == nullptr) return begin();
 
-  auto *last_node = BinaryTree<Key, T>::GetMax(BinaryTree<Key, T>::root_);
+  auto *last_node = BinaryTree<Key, T>::getMaxNode(BinaryTree<Key, T>::root_);
   iterator last(nullptr, last_node);
   return last;
 }
