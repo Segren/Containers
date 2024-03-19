@@ -12,7 +12,7 @@ class BinaryTree<Key, Value>::MapIterator {
   map_iterator operator++(int);
   map_iterator& operator--();
   map_iterator operator--(int);
-  map_reference operator*();
+  std::pair<const key_type, value_type> operator*();
   bool operator==(const map_iterator& it);
   bool operator!=(const map_iterator& it);
   Value& return_value();

@@ -89,15 +89,11 @@ BinaryTree<Key, Value>::MapIterator::operator--(int) {
 }
 
 template <typename Key, typename Value>
-std::pair<const Key, Value> &BinaryTree<Key, Value>::MapIterator::operator*() {
+std::pair<const Key, Value> BinaryTree<Key, Value>::MapIterator::operator*() {
   if (curr_node_ == nullptr) {
-    static std::pair<const Key, Value> end_value{};
-    return end_value;
+    return std::make_pair(Key(), Value());  // Создаем пару с пустыми значениями
   }
-  std::pair<const Key, Value> pair =
-      std::make_pair(curr_node_->key_, curr_node_->value_);
-  std::pair<const Key, Value> &ref = pair;
-  return ref;
+  return std::make_pair(curr_node_->key_, curr_node_->value_);
 }
 
 template <typename Key, typename Value>
