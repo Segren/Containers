@@ -134,6 +134,15 @@ void multiset<Key>::count_helper(typename BinaryTree<Key, Key>::TreeNode* node,
 }
 
 template <typename Key>
+template <class... Args>
+std::vector<std::pair<typename multiset<Key>::iterator, bool>>
+multiset<Key>::insert_many(Args&&... args) {
+  std::vector<std::pair<iterator, bool>> results;
+  (results.push_back(insert(std::forward<Args>(args))), ...);
+  return results;
+}
+
+template <typename Key>
 std::pair<typename BinaryTree<Key, Key>::SetIterator, bool>
 multiset<Key>::insert(const Key& key) {
   // Поиск места для вставки нового элемента
