@@ -1,6 +1,9 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_MULTISET_S21_MULTISET_H_
 #define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_MULTISET_S21_MULTISET_H_
 
+#include "../iterator/binary_tree_set_iterator.tpp"
+#include "../tree/binary_tree.tpp"
+
 namespace s21 {
 
 template <typename Key>
@@ -51,6 +54,12 @@ class multiset : public BinaryTree<Key, Key> {
   std::pair<iterator, iterator> equal_range(const Key &key);
   iterator lower_bound(const key_type &key);
   iterator upper_bound(const key_type &key);
+
+ private:
+  typename BinaryTree<Key, Key>::TreeNode *erase_helper(
+      typename BinaryTree<Key, Key>::TreeNode *node, const Key &key);
+  void count_helper(typename BinaryTree<Key, Key>::TreeNode *node,
+                    const Key &key, size_type &count);
 };
 
 }  // namespace s21
