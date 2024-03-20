@@ -48,7 +48,7 @@ class set : public BinaryTree<Key, Key> {
 
   // Lookup
   iterator find(const key_type &key) { return this->FindInSet(key); };
-  bool contains(const Key &key) { return this->Contains(key); }
+  bool contains(const key_type &key) { return this->Contains(key); }
 };
 
 }  // namespace s21
