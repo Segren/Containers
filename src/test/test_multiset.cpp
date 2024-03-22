@@ -175,7 +175,7 @@ TEST(MultisetTest, SwapMethod) {
   EXPECT_TRUE(test_set2.contains(1));
 }
 
-TEST(MultisetTest, MergeMethod) {
+TEST(MultisetTest, MergeMethod1) {
   s21::multiset<int> test_set1 = {1, 2, 2, 3, 3, 3};
   s21::multiset<int> test_set2 = {4, 5, 6};
 
@@ -184,6 +184,12 @@ TEST(MultisetTest, MergeMethod) {
   EXPECT_EQ(test_set1.size(), 9);
 
   EXPECT_TRUE(test_set2.empty());
+}
+
+TEST(MultisetTest, MergeMethod2) {
+  s21::multiset<int> test_set1 = {1, 2, 2, 3, 3, 3};
+  test_set1.merge(test_set1);
+  EXPECT_EQ(test_set1.size(), 6);
 }
 
 TEST(MultisetTest, CountMethod) {
