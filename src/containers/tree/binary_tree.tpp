@@ -245,8 +245,6 @@ bool BinaryTree<Key, T>::RecursiveInsert(TreeNode *node, const Key &key,
     } else {
       check_insert = RecursiveInsert(node->right_, key, value);
     }
-  } else if (key == node->key_) {
-    return check_insert;
   }
   SetHeight(node);
   Balancing(node);

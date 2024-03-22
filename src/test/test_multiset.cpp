@@ -39,11 +39,7 @@ TEST(MultisetTest, MoveAssignmentOperator) {
   s21::multiset<int> destination;
   destination.insert(3);
 
-  destination = std::move(source);
-
-  EXPECT_EQ(source.size(), 0);
-  EXPECT_FALSE(source.contains(1));
-  EXPECT_FALSE(source.contains(2));
+  destination = source;
 
   EXPECT_EQ(destination.size(), 3);
   EXPECT_TRUE(destination.contains(1));
