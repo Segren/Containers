@@ -44,6 +44,17 @@ TEST(map, ConstructorInitializer2Map) {
   }
 }
 
+TEST(map, ConstructorInitializer3EmptyMap) {
+  s21::map<int, char> s21_map;
+  auto it = s21_map.begin();
+
+  EXPECT_TRUE(s21_map.size() == 0);
+  EXPECT_FALSE((*it).first);
+  EXPECT_FALSE((*it).second);
+  EXPECT_FALSE(it.return_value());
+  EXPECT_FALSE(it.return_key());
+}
+
 TEST(map, ConstructorCopyMap) {
   s21::map<int, int> s21_map = {{1, 2}, {3, 4}, {5, 6}};
   std::map<int, int> std_map = {{1, 2}, {3, 4}, {5, 6}};
@@ -172,7 +183,7 @@ TEST(map, MapInsert2) {
   EXPECT_TRUE(pr1.second == pr2.second);
 }
 
-TEST(map, MapInsert3) {
+TEST(map, MapInsertOrAssign1) {
   s21::map<int, char> s21_map;
   std::map<int, char> std_map;
   s21_map.insert(1, 'a');
@@ -193,6 +204,32 @@ TEST(map, MapInsert3) {
   auto i = std_map.begin();
   EXPECT_TRUE((*pr1.first).first == (*i).first);
   EXPECT_FALSE((*pr1.first).second == (*i).second);
+}
+
+TEST(map, MapInsertOrAssign2) {
+  s21::map<int, char> s21_map;
+  std::map<int, char> std_map;
+  s21_map.insert(1, 'a');
+  s21_map.insert(2, 'a');
+  s21_map.insert(3, 'a');
+  std_map.insert(std::make_pair(1, 'a'));
+  std_map.insert(std::make_pair(2, 'a'));
+  std_map.insert(std::make_pair(3, 'a'));
+
+  auto pr1 = s21_map.insert_or_assign(4, 'b');
+  auto pr2 = std_map.insert_or_assign(4, 'b');
+  EXPECT_TRUE(s21_map.size() == std_map.size());
+  EXPECT_TRUE((*pr1.first).first == (*pr2.first).first);
+}
+
+TEST(map, MapInsertOrAssign3) {
+  s21::map<int, char> s21_map;
+  std::map<int, char> std_map;
+
+  s21_map[1] = 's';
+  std_map[1] = 's';
+
+  EXPECT_TRUE(s21_map.size() == std_map.size());
 }
 
 TEST(map, MapInsertMany) {
@@ -218,6 +255,12 @@ TEST(map, MapErase) {
     EXPECT_TRUE((*s21_it).first == (*orig_it).first);
     EXPECT_TRUE((*s21_it).second == (*orig_it).second);
   }
+}
+
+TEST(map, MapEraseEmpty) {
+  s21::map<int, char> s21_map;
+  s21_map.erase(s21_map.begin());
+  EXPECT_TRUE(s21_map.size() == 0);
 }
 
 TEST(map, SwapMap) {
