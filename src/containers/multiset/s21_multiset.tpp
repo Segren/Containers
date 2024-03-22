@@ -126,23 +126,20 @@ void multiset<Key>::erase(iterator pos) {
 template <typename Key>
 typename BinaryTree<Key, Key>::TreeNode* multiset<Key>::erase_helper(
     typename BinaryTree<Key, Key>::TreeNode* node, const Key& key) {
-  if (node == nullptr) {
-    return nullptr;
-  }
-
   if (key < node->key_) {
     node->left_ = erase_helper(node->left_, key);
   } else if (key > node->key_) {
     node->right_ = erase_helper(node->right_, key);
   } else {
-    if (node->left_ == nullptr && node->right_ == nullptr) {
-      delete node;
-      return nullptr;
-    } else if (node->left_ == nullptr) {
-      typename BinaryTree<Key, Key>::TreeNode* temp = node->right_;
-      delete node;
-      return temp;
-    } else if (node->right_ == nullptr) {
+    //    if (node->left_ == nullptr && node->right_ == nullptr) {
+    //      delete node;
+    //      return nullptr;
+    //    } else if (node->left_ == nullptr) {
+    //      typename BinaryTree<Key, Key>::TreeNode* temp = node->right_;
+    //      delete node;
+    //      return temp;
+    //    } else if (node->right_ == nullptr) {
+    if (node->right_ == nullptr) {
       typename BinaryTree<Key, Key>::TreeNode* temp = node->left_;
       delete node;
       return temp;

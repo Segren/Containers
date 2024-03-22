@@ -154,6 +154,13 @@ TEST(MultisetTest, EraseMethod) {
   EXPECT_EQ(test_set.size(), 5);
 }
 
+TEST(MultisetTest, EraseMethodEmptySet) {
+  s21::multiset<int> test_set;
+  auto it = test_set.find(0);
+  test_set.erase(it);
+  EXPECT_EQ(test_set.size(), 0);
+}
+
 TEST(MultisetTest, SwapMethod) {
   s21::multiset<int> test_set1 = {1, 2, 2, 3, 3, 3};
   s21::multiset<int> test_set2 = {4, 5, 6};
