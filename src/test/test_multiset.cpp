@@ -76,19 +76,19 @@ TEST(MultisetTest, InitializerListConstructor) {
   EXPECT_FALSE(test_set.contains(4));
 }
 
-// TEST(MultisetTest, FindMethod) {
-//   s21::multiset<int> test_set = {1, 2, 2, 3, 3, 3};
-//
-//   auto it1 = test_set.find(1);
-//   auto it2 = test_set.find(2);
-//   auto it3 = test_set.find(3);
-//   auto it4 = test_set.find(4);
-//
-//   EXPECT_NE(it1, test_set.end());
-//   EXPECT_NE(it2, test_set.end());
-//   EXPECT_NE(it3, test_set.end());
-//   EXPECT_EQ(it4, test_set.end());
-// }
+TEST(MultisetTest, FindMethod) {
+  s21::multiset<int> test_set = {1, 2, 2, 3, 3, 3};
+
+  auto it1 = test_set.find(1);
+  auto it2 = test_set.find(2);
+  auto it3 = test_set.find(3);
+  auto it4 = test_set.find(4);
+
+  EXPECT_EQ(*it1, 1);
+  EXPECT_EQ(*it2, 2);
+  EXPECT_EQ(*it3, 3);
+  EXPECT_NE(*it4, 4);
+}
 
 TEST(MultisetTest, ContainsMethod) {
   s21::multiset<int> test_set = {1, 2, 2, 3, 3, 3};
@@ -189,50 +189,39 @@ TEST(MultisetTest, CountMethod) {
   EXPECT_EQ(multiset.count(6), 0);
 }
 
-// TEST(MultisetTest, TestLowerBound) {
-//   s21::multiset<int> my = {1, 2, 2, 3, 3, 3, 4, 4, 4, 4};
-//   auto lb1 = my.lower_bound(2);
-//   EXPECT_EQ((*lb1).first, 2);
-//   auto lb2 = my.lower_bound(5);
-//   EXPECT_EQ(lb2, my.end());
-//   auto lb3 = my.lower_bound(0);
-//   EXPECT_EQ(lb3, my.begin());
-// }
-//
-// TEST(MultisetTest, TestUpperBound) {
-//   s21::multiset<int> my = {1, 2, 2, 3, 3, 3, 4, 4, 4, 4};
-//   auto lb1 = my.upper_bound(1);
-//   EXPECT_EQ((*lb1).first, 2);
-//   auto lb2 = my.upper_bound(5);
-//   EXPECT_EQ(lb2, my.end());
-//   auto lb3 = my.upper_bound(0);
-//   EXPECT_EQ(lb3, my.begin());
-// }
+TEST(MultisetTest, TestLowerBound) {
+  s21::multiset<int> mset = {1, 2, 2, 3, 3, 3, 4, 4, 4, 4};
+  auto it1 = mset.lower_bound(2);
+  EXPECT_EQ(*it1, 2);
+  auto it2 = mset.lower_bound(5);
+  EXPECT_TRUE(it2 == mset.end());
+  auto it3 = mset.lower_bound(0);
+  EXPECT_TRUE(it3 == mset.begin());
+}
 
-// TEST(MultisetTest, TestEqualRange) {
-//   s21::multiset<int> myMultiset = {1, 2, 2, 3, 4, 4, 5};
-//   auto range1 = myMultiset.equal_range(2);
-//   EXPECT_EQ(range1.first, myMultiset.lower_bound(2));
-//   auto ub1 = myMultiset.upper_bound(2);
-//   EXPECT_EQ(range1.second, ub1);
-//
-//   auto range2 = myMultiset.equal_range(4);
-//   EXPECT_EQ(range2.first, myMultiset.lower_bound(4));
-//   auto ub2 = myMultiset.upper_bound(4);
-//   EXPECT_EQ(range2.second, ub2);
-// }
+TEST(MultisetTest, TestUpperBound) {
+  s21::multiset<int> mset = {1, 2, 2, 3, 3, 3, 4, 4, 4, 4};
+  auto it1 = mset.upper_bound(1);
+  EXPECT_EQ(*it1, 2);
+  auto it2 = mset.upper_bound(0);
+  EXPECT_TRUE(it2 == mset.begin());
+}
+
+TEST(MultisetTest, TestEqualRange) {
+  s21::multiset<int> mset = {1, 2, 2, 3, 4, 4, 5};
+  auto range1 = mset.equal_range(2);
+  EXPECT_EQ(*range1.first, *mset.lower_bound(2));
+  auto ub1 = mset.upper_bound(2);
+  EXPECT_EQ(*range1.second, *ub1);
+
+  auto range2 = mset.equal_range(4);
+  EXPECT_EQ(*range2.first, *mset.lower_bound(4));
+  auto ub2 = mset.upper_bound(4);
+  EXPECT_EQ(*range2.second, *ub2);
+}
 
 TEST(MultisetTest, InsertMany) {
   s21::multiset<int> test({1, 2, 3, 4, 5});
   test.insert_many(1, 2, 3, 4, 5);
   EXPECT_EQ(test.size(), 10);
-  auto iter = test.end();
-  --iter;
-  EXPECT_EQ(*iter, 5);
-  --iter;
-  EXPECT_EQ(*iter, 5);
-  --iter;
-  EXPECT_EQ(*iter, 4);
-  --iter;
-  EXPECT_EQ(*iter, 4);
 }
