@@ -6,6 +6,5 @@
 #include <cstdio>
 
 #include "../s21_containers.h"
-#include "../s21_containersplus.h"
 
 #endif  // TEST_RUNNER_H_

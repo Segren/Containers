@@ -1,91 +1,84 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_LIST_ITERATOR_TPP_
 #define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_LIST_ITERATOR_TPP_
 
-#include <algorithm>        // Для std::copy
-#include <cstddef>          // Для size_t
-#include <initializer_list> // Для std::initializer_list
-#include <stdexcept>        // Для std::out_of_range
-#include <iostream>
-
 #include "list_iterator.h"
 
 namespace s21 {
-    template <typename T>
-    class ListIterator : public Iterator<T> {
-    public: 
-        ListIterator() : ptr_(nullptr) {}
-        explicit ListIterator(Node* ptr) : ptr_(ptr) {}
 
-        T& operator*() override {
-            if (!ptr_) {
-                throw std::invalid_argument("Value is nullptr");
-            }
-            return ptr_->value_;
-        }
+template <typename T>
+ListIterator<T>::ListIterator() : ptr_(nullptr) {}
 
-        // Перегрузка постфиксного оператора ++
-        ListIterator operator++(int) { 
-            ListIterator temp(*this);
-            ptr_ = ptr_->next_;
-            return temp;
-        }
+template <typename T>
+T& ListIterator<T>::operator*() {
+  if (!ptr_) {
+    throw std::invalid_argument("Value is nullptr");
+  }
+  return ptr_->value_;
+}
 
-        // Перегрузка постфиксного оператора --
-        ListIterator operator--(int) { 
-            ListIterator temp(*this);
-            ptr_ = ptr_->prev_;
-            return temp;
-        }
+template <typename T>
+ListIterator<T> ListIterator<T>::operator++(int) {
+  ListIterator temp(*this);
+  ptr_ = ptr_->next_;
+  return temp;
+}
 
-        // Перегрузка префиксного оператора ++
-        ListIterator& operator++() {
-            ptr_ = ptr_->next_;
-            return *this;
-        }
+// Перегрузка постфиксного оператора --
+template <typename T>
+ListIterator<T> ListIterator<T>::operator--(int) {
+  ListIterator<T> temp(*this);
+  ptr_ = ptr_->prev_;
+  return temp;
+}
 
-        // Перегрузка префиксного оператора --
-        ListIterator& operator--() {
-            ptr_ = ptr_->prev_;
-            return *this;
-        }
+// Перегрузка префиксного оператора ++
+template <typename T>
+ListIterator<T>& ListIterator<T>::operator++() {
+  ptr_ = ptr_->next_;
+  return *this;
+}
 
-        ListIterator operator+(std::size_t value) const {
-            Node* tmp = ptr_;
-            for (std::size_t i = 0; i < value; ++i) {
-                if (tmp) tmp = tmp->next_;
-                else break;
-            }
-            return ListIterator(tmp);
-        }
+// Перегрузка префиксного оператора --
+template <typename T>
+ListIterator<T>& ListIterator<T>::operator--() {
+  ptr_ = ptr_->prev_;
+  return *this;
+}
 
-        ListIterator operator-(std::size_t value) const {
-            Node* tmp = ptr_;
-            for (std::size_t i = 0; i < value; ++i) {
-                if (tmp) tmp = tmp->prev_;
-                else break;
-            }
-            return ListIterator(tmp);
-        }
+template <typename T>
+ListIterator<T> ListIterator<T>::operator+(std::size_t value) const {
+  Node* tmp = ptr_;
+  for (std::size_t i = 0; i < value; ++i) {
+    if (tmp)
+      tmp = tmp->next_;
+    else
+      break;
+  }
+  return ListIterator(tmp);
+}
 
-        bool operator==(const ListIterator& other) const { return ptr_ == other.ptr_; }
-        bool operator!=(const ListIterator& other) const { return ptr_ != other.ptr_; }
+template <typename T>
+ListIterator<T> ListIterator<T>::operator-(std::size_t value) const {
+  Node* tmp = ptr_;
+  for (std::size_t i = 0; i < value; ++i) {
+    if (tmp)
+      tmp = tmp->prev_;
+    else
+      break;
+  }
+  return ListIterator(tmp);
+}
 
-    private:
-        Node* ptr_;
-        friend class List<T>;
-    };
-} // namespace s21
+template <typename T>
+bool ListIterator<T>::operator==(const ListIterator<T>& other) {
+  return this->ptr_ == other.ptr_;
+}
 
-namespace s21 {
-    template <typename T>
-    class ListConstIterator : public ListIterator<T> {
-    public: 
-        ListConstIterator(const ListIterator<T>& other) : ListIterator<T>(other) {}
+template <typename T>
+bool ListIterator<T>::operator!=(const ListIterator<T>& other) {
+  return this->ptr_ != other.ptr_;
+}
 
-        const T& operator*() const {
-            return ListIterator<T>::operator*();
-        }
-    };
-} // namespace s21
+}  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_LIST_ITERATOR_TPP_
