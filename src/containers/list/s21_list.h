@@ -68,7 +68,7 @@ namespace s21 {
             void splice(const_iterator pos, list& other); // +
             void reverse(); // +
             void unique(); // +
-            void sort(); // не сделал 
+            void sort(); // +
 
             //  List Member type
             using iterator = ListIterator<T>;
@@ -84,7 +84,7 @@ namespace s21 {
             // Support
             void change_end();
             void quick_sort(iterator left, iterator right);
-            iterator partition(iterator first, iterator last);
+            iterator split(iterator first, iterator last);
             void copy(const list& l);
             void print_list();
     }

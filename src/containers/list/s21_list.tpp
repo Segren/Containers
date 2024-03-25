@@ -41,7 +41,6 @@ namespace s21 {
             end_= new Node(size_);
             this->copy(l);
         }
-    }
 
     template <typename value_type>
     list<value_type>::list(list &&l)
@@ -252,14 +251,22 @@ namespace s21 {
     }
 
     template <typename value_type>
-    void list<value_type>::merge(list& other){
-        if (!this->empty() && !other.empty()) {
-            iterator iter_this = this->begin();
+    void list<value_type>::merge(list& other) {
+        if (!empty() && !other.empty()) {
+            iterator iter_this = begin();
             iterator iter_other = other.begin();
-            wheli (iter_this != this->end()) {
-
+            while (iter_other != other.end()) {
+                if (iter_this == end() || iter_this.ptr_->value_ >= iter_other.ptr_->value_) {
+                    insert(iter_this, *iter_other);
+                    ++iter_other;
+                } else {
+                    ++iter_this;
+                }
             }
+        } else if (empty() && !other.empty()) {
+            copy(other);
         }
+        other.clear();
     }
 
 
@@ -276,7 +283,7 @@ namespace s21 {
 
     template <typename value_type>
     void list<value_type>::reverse(){
-        if (!this->empty()){
+        if (!empty()){
             size_type step = 0;
             for (iterator i = this-> begin(); step <= this->size(); i++){
                 step++;
@@ -286,20 +293,20 @@ namespace s21 {
         }
     }
 
-
     template <typename value_type>
-    void list<value_type>::unique(){
-        if (!this->empty()){
-            for (iterator i = this->begin(); i != this->end(); i++){
-                if (i.ptr_->value_ == i.ptr_->prev_->value_){
-                    iterator del_it = (i-1);
-                    this -> erase(del_it)
+    void list<value_type>::unique() {
+        if (!empty()) {
+            iterator i = begin();
+            while (i != end()) {
+                if (i.ptr_->prev_ != nullptr && i.ptr_->value_ == i.ptr_->prev_->value_) {
+                    iterator del_it = i;
+                    i = erase(del_it);
+                } else {
+                    ++i;
                 }
             }
         }
     }
-
-
 
     template <typename value_type>
     void list<value_type>::sort(){
@@ -309,13 +316,70 @@ namespace s21 {
     }
 
 
-
     template <typename value_type>
-    list<value_type>::change_end() {
-        if (end_){
-
+    void list<value_type>::change_end() {
+        if (end_) {
+            end_->next_ = head_;
+            end_->prev_ = tail_;
+            end_->value_ = size(); 
+            if (head_) {
+                head_->prev_ = end_;
+            }
+            if (tail_) {
+                tail_->next_ = end_;
+            }
         }
     }
+
+    template <typename value_type>
+    void list<value_type>::quick_sort(iterator left, iterator right) {
+        if (left == right || left == end_ || right == end_ || left == tail_) {
+            return;
+        }
+        iterator middle = split(left, right);
+        quick_sort(left, --middle);
+        quick_sort(++middle, right);
+    }
+
+    template <typename value_type>
+    typename list<value_type>::iterator list<value_type>::split(
+        iterator first, iterator last) {
+    value_type split_value = last.ptr_->value_;
+    iterator tmp = first;
+
+    for (iterator i = first; i != last; ++i) { 
+        if (i.ptr_->value_ <= split_value) {
+            std::swap(tmp.ptr_->value_, i.ptr_->value_);
+            ++tmp;
+        }
+    }
+    std::swap(tmp.ptr_->value_, last.ptr_->value_);
+    return tmp;
+}
+
+
+    template <typename value_type>
+    void list<value_type>::copy(const list& l) {
+        Node* current = l.head_;
+        // for (size_type i=0; i!=l.size_; i++){
+        while (current != nullptr) {
+            push_back(current->value_);
+            current = current->next_;
+        }
+    }
+
+    template <typename value_type>
+    void list<value_type>::print_list() {
+    std::cout << "[";
+    for (iterator i = begin(); i != end(); ++i) {
+        std::cout << *i;
+        if (i != end()-1) {
+            std::cout << ", ";
+        }
+    }
+    std::cout << "]\n";
+}
+
 } // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_LIST_S21_LIST_TPP_
