@@ -1,7 +1,9 @@
 CXX = gcc
-CFLAGS = -Wall -Wextra -Werror -lstdc++ -std=c++17 -g
+CFLAGS = -Wall -Wextra -Werror -std=c++17 -g -I/opt/homebrew/Cellar/googletest/1.14.0/include
 V_COMMAND = valgrind  --tool=memcheck --track-fds=yes --trace-children=yes --track-origins=yes --leak-check=full --show-leak-kinds=all -s
 L_COMMAND = leaks -atExit --
+
+LFLAGS =  -lgtest -L/opt/homebrew/Cellar/googletest/1.14.0/lib -lstdc++ -lpthread
 
 PATH_TO_OBJ = objects/
 PATH_TO_TESTS = test/
@@ -14,7 +16,7 @@ OBJ_T = $(patsubst %.cpp, $(PATH_TO_OBJ)%.o, $(notdir $(SRC_T)))
 OS := $(shell uname -s)
 
 ifeq ($(OS), Darwin)
-	CFLAGS+=$(shell pkg-config --cflags check)
+	CFLAGS+=$(shell pkg-config --cflags check) 
 	LIBS+=$(shell pkg-config --libs check)
 endif
 
@@ -22,10 +24,10 @@ all: test
 
 test: coverage_flag $(OBJ_T)
 ifeq ($(OS), Darwin)
-	$(CXX) $(CFLAGS) $(OBJ_T) $(LIBS) -o $(PATH_TO_TESTS)$(EXEC_T)
+	$(CXX) $(OBJ_T) $(CFLAGS) $(LIBS) $(LFLAGS) -o $(PATH_TO_TESTS)$(EXEC_T)
 	$(PATH_TO_TESTS)./$(EXEC_T) || true
 else
-	$(CXX) $(CFLAGS) $(OBJ_T) -o $(PATH_TO_TESTS)$(EXEC_T) -lgtest -lpthread -lm
+	$(CXX) $(OBJ_T) $(CFLAGS) $(LFLAGS) -o $(PATH_TO_TESTS)$(EXEC_T)
 	$(PATH_TO_TESTS)./$(EXEC_T) || true
 endif
 
@@ -84,5 +86,7 @@ clean:
 	rm -rf $(COV_REPORT)*.css && rm -rf $(COV_REPORT)*.html
 	rm -rf *.info && rm -rf *.gcov
 	rm -rf RESULT_VALGRIND.txt gcov_*
+
+rebuild: clean all
 
 .PHONY: all cppcheck format format-check test valgrind leaks clean gcov_report

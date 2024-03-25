@@ -250,20 +250,27 @@ void list<value_type>::swap(list& other) {
 
 template <typename value_type>
 void list<value_type>::merge(list& other) {
-  if (!empty() && !other.empty()) {
-    iterator iter_this = begin();
+  if (!this->empty() && !other.empty()) {
+    iterator iter_this = this->begin();
     iterator iter_other = other.begin();
-    while (iter_other != other.end()) {
-      if (iter_this == end() ||
-          iter_this.ptr_->value_ >= iter_other.ptr_->value_) {
-        insert(iter_this, *iter_other);
-        ++iter_other;
+    while (iter_this != this->end()) {
+      if (iter_other == other.end()) {
+        if (iter_this.ptr_->value_ >= iter_other.ptr_->value_) {
+          this->insert(iter_this, iter_other.ptr_->value_);
+          iter_other++;
+        } else {
+          iter_other++;
+        }
       } else {
-        ++iter_this;
+        break;
       }
     }
-  } else if (empty() && !other.empty()) {
-    copy(other);
+    while (iter_other != other.end()) {
+      this->insert(iter_this, iter_other.ptr_->value_);
+      iter_other++;
+    }
+  } else if (this->empty() && !other.empty()) {
+    this->copy(other);
   }
   other.clear();
 }
@@ -292,14 +299,11 @@ void list<value_type>::reverse() {
 
 template <typename value_type>
 void list<value_type>::unique() {
-  if (!empty()) {
-    iterator i = begin();
-    while (i != end()) {
-      if (i.ptr_->prev_ != nullptr && i.ptr_->value_ == i.ptr_->prev_->value_) {
-        iterator del_it = i;
-        i = erase(del_it);
-      } else {
-        ++i;
+  if (!this->empty()) {
+    for (iterator i = this->begin(); i != this->end(); i++) {
+      if (i.ptr_->value_ == i.ptr_->prev_->value_) {
+        iterator tmp = (i - 1);
+        this->erase(tmp);
       }
     }
   }
@@ -356,8 +360,7 @@ typename list<value_type>::iterator list<value_type>::split(iterator first,
 template <typename value_type>
 void list<value_type>::copy(const list& l) {
   Node* current = l.head_;
-  // for (size_type i=0; i!=l.size_; i++){
-  while (current != nullptr) {
+  for (size_type i=0; i!=l.size_; i++){
     push_back(current->value_);
     current = current->next_;
   }
