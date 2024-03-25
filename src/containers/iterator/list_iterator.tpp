@@ -74,8 +74,6 @@ namespace s21 {
         Node* ptr_;
         friend class List<T>;
     };
-
-    
 } // namespace s21
 
 namespace s21 {

@@ -56,19 +56,19 @@ namespace s21 {
             size_type max_size();
 
             // List Modifiers
-            void clear();
-            // iterator insert(iterator pos, const_reference value);
-            // void erase(iterator pos);
-            void push_back(const_reference value);
-            void pop_back();
-            void push_front(const_reference value);
-            void pop_front();
-            void swap(list& other);
-            void merge(list& other);
-            // void splice(const_iterator pos, list& other);
-            void reverse();
-            void unique();
-            void sort();
+            void clear(); // +
+            iterator insert(iterator pos, const_reference value); // +
+            void erase(iterator pos); // +
+            void push_back(const_reference value); // +
+            void pop_back(); // +
+            void push_front(const_reference value); // +
+            void pop_front(); // + 
+            void swap(list& other); // + 
+            void merge(list& other); // не сделал 
+            void splice(const_iterator pos, list& other); // +
+            void reverse(); // +
+            void unique(); // +
+            void sort(); // не сделал 
 
             //  List Member type
             using iterator = ListIterator<T>;
