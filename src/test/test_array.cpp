@@ -2,7 +2,6 @@
 #include "array"
 #include "test_runner.h"
 
-// using namespace s21;
 TEST(ConstructorTest, DefaultConstructor) {
   s21::array<int, 5> arr;
   EXPECT_EQ(arr.size(), 5);
@@ -20,7 +19,6 @@ TEST(ConstructorTest, Initializer_list) {
   }
 }
 TEST(ConstructorTest, WrongInput) {
-  // s21::array<int, 1> test_arr{1, 2};
   EXPECT_ANY_THROW(({ s21::array<int, 1> arr{1, 2}; }));
 }
 
