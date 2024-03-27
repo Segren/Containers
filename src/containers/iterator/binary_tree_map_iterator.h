@@ -33,4 +33,6 @@ class BinaryTree<key_type, value_type>::ConstMapIterator : public MapIterator {
   const_map_reference operator*() const { return MapIterator::operator*(); };
 };
 
+#include "binary_tree_map_iterator.tpp"
+
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_BINARY_TREE_MAP_ITERATOR_H_

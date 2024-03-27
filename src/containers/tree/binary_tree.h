@@ -74,4 +74,6 @@ class BinaryTree {
   TreeNode* RecursiveFind(TreeNode* node, const key_type& key);
 };
 
+#include "binary_tree.tpp"
+
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_TREE_BINARY_TREE_H_

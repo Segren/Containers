@@ -1,8 +1,8 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_MULTISET_S21_MULTISET_H_
 #define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_MULTISET_S21_MULTISET_H_
 
-#include "../iterator/binary_tree_set_iterator.tpp"
-#include "../tree/binary_tree.tpp"
+#include "../iterator/binary_tree_set_iterator.h"
+#include "../tree/binary_tree.h"
 
 namespace s21 {
 
@@ -63,5 +63,7 @@ class multiset : public BinaryTree<Key, Key> {
 };
 
 }  // namespace s21
+
+#include "s21_multiset.tpp"
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_MULTISET_S21_MULTISET_H_

@@ -31,4 +31,6 @@ class BinaryTree<key_type, value_type>::ConstSetIterator : public SetIterator {
   const_reference operator*() const { return SetIterator::operator*(); };
 };
 
+#include "binary_tree_set_iterator.tpp"
+
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_BINARY_TREE_SET_ITERATOR_H_

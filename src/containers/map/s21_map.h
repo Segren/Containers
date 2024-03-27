@@ -1,8 +1,8 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_MAP_S21_MAP_H_
 #define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_MAP_S21_MAP_H_
 
-#include "../iterator/binary_tree_map_iterator.tpp"
-#include "../tree/binary_tree.tpp"
+#include "../iterator/binary_tree_map_iterator.h"
+#include "../tree/binary_tree.h"
 
 namespace s21 {
 
@@ -59,5 +59,7 @@ class map : public BinaryTree<Key, T> {
 };
 
 }  // namespace s21
+
+#include "s21_map.tpp"
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_MAP_S21_MAP_H_
