@@ -7,8 +7,10 @@
 #include <limits>
 #include <stdexcept>  // Для std::out_of_range
 
+namespace s21 {
+
 template <typename T>
-class s21_vector {
+class vector {
  public:
   // member types
   using value_type = T;
@@ -19,14 +21,14 @@ class s21_vector {
   using size_type = size_t;
 
   // functions;
-  s21_vector();
-  explicit s21_vector(size_type n);
-  s21_vector(std::initializer_list<value_type> const &items);
-  s21_vector(const s21_vector &v);
-  s21_vector(s21_vector &&v) noexcept;
-  ~s21_vector();
-  s21_vector &operator=(s21_vector &&v) noexcept;
-  s21_vector &operator=(const s21_vector &v);
+  vector();
+  explicit vector(size_type n);
+  vector(std::initializer_list<value_type> const &items);
+  vector(const vector &v);
+  vector(vector &&v) noexcept;
+  ~vector();
+  vector &operator=(vector &&v) noexcept;
+  vector &operator=(const vector &v);
 
   // element access;
   reference at(size_type pos);
@@ -56,7 +58,7 @@ class s21_vector {
   void erase(const_iterator pos);
   void push_back(const_reference value);
   void pop_back();
-  void swap(s21_vector &other);
+  void swap(vector &other);
 
   // insert_many
   template <typename... Args>
@@ -71,4 +73,5 @@ class s21_vector {
 };
 #include "s21_vector.tpp"
 
+}  // namespace s21
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_VECTOR_S21_VECTOR_H_
