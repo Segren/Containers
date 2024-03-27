@@ -67,9 +67,9 @@ class vector {
   void insert_many_back(Args &&...args);
 
  private:
-  size_t _size;
-  size_t _capacity;
-  T *elements;
+  size_t size_;
+  size_t capacity_;
+  T *elements_;
 };
 #include "s21_vector.tpp"
 
