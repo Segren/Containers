@@ -4,22 +4,23 @@
 #include "s21_list.h"
 
 namespace s21 {
+
 // CONSTRUCTORS
-template <typename value_type>  // объявление шаблона класса
+template <typename value_type>
 list<value_type>::list()
     : head_(nullptr), tail_(nullptr), end_(nullptr), size_(0) {
   end_ = new Node(size_);
+  change_end();
 }
 
 template <typename value_type>
 list<value_type>::list(size_type n)
-    : head_(nullptr), tail_(nullptr), end_(nullptr), size_(n) {
-  if (n > max_size()) {
-    throw std::out_of_range("Limit of container is exceeded");
+    : head_(nullptr), tail_(nullptr), end_(nullptr), size_(0) {
+  if (n >= max_size()) {
+    throw std::out_of_range("Limit of the container is exceeded");
   }
   end_ = new Node(size_);
-
-  for (size_type i = 0; i < n; i++) {
+  for (size_type i = 0; i < n; ++i) {
     push_back(value_type());
   }
   change_end();
@@ -55,8 +56,7 @@ list<value_type>::~list() {
 }
 
 template <typename value_type>
-typename list<value_type>::list& list<value_type>::operator=(
-    list&& l) noexcept {
+list<value_type>& list<value_type>::operator=(list<value_type>&& l) noexcept {
   if (this != &l) {
     clear();
     swap(l);
@@ -66,7 +66,7 @@ typename list<value_type>::list& list<value_type>::operator=(
 
 template <typename value_type>
 bool list<value_type>::empty() {
-  return this->size_ == 0;
+  return size_ == 0;
 }
 
 template <typename value_type>
@@ -90,7 +90,7 @@ typename list<value_type>::const_reference list<value_type>::back() {
   return !tail_ ? end_->value_ : tail_->value_;
 }
 
-// ITERATORS
+// List Iterators
 template <typename value_type>
 typename list<value_type>::iterator list<value_type>::begin() {
   return !head_ ? iterator(end_) : iterator(head_);
@@ -100,16 +100,6 @@ template <typename value_type>
 typename list<value_type>::iterator list<value_type>::end() {
   return iterator(end_);
 }
-
-// template <typename value_type>
-// typename list<value_type>::const_iterator list<value_type>::begin() {
-//   return !head_ ? iterator(end_) : iterator(head_);
-// }
-//
-// template <typename value_type>
-// typename list<value_type>::const_iterator list<value_type>::end() {
-//   return const_iterator(end_);
-// }
 
 template <typename value_type>
 void list<value_type>::clear() {
@@ -123,10 +113,9 @@ typename list<value_type>::iterator list<value_type>::insert(
     iterator pos, const_reference value) {
   Node* current = pos.ptr_;
   Node* add = new Node(value);
-
   if (empty()) {
     add->next_ = end_;
-    add->prev = end_;
+    add->prev_ = end_;
     head_ = add;
     tail_ = add;
   } else {
@@ -135,9 +124,8 @@ typename list<value_type>::iterator list<value_type>::insert(
     } else if (current == end_) {
       tail_ = add;
     }
-
     add->next_ = current;
-    add->prev = current->prev_;
+    add->prev_ = current->prev_;
     current->prev_->next_ = add;
     current->prev_ = add;
   }
@@ -148,7 +136,7 @@ typename list<value_type>::iterator list<value_type>::insert(
 
 template <typename value_type>
 void list<value_type>::erase(iterator pos) {
-  Node* current = pos.prt_;
+  Node* current = pos.ptr_;
   if (!empty() && current != end_) {
     if (current == head_) {
       if (current->next_ && current->next_ != end_) {
@@ -213,7 +201,7 @@ void list<value_type>::push_front(const_reference value) {
     head_ = new_node;
     tail_ = new_node;
   } else {
-    new_node->prev_ = head_;
+    new_node->next_ = head_;
     head_->prev_ = new_node;
     head_ = new_node;
   }
@@ -254,12 +242,12 @@ void list<value_type>::merge(list& other) {
     iterator iter_this = this->begin();
     iterator iter_other = other.begin();
     while (iter_this != this->end()) {
-      if (iter_other == other.end()) {
+      if (iter_other != other.end()) {
         if (iter_this.ptr_->value_ >= iter_other.ptr_->value_) {
           this->insert(iter_this, iter_other.ptr_->value_);
           iter_other++;
         } else {
-          iter_other++;
+          iter_this++;
         }
       } else {
         break;
@@ -278,8 +266,8 @@ void list<value_type>::merge(list& other) {
 template <typename value_type>
 void list<value_type>::splice(const_iterator pos, list& other) {
   if (!other.empty()) {
-    for (iterator i = other.begin(); i != other.end(); i++) {
-      this->insert(pos, i);
+    for (iterator it = other.begin(); it != other.end(); ++it) {
+      this->insert(pos, *it);
     }
     other.clear();
   }
@@ -287,11 +275,11 @@ void list<value_type>::splice(const_iterator pos, list& other) {
 
 template <typename value_type>
 void list<value_type>::reverse() {
-  if (!empty()) {
+  if (!this->empty()) {
     size_type step = 0;
-    for (iterator i = this->begin(); step <= this->size(); i++) {
+    for (iterator it = this->begin(); step <= this->size(); ++it) {
       step++;
-      std::swap(i.ptr_->prev_, i.ptr_->next_);
+      std::swap(it.ptr_->prev_, it.ptr_->next_);
     }
     std::swap(head_, tail_);
   }
@@ -300,10 +288,10 @@ void list<value_type>::reverse() {
 template <typename value_type>
 void list<value_type>::unique() {
   if (!this->empty()) {
-    for (iterator i = this->begin(); i != this->end(); i++) {
-      if (i.ptr_->value_ == i.ptr_->prev_->value_) {
-        iterator tmp = (i - 1);
-        this->erase(tmp);
+    for (iterator it = this->begin(); it != this->end(); it++) {
+      if (it.ptr_->value_ == it.ptr_->prev_->value_) {
+        iterator del_it = (it - 1);
+        this->erase(del_it);
       }
     }
   }
@@ -316,9 +304,10 @@ void list<value_type>::sort() {
   }
 }
 
+// Support
 template <typename value_type>
 void list<value_type>::change_end() {
-  if (this->end_) {
+  if (end_) {
     end_->next_ = head_;
     end_->prev_ = tail_;
     end_->value_ = size();
@@ -332,35 +321,37 @@ void list<value_type>::change_end() {
 }
 
 template <typename value_type>
-void list<value_type>::quick_sort(iterator left, iterator right) {
-  if (left == right || left == end_ || right == end_ || left == tail_) {
+void list<value_type>::quick_sort(iterator first, iterator last) {
+  if (first == last || first == end_ || last == end_ || first == tail_) {
     return;
   }
-  iterator middle = split(left, right);
-  quick_sort(left, --middle);
-  quick_sort(++middle, right);
+  iterator pivot = partition(first, last);
+  quick_sort(first, --pivot);
+  quick_sort(++pivot, last);
 }
 
 template <typename value_type>
-typename list<value_type>::iterator list<value_type>::split(iterator first,
-                                                            iterator last) {
-  value_type split_value = last.ptr_->value_;
-  iterator tmp = first;
+typename list<value_type>::iterator list<value_type>::partition(iterator first,
+                                                                iterator last) {
+  value_type pivot_value = last.ptr_->value_;
+  iterator i = first;
 
-  for (iterator i = first; i != last; ++i) {
-    if (i.ptr_->value_ <= split_value) {
-      std::swap(tmp.ptr_->value_, i.ptr_->value_);
-      ++tmp;
+  for (iterator j = first; j != last; ++j) {
+    if (j.ptr_->value_ <= pivot_value) {
+      std::swap(i.ptr_->value_, j.ptr_->value_);
+      i++;
     }
   }
-  std::swap(tmp.ptr_->value_, last.ptr_->value_);
-  return tmp;
+
+  std::swap(i.ptr_->value_, last.ptr_->value_);
+
+  return i;
 }
 
 template <typename value_type>
 void list<value_type>::copy(const list& l) {
   Node* current = l.head_;
-  for (size_type i=0; i!=l.size_; i++){
+  for (size_type i = 0; i != l.size_; i++) {
     push_back(current->value_);
     current = current->next_;
   }

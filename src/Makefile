@@ -10,6 +10,11 @@ PATH_TO_TESTS = test/
 COV_REPORT = report/
 EXEC_T = unit_tests
 
+EXCLUDE_TESTS=test/*
+EXCLUDE_LIST=containers/list/*.h
+EXCLUDE_STACK=containers/stack/*.h
+EXCLUDE_QUEUE=containers/queue/*.h
+
 SRC_T = $(wildcard $(PATH_TO_TESTS)*.cpp)
 OBJ_T = $(patsubst %.cpp, $(PATH_TO_OBJ)%.o, $(notdir $(SRC_T)))
 
@@ -68,7 +73,7 @@ gcov_report: coverage_flag test
 	rm -rf $(PATH_TO_OBJ)$(PATH_TO_TESTS)*.gcno
 	rm -rf $(PATH_TO_OBJ)$(PATH_TO_TESTS)*.gcda
 	gcov -b -l -p -c $(OBJ_T)
-	gcovr -o $(COV_REPORT)gcov_report.html --html --html-details
+	gcovr -o $(COV_REPORT)gcov_report.html --html --html-details --exclude "$(EXCLUDE_TESTS)"
 	rm -rf *.info && rm -rf *.gcov
 	@if command -v xdg-open > /dev/null; then \
         xdg-open $(COV_REPORT)gcov_report.html; \

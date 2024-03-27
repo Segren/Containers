@@ -1,43 +1,46 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_LIST_ITERATOR_H_
-#define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_LIST_ITERATOR_H_
+// #ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_LIST_ITERATOR_H_
+// #define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_LIST_ITERATOR_H_
 
-// #include "../list/s21_list.h"
+// // #include "../list/s21_list.h"
 
-#include <cstdio>
-namespace s21 {
-template <typename T>
-class ListIterator {
- public:
-  ListIterator();
-  ListIterator& operator++();
-  ListIterator operator++(int);
-  ListIterator& operator--();
-  ListIterator operator--(int);
-  ListIterator operator+(std::size_t value) const;
-  ListIterator operator-(std::size_t value) const;
-  T& operator*();
-  bool operator!=(const ListIterator& other);
-  bool operator==(const ListIterator& other);
+// #include <cstdio>
+// namespace s21 {
+// template <typename T>
+// class ListIterator {
+//  public:
+//   using Node = typename s21::list<T>::Node;
 
- private:
-  struct Node {
-    T value_;
-    Node* prev_;
-    Node* next_;
+//   ListIterator();
+//   ListIterator& operator++();
+//   ListIterator operator++(int);
+//   ListIterator& operator--();
+//   ListIterator operator--(int);
+//   ListIterator operator+(std::size_t value) const;
+//   ListIterator operator-(std::size_t value) const;
+//   T& operator*();
+//   bool operator!=(const ListIterator& other);
+//   bool operator==(const ListIterator& other);
 
-    Node(const T& value) : value_(value), prev_(nullptr), next_(nullptr) {}
-  };
+//  private:
+//   // struct Node {
+//   //   T value_;
+//   //   Node* prev_;
+//   //   Node* next_;
 
-  Node* ptr_;
-};
+//   //   Node(const T& value) : value_(value), prev_(nullptr), next_(nullptr)
+//   {}
+//   // };
 
-template <typename T>
-class ListConstIterator : public ListIterator<T> {
- public:
-  ListConstIterator(const ListIterator<T>& other) : ListIterator<T>(other) {}
+//   Node* ptr_;
+// };
 
-  const T& operator*() const { return ListIterator<T>::operator*(); }
-};
-}  // namespace s21
+// template <typename T>
+// class ListConstIterator : public ListIterator<T> {
+//  public:
+//   ListConstIterator(const ListIterator<T>& other) : ListIterator<T>(other) {}
 
-#endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_LIST_ITERATOR_H_
+//   const T& operator*() const { return ListIterator<T>::operator*(); }
+// };
+// }  // namespace s21
+
+// #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_ITERATOR_LIST_ITERATOR_H_
