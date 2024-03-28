@@ -1,18 +1,14 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_LIST_S21_LIST_H_
 #define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_LIST_S21_LIST_H_
 
-#include <limits>
-// #include <cstddef>           // Для size_t
-#include <initializer_list>  // Для std::initializer_list
+#include <initializer_list>
 #include <iostream>
-
-// #include "../iterator/list_iterator.tpp"
-// #include "./s21_list.tpp"
+#include <limits>
 
 namespace s21 {
 template <typename T>
 class list {
-  // List Member type
+ public:
   using value_type = T;
   using reference = T&;
   using const_reference = const T&;
@@ -28,11 +24,10 @@ class list {
         : value_(value), prev_(nullptr), next_(nullptr) {}
   };
 
-  Node* head_;  // указатель на первый элемент
-  Node* tail_;  // указатель на последний элемент
-  Node* end_;  // специальный узел, который используется для обеспечения
-               // цикличности списка
-  size_type size_;  // размер списка
+  Node* head_;
+  Node* tail_;
+  Node* end_;
+  size_type size_;
 
  public:
   // CONSTRUCTORS

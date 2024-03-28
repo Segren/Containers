@@ -1,7 +1,7 @@
 #include <list>
 
-#include "../containers/list/s21_list.h"
-#include "../containers/list/s21_list.tpp"
+// #include "../containers/list/s21_list.h"
+// #include "../containers/list/s21_list.tpp"
 #include "test_runner.h"
 
 template <typename value_type>
