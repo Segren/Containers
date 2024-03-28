@@ -164,12 +164,6 @@ TEST(ListTest, SizeEmpty) {
   EXPECT_EQ(my_list.size(), std_list.size());
 }
 
-// TEST(ListTest, MaxSize) {
-//   s21::list<size_t> my_list_empty;
-//   std::list<size_t> std_list_empty;
-//   EXPECT_EQ(my_list_empty.max_size(), std_list_empty.max_size());
-// }
-
 TEST(ListTest, Clear) {
   s21::list<int> my_list{1, 2, 3, 4};
   my_list.clear();
@@ -544,4 +538,91 @@ TEST(ListTest, Erase_5) {
   std_list1.erase(std_list1.end().operator--());
 
   EXPECT_TRUE(compare_lists(my_list1, std_list1));
+}
+
+
+TEST(StackTest, Pop_front_null) {
+  std::initializer_list<int> il1;
+
+  s21::list<int> s21_list{il1};
+
+  EXPECT_THROW(s21_list.pop_front(), std::out_of_range);
+}
+
+TEST(StackTest, Pop_back_null) {
+  std::initializer_list<int> il1;
+
+  s21::list<int> s21_list{il1};
+
+  EXPECT_THROW(s21_list.pop_back(), std::out_of_range);
+}
+
+TEST(ListTest, PushFrontEmptyList) {
+  s21::list<int> myList;
+  const int value = 42;
+
+  myList.push_front(value);
+
+  EXPECT_EQ(myList.size(), 1u);      
+  EXPECT_EQ(myList.front(), value); 
+  EXPECT_EQ(myList.back(), value); 
+}
+
+TEST(ListIteratorTest, DereferenceOperatorThrows) {
+  s21::list<int> myList;
+  s21::list<int>::ListIterator<int> it(nullptr);
+
+  EXPECT_THROW({
+    *it;
+  }, std::invalid_argument);
+}
+
+TEST(List, Insert_Many) {
+  s21::list<int> our_list = {1, 2, 3, 4, 5};
+  s21::list<int>::iterator our_it = our_list.begin();
+  ++our_it;
+  our_list.insert_many(our_it, 7, 8, 9);
+  our_it = our_list.begin();
+  EXPECT_EQ(*our_it, 1);
+  ++our_it;
+  EXPECT_EQ(*our_it, 7);
+  ++our_it;
+  EXPECT_EQ(*our_it, 8);
+  ++our_it;
+  EXPECT_EQ(*our_it, 9);
+  ++our_it;
+  EXPECT_EQ(*our_it, 2);
+}
+
+TEST(List, Insert_Many_Back) {
+  s21::list<int> our_list = {1, 2, 3, 4, 5};
+  s21::list<int>::iterator our_it;
+  our_list.insert_many_back(7, 8, 9);
+  our_it = our_list.end();
+  --our_it;
+  EXPECT_EQ(*our_it, 9);
+  --our_it;
+  EXPECT_EQ(*our_it, 8);
+  --our_it;
+  EXPECT_EQ(*our_it, 7);
+  --our_it;
+  EXPECT_EQ(*our_it, 5);
+  --our_it;
+  EXPECT_EQ(*our_it, 4);
+}
+
+TEST(List, Insert_Many_Front) {
+  s21::list<int> our_list = {1, 2, 3, 4, 5};
+  s21::list<int>::iterator our_it;
+  our_list.insert_many_front(7, 8, 9);
+  our_it = our_list.begin();
+  EXPECT_EQ(*our_it, 9);
+  ++our_it;
+  EXPECT_EQ(*our_it, 8);
+  ++our_it;
+  EXPECT_EQ(*our_it, 7);
+  ++our_it;
+  EXPECT_EQ(*our_it, 1);
+  ++our_it;
+  EXPECT_EQ(*our_it, 2);
 }

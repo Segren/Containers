@@ -49,19 +49,16 @@ class list {
   size_type max_size();
 
   // List Modifiers
-  void clear();  // +
-  // iterator insert(iterator pos, const_reference value);  // +
-  // void erase(iterator pos);                              // +
+  void clear();                            // +
   void push_back(const_reference value);   // +
   void pop_back();                         // +
   void push_front(const_reference value);  // +
   void pop_front();                        // +
   void swap(list& other);                  // +
   void merge(list& other);                 // +
-  // void splice(const_iterator pos, list& other);          // +
-  void reverse();  // +
-  void unique();   // +
-  void sort();     // +
+  void reverse();                          // +
+  void unique();                           // +
+  void sort();                             // +
 
   template <typename value_type>
   class ListIterator {
@@ -149,6 +146,14 @@ class list {
   iterator partition(iterator first, iterator last);
   void copy(const list& l);
   void print_list();
+
+ public:
+  template <class... Args>
+  iterator insert_many(const_iterator pos, Args&&... args);  // дополнительно
+  template <class... Args>
+  void insert_many_back(Args&&... args);  // дополнительно
+  template <class... Args>
+  void insert_many_front(Args&&... args);  // дополнительно
 };
 
 }  // namespace s21

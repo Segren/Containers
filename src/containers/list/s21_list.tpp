@@ -5,6 +5,33 @@
 
 namespace s21 {
 
+// ДОПОЛНИТЕЛЬНО
+template <typename value_type>
+template <typename... Args>
+typename list<value_type>::iterator list<value_type>::insert_many(
+    const_iterator pos, Args&&... args) {
+  for (const auto& arg : {args...}) {
+    insert(pos, arg);
+  }
+  return pos;
+}
+
+template <typename value_type>
+template <typename... Args>
+void list<value_type>::insert_many_back(Args&&... args) {
+  for (const auto& arg : {args...}) {
+    push_back(arg);
+  }
+}
+
+template <typename value_type>
+template <typename... Args>
+void list<value_type>::insert_many_front(Args&&... args) {
+  for (const auto& arg : {args...}) {
+    push_front(arg);
+  }
+}
+
 // CONSTRUCTORS
 template <typename value_type>
 list<value_type>::list()

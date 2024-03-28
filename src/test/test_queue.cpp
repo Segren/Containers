@@ -208,3 +208,10 @@ TEST(QueueTest, Swap_2) {
   EXPECT_TRUE(compare_queues(my_queue1, std_queue1));
   EXPECT_TRUE(compare_queues(my_queue2, std_queue2));
 }
+
+TEST(Queue, InsertManyBack) {
+  s21::queue<int> our_queue_int;
+  our_queue_int.insert_many_back(1, 2, 3);
+  EXPECT_EQ(our_queue_int.front(), 1);
+  EXPECT_EQ(our_queue_int.back(), 3);
+}

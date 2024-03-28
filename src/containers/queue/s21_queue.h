@@ -36,7 +36,10 @@ class queue {
   void push(const_reference value) { this->cont.push_back(value); }
   void pop() { this->cont.pop_front(); }
   void swap(queue &other) { this->cont.swap(other.cont); }
+
+  template <class... Args>
+  void insert_many_back(Args &&...args);  // дополнительно
 };
 }  //  namespace s21
-
+#include "s21_queue.tpp"
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_QUEUE_S21_QUEUE_H_

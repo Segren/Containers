@@ -102,6 +102,14 @@ TEST(StackTest, Top_1) {
   EXPECT_EQ(s21_stack.top(), std_stack.top());
 }
 
+TEST(StackTest, Top_2_throw) {
+  std::initializer_list<int> il1;
+
+  s21::stack<int> s21_stack{il1};
+
+  EXPECT_THROW(s21_stack.top(), std::out_of_range);
+}
+
 TEST(StackTest, Empty_1) {
   std::initializer_list<int> il1 = {4, 5, 6, 7};
 
@@ -169,6 +177,16 @@ TEST(StackTest, Pop_1) {
   std_stack.pop();
   EXPECT_EQ(s21_stack.size(), std_stack.size());
   EXPECT_EQ(s21_stack.top(), std_stack.top());
+}
+
+TEST(StackTest, Pop_2) {
+  std::initializer_list<int> il1;
+
+  s21::stack<int> s21_stack{il1};
+  std::stack<int> std_stack{il1};
+
+  // Проверяем, что метод pop() выбрасывает исключение при попытке извлечь элемент из пустого стека
+  EXPECT_THROW(s21_stack.pop(), std::out_of_range);
 }
 
 TEST(StackTest, Swap_1) {
@@ -271,4 +289,11 @@ TEST(StackTest, Swap_6) {
 
   EXPECT_EQ(s21_stack_swap.size(), std_stack_swap.size());
   EXPECT_EQ(s21_stack_swap.top(), std_stack_swap.top());
+}
+
+
+TEST(Stack, InsertManyFront) {
+  s21::stack<int> tmp_stack;
+  tmp_stack.insert_many_front(1, 2, 3);
+  EXPECT_EQ(tmp_stack.top(), 3);
 }
