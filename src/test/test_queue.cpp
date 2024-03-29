@@ -1,7 +1,5 @@
 #include <queue>
 
-// #include "../containers/queue/s21_queue.h"
-// #include "../containers/list/s21_list.tpp"
 #include "test_runner.h"
 
 template <typename value_type>

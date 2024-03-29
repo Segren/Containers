@@ -1,6 +1,5 @@
 #include <stack>
 
-// #include "../containers/list/s21_list.tpp"
 #include "test_runner.h"
 
 TEST(StackTest, Constructor_default) {
@@ -185,8 +184,6 @@ TEST(StackTest, Pop_2) {
   s21::stack<int> s21_stack{il1};
   std::stack<int> std_stack{il1};
 
-  // Проверяем, что метод pop() выбрасывает исключение при попытке извлечь
-  // элемент из пустого стека
   EXPECT_THROW(s21_stack.pop(), std::out_of_range);
 }
 
