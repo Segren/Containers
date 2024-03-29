@@ -5,7 +5,6 @@
 
 namespace s21 {
 
-// ДОПОЛНИТЕЛЬНО
 template <typename value_type>
 template <typename... Args>
 typename list<value_type>::iterator list<value_type>::insert_many(
@@ -32,7 +31,6 @@ void list<value_type>::insert_many_front(Args&&... args) {
   }
 }
 
-// CONSTRUCTORS
 template <typename value_type>
 list<value_type>::list()
     : head_(nullptr), tail_(nullptr), end_(nullptr), size_(0) {
@@ -106,7 +104,6 @@ typename list<value_type>::size_type list<value_type>::max_size() {
   return (std::numeric_limits<size_type>::max() / sizeof(Node) / 2);
 }
 
-// List Element access
 template <typename value_type>
 typename list<value_type>::const_reference list<value_type>::front() {
   return !head_ ? end_->value_ : head_->value_;
@@ -117,7 +114,6 @@ typename list<value_type>::const_reference list<value_type>::back() {
   return !tail_ ? end_->value_ : tail_->value_;
 }
 
-// List Iterators
 template <typename value_type>
 typename list<value_type>::iterator list<value_type>::begin() {
   return !head_ ? iterator(end_) : iterator(head_);
@@ -331,7 +327,6 @@ void list<value_type>::sort() {
   }
 }
 
-// Support
 template <typename value_type>
 void list<value_type>::change_end() {
   if (end_) {

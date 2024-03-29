@@ -1,8 +1,6 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_QUEUE_S21_QUEUE_H_
 #define CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_QUEUE_S21_QUEUE_H_
 
-#include "../list/s21_list.tpp"
-
 namespace s21 {
 
 template <typename T, typename Container = s21::list<T>>
@@ -38,8 +36,10 @@ class queue {
   void swap(queue &other) { this->cont.swap(other.cont); }
 
   template <class... Args>
-  void insert_many_back(Args &&...args);  // дополнительно
+  void insert_many_back(Args &&...args);
 };
 }  //  namespace s21
+
+#include "../list/s21_list.tpp"
 #include "s21_queue.tpp"
 #endif  // CPP2_S21_CONTAINERS_1_SRC_CONTAINERS_QUEUE_S21_QUEUE_H_

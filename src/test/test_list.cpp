@@ -540,7 +540,6 @@ TEST(ListTest, Erase_5) {
   EXPECT_TRUE(compare_lists(my_list1, std_list1));
 }
 
-
 TEST(StackTest, Pop_front_null) {
   std::initializer_list<int> il1;
 
@@ -563,18 +562,16 @@ TEST(ListTest, PushFrontEmptyList) {
 
   myList.push_front(value);
 
-  EXPECT_EQ(myList.size(), 1u);      
-  EXPECT_EQ(myList.front(), value); 
-  EXPECT_EQ(myList.back(), value); 
+  EXPECT_EQ(myList.size(), 1u);
+  EXPECT_EQ(myList.front(), value);
+  EXPECT_EQ(myList.back(), value);
 }
 
 TEST(ListIteratorTest, DereferenceOperatorThrows) {
   s21::list<int> myList;
   s21::list<int>::ListIterator<int> it(nullptr);
 
-  EXPECT_THROW({
-    *it;
-  }, std::invalid_argument);
+  EXPECT_THROW({ *it; }, std::invalid_argument);
 }
 
 TEST(List, Insert_Many) {

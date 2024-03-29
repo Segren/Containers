@@ -185,7 +185,8 @@ TEST(StackTest, Pop_2) {
   s21::stack<int> s21_stack{il1};
   std::stack<int> std_stack{il1};
 
-  // Проверяем, что метод pop() выбрасывает исключение при попытке извлечь элемент из пустого стека
+  // Проверяем, что метод pop() выбрасывает исключение при попытке извлечь
+  // элемент из пустого стека
   EXPECT_THROW(s21_stack.pop(), std::out_of_range);
 }
 
@@ -290,7 +291,6 @@ TEST(StackTest, Swap_6) {
   EXPECT_EQ(s21_stack_swap.size(), std_stack_swap.size());
   EXPECT_EQ(s21_stack_swap.top(), std_stack_swap.top());
 }
-
 
 TEST(Stack, InsertManyFront) {
   s21::stack<int> tmp_stack;

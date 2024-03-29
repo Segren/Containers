@@ -30,7 +30,6 @@ class list {
   size_type size_;
 
  public:
-  // CONSTRUCTORS
   list();
   list(size_type n);
   list(std::initializer_list<value_type> const& items);
@@ -39,26 +38,23 @@ class list {
   ~list();
   list& operator=(list&& l) noexcept;
 
-  // List Element access
-  const_reference front();  // access the first element
-  const_reference back();   // access the last element
+  const_reference front();
+  const_reference back();
 
-  // List Capacity
   bool empty();
   size_type size();
   size_type max_size();
 
-  // List Modifiers
-  void clear();                            // +
-  void push_back(const_reference value);   // +
-  void pop_back();                         // +
-  void push_front(const_reference value);  // +
-  void pop_front();                        // +
-  void swap(list& other);                  // +
-  void merge(list& other);                 // +
-  void reverse();                          // +
-  void unique();                           // +
-  void sort();                             // +
+  void clear();
+  void push_back(const_reference value);
+  void pop_back();
+  void push_front(const_reference value);
+  void pop_front();
+  void swap(list& other);
+  void merge(list& other);
+  void reverse();
+  void unique();
+  void sort();
 
   template <typename value_type>
   class ListIterator {
@@ -130,17 +126,14 @@ class list {
   using iterator = ListIterator<T>;
   using const_iterator = ListConstIterator<T>;
 
-  // ITERATORS
   iterator begin();
   iterator end();
 
-  // List Modifiers
-  iterator insert(iterator pos, const_reference value);  // +
-  void erase(iterator pos);                              // +
-  void splice(const_iterator pos, list& other);          // +
+  iterator insert(iterator pos, const_reference value);
+  void erase(iterator pos);
+  void splice(const_iterator pos, list& other);
 
  private:
-  // Support
   void change_end();
   void quick_sort(iterator left, iterator right);
   iterator partition(iterator first, iterator last);
@@ -149,11 +142,11 @@ class list {
 
  public:
   template <class... Args>
-  iterator insert_many(const_iterator pos, Args&&... args);  // дополнительно
+  iterator insert_many(const_iterator pos, Args&&... args);
   template <class... Args>
-  void insert_many_back(Args&&... args);  // дополнительно
+  void insert_many_back(Args&&... args);
   template <class... Args>
-  void insert_many_front(Args&&... args);  // дополнительно
+  void insert_many_front(Args&&... args);
 };
 
 }  // namespace s21

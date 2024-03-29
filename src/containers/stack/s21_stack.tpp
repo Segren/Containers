@@ -15,7 +15,7 @@ s21::stack<T, Container>::top() {
 template <class T, class Container>
 void s21::stack<T, Container>::pop() {
   if (cont.empty()) {
-    throw std::out_of_range("stack is empty");
+    throw std::out_of_range("Stack is empty");
   }
   cont.pop_back();
 }
