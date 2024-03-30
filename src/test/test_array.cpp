@@ -1,5 +1,5 @@
+#include <array>
 
-#include "array"
 #include "test_runner.h"
 
 TEST(ConstructorTest, DefaultConstructor) {
